@@ -85,7 +85,7 @@ module.exports.userSignup = async function(req, res){
 
 
     } catch (error) {
-        res.status(404).json('Error in Signup page')
+        res.status(500).json('Something went wrong in Signup page')
     }
 
 }

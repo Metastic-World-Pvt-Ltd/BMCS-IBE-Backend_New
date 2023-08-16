@@ -1,19 +1,19 @@
 const mongoose =  require('mongoose');
 
-const walletData =  new mongoose.Schema({
+const historyData =  new mongoose.Schema({
     contact:{
         type:String,
         required:true
     },
-    projectEarning:{
+    transactionAmount:{
         type:String,
         required:true,
     },
-    referralEarning:{
+    type:{
         type:String,
         required:true,
     },
-    totalEarning:{
+    origin:{
         type:String,
         required:true,
     },
@@ -21,4 +21,4 @@ const walletData =  new mongoose.Schema({
     timestamps:true
 })
 
-module.exports = mongoose.model('Wallet', walletData);
+module.exports = mongoose.model('History', historyData);

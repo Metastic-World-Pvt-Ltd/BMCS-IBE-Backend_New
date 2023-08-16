@@ -18,6 +18,6 @@ try {
         res.status(404).json('user does not exist')
     }
 } catch (error) {
-    res.status(400).json('Something went wrong in Signin')
+    res.status(500).json('Something went wrong in Signin')
 }
 }

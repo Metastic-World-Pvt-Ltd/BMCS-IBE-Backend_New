@@ -9,11 +9,7 @@ try {
     if(!contact){
         res.status(400).json('contact is Mandatory')
     }
-    //check contact exist or not
-    // const contactExist = await User.findOne({contact:contact});
-    
-    // if(contactExist){
-        //generate OTP
+
         const otpInt = Math.floor(1000 + Math.random() *9000);
         const otp = otpInt.toString();
         console.log(otp);
@@ -42,11 +38,9 @@ try {
 
             res.status(200).json('OTP has been sent successfully');    
 
-    // }else{
-    //     res.status(403).json('contact is already registered')
-    // }
+
 } catch (error) {
-    res.status(400).json('Error  in Generating OTP')
+    res.status(500).json('Something went wrong in Generating OTP')
 }
 
 }
