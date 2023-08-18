@@ -12,7 +12,16 @@ const { loginRateLimiter } = require('./middleware/loginRateLimiter');
 const { verifyUser } = require('./middleware/verifyUser');
 const { userReferral } = require('./controllers/userReferral');
 const { userHistory } = require('./controllers/userHistory');
-const upload = multer({ dest: 'uploads/' })
+const { storageValue, fileFilterValue } = require('./controllers/storage');
+const { agentProject } = require('./controllers/agentProject');
+const { getProject } = require('./controllers/getProject');
+const { editProject } = require('./controllers/editProject');
+//Need to change for upload Avtar
+//const upload = multer({ dest: 'uploads/' })
+var upload = multer({
+    dest: storageValue,
+    fileFilter: fileFilterValue,
+  });
 require('dotenv').config();
 const port = process.env.PORT
 //json input in body
@@ -37,5 +46,22 @@ app.patch('/userUpdate/:id',verifyUser, userUpdate);
 app.post('/referral',userReferral);
 //fetch user transaction history
 app.get('/transactionHist',userHistory);
+//create project 
+app.post('/createProject',upload.fields([
+    { name: 'Adhar' },
+    { name: 'Pan' },
+    { name: 'cAdhar' },
+    { name: 'cPan' },
+  ]), agentProject)
+
+//get project details
+app.get('/getProject/:projectId',getProject); 
+//edit/update project details
+app.post('/editProject',upload.fields([
+    { name: 'Adhar' },
+    { name: 'Pan' },
+    // { name: 'cAdhar' },
+    // { name: 'cPan' },
+  ]),editProject);
 
 app.listen(port, () => console.log(`Express Server is listening on port ${port}!`))
