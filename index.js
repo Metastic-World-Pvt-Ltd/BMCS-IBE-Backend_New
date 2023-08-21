@@ -16,6 +16,15 @@ const { storageValue, fileFilterValue } = require('./controllers/storage');
 const { agentProject } = require('./controllers/agentProject');
 const { getProject } = require('./controllers/getProject');
 const { editProject } = require('./controllers/editProject');
+const { getAllProjects } = require('./controllers/admin/getAllProjects');
+const { adminRegister } = require('./controllers/Admin/adminRegister');
+const { adminLogin } = require('./controllers/Admin/adminLogin');
+const { adminConsole } = require('./controllers/Admin/adminConsole');
+const { superAdminConsole } = require('./controllers/Admin/superAdminConsole');
+const { standardConsole } = require('./controllers/Admin/standardConsole');
+const { verifyProject } = require('./controllers/Admin/verifyProject');
+
+
 //Need to change for upload Avtar
 //const upload = multer({ dest: 'uploads/' })
 var upload = multer({
@@ -60,8 +69,24 @@ app.get('/getProject/:projectId',getProject);
 app.post('/editProject',upload.fields([
     { name: 'Adhar' },
     { name: 'Pan' },
-    // { name: 'cAdhar' },
-    // { name: 'cPan' },
+    { name: 'cAdhar' },
+    { name: 'cPan' },
   ]),editProject);
+
+//admin register
+app.post('/adminRegister',adminRegister);
+//admin login
+app.post('/adminLogin', adminLogin);
+//Super Admin console view page
+app.post('/superAdmin',superAdminConsole);
+//admin console view page
+app.post('/admin',adminConsole);
+//Standard console view page
+app.post('/standard',standardConsole);
+ //fetch all the projects for admin
+app.get('/allProjects', getAllProjects); 
+//verify project
+app.post('/verify/:id', verifyProject);
+
 
 app.listen(port, () => console.log(`Express Server is listening on port ${port}!`))

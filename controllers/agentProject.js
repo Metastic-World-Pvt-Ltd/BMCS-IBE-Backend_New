@@ -10,6 +10,8 @@ try {
     if(!projectName || !contact || !projectAmount || !projectType || !projectDescription){
         return res.status(400).json('All fields are required')
     }
+    //store file path
+    var projectDocuments = [];
     //upload files
     for (const field of Object.keys(req.files)){
         const uploadedFile = req.files[field][0];
@@ -23,11 +25,13 @@ try {
                 if(uploadedFile.size < 1000000){
                    //file name
                     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-                    const filename = `file-${uniqueSuffix}.${uploadedFile.originalname.split('.').pop()}`;
+                    const filename = `${uploadedFile.fieldname}-${uniqueSuffix}.${uploadedFile.originalname.split('.').pop()}`;
                     //file path
                     var filePath = 'D:/uploads/'+ filename;
                     //write file in dir
                      fs.writeFileSync(filePath, uploadedFile.buffer);
+                     //push file into array
+                     projectDocuments.push(filePath);
 
                 }else{
                     return res.status(400).json('Max allowed size is 1MB');
@@ -59,6 +63,7 @@ try {
        const projectId =  upperCase + randomNumber ;
         //create project and push datato DB
         const status = "Inprogress";
+        
        const projectData = await Project.create({
         projectId,
         projectName,
@@ -66,7 +71,7 @@ try {
         projectAmount,
         projectType,
         projectDescription, 
-        projectDocuments:filePath,
+        projectDocuments:projectDocuments,
         projectStatus:status
        })
        if(projectData){

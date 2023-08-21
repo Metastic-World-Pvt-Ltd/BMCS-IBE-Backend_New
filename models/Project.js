@@ -26,13 +26,16 @@ const projectData =  new mongoose.Schema({
         required:true,
     },
     projectDocuments:{
-        type:String,
+        type:[String],
         required:true,
     },
     projectStatus:{
         type:String,
         required:true,
     }, 
+    comment:{
+        type:String,
+    }
 
 },{
     timestamps:true

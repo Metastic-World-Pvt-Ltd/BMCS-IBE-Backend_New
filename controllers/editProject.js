@@ -2,17 +2,22 @@ const Project = require('../models/Project');
 const fs = require('fs');
 const lc = require('letter-count');
 module.exports.editProject = async function(req, res){
-    // try {
-        console.log('inside edit project');
-        // const _id = req.params.id || req.body.id || req.query.id || req.headers["id"];
-        const _id = '64df64ecb42bbc154bc55c4f';
-        console.log("Id",_id);
+    try {
+        var projectDocuments = [];
+        var i =0;
+        
+        const _id = req.params.id || req.body.id || req.query.id || req.headers["id"];
+        //const _id = '64e31eb98a9cdb31b51695b9';
+        //console.log("Id",_id);
         if(!_id){
             return res.status(400).json('Unique ID is missing')
         }
-        console.log("files",req.files);
+         //console.log("files",req.files);
         const checkStatus = await Project.findById({_id});
-        console.log(checkStatus);
+        //console.log(checkStatus);
+        if(checkStatus == null){
+            return res.status(404).json("NO record found");
+        }
         if(checkStatus.projectStatus == 'Inprogress'){
             //allow user to update project details
                 //user input
@@ -23,6 +28,7 @@ module.exports.editProject = async function(req, res){
             }
             //upload files
             for (const field of Object.keys(req.files)){
+                // console.log("inside file work");
                 const uploadedFile = req.files[field][0];
                 //split file extention name       
                 const parts = uploadedFile.mimetype.split('/')
@@ -33,14 +39,25 @@ module.exports.editProject = async function(req, res){
                         //check file size
                         if(uploadedFile.size < 1000000){
                         //file name
-                            // const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-                            // const filename = `file-${uniqueSuffix}.${uploadedFile.originalname.split('.').pop()}`;
-                            //file path
-                           // var filePath = 'D:/uploads/'+ filename;
-                           var filePath = checkStatus.projectDocuments;
-                            //write file in dir
-                            fs.writeFileSync(filePath, uploadedFile.buffer);
+                             var uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+                             var filename = `${uploadedFile.fieldname}-${uniqueSuffix}.${uploadedFile.originalname.split('.').pop()}`;
+                           //file path
+                        var filePath = 'D:/uploads/'+ filename;
+                        //write file in dir
+                        //console.log("checkStatus.projectDocuments[i]",checkStatus.projectDocuments[i]);
+                        const oldPath = checkStatus.projectDocuments[i];
+                        //rename existing file
+                         fs.renameSync(oldPath , filePath ,() => {
+                            //console.log("\nFile Renamed!\n")
+                        })
+                       //write data on new file path
+                        fs.writeFileSync(filePath, uploadedFile.buffer);
+                        //push file into array
+                        projectDocuments.push(filePath);
 
+                         i++; 
+
+                           
                         }else{
                             return res.status(400).json('Max allowed size is 1MB');
                         
@@ -62,16 +79,17 @@ module.exports.editProject = async function(req, res){
                     return res.status(400).json('Characters limit is 500')
                 }
 
-
+                    
+                    //console.log("file path",projectDocuments);
                 const projectData = await Project.findByIdAndUpdate({_id},{
                     projectName,
                     contact,
                     projectAmount,
                     projectType,
                     projectDescription, 
-                    projectDocuments:filePath,
+                    projectDocuments:projectDocuments,
                 });
-                console.log(projectData);
+                //console.log("Project data",projectData);
             if(projectData){
                     return  res.status(200).json('Record has been updated');
             }
@@ -81,8 +99,8 @@ module.exports.editProject = async function(req, res){
         }
 
 
-    // } catch (error) {
-    //     return res.status(500).json('Something wrong in Fetchingproject Data')
-    // }
+    } catch (error) {
+        return res.status(500).json('Something wrong in Fetchingproject Data')
+    }
         
 }
