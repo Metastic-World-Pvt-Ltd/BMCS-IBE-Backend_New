@@ -6,7 +6,7 @@ const historyData =  new mongoose.Schema({
         required:true
     },
     transactionAmount:{
-        type:String,
+        type:Number,
         required:true,
     },
     type:{

@@ -23,6 +23,10 @@ const { adminConsole } = require('./controllers/Admin/adminConsole');
 const { superAdminConsole } = require('./controllers/Admin/superAdminConsole');
 const { standardConsole } = require('./controllers/Admin/standardConsole');
 const { verifyProject } = require('./controllers/Admin/verifyProject');
+const { filter_Project } = require('./controllers/Admin/filter_Project');
+const { projectApproval } = require('./controllers/Admin/projectApproval');
+const { completeProject } = require('./controllers/Admin/completeProject');
+const { resetPassword } = require('./controllers/Admin/resetPassword');
 
 
 //Need to change for upload Avtar
@@ -77,6 +81,8 @@ app.post('/editProject',upload.fields([
 app.post('/adminRegister',adminRegister);
 //admin login
 app.post('/adminLogin', adminLogin);
+//reset admin password
+app.post('/reset',resetPassword);
 //Super Admin console view page
 app.post('/superAdmin',superAdminConsole);
 //admin console view page
@@ -87,6 +93,12 @@ app.post('/standard',standardConsole);
 app.get('/allProjects', getAllProjects); 
 //verify project
 app.post('/verify/:id', verifyProject);
+//get all verified project for admin approval
+app.get('/verifiedProjects',filter_Project);
+//project appoval from Admin
+app.post('/approval/:id',projectApproval);
+//mark project as complete
+app.post('/complete/:id',completeProject);
 
 
 app.listen(port, () => console.log(`Express Server is listening on port ${port}!`))

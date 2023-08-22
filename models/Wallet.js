@@ -1,17 +1,20 @@
 const mongoose =  require('mongoose');
 
+const projectEarningSchema = new mongoose.Schema({
+    pendingAmount: Number,
+    withdrawableAmount: Number,
+  });
+
 const walletData =  new mongoose.Schema({
     contact:{
         type:String,
         required:true
     },
-    projectEarning:{
-        type:String,
-        required:true,
-    },
+    projectEarning:[
+        projectEarningSchema
+    ],
     referralEarning:{
-        type:String,
-        required:true,
+        type:[Number],        
     },
     totalEarning:{
         type:String,

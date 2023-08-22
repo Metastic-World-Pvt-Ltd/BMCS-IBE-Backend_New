@@ -14,7 +14,7 @@ const projectData =  new mongoose.Schema({
         required:true
     },
     projectAmount:{
-        type:String,
+        type:Number,
         required:true,
     },
     projectType:{
@@ -34,8 +34,11 @@ const projectData =  new mongoose.Schema({
         required:true,
     }, 
     comment:{
-        type:String,
-    }
+        type:[String],
+    },
+    sanctionedAmount:{
+        type:Number,
+    },
 
 },{
     timestamps:true
