@@ -1,29 +1,36 @@
 const Project = require('../models/Project');
 const fs = require('fs');
 const lc = require('letter-count');
+const logger = require("./logger");
 module.exports.editProject = async function(req, res){
     try {
+        logger.info(`Activated Edit Project Endpoint`)
         var projectDocuments = [];
         var i =0;
         
         const _id = req.params.id || req.body.id || req.query.id || req.headers["id"];
         //const _id = '64e31eb98a9cdb31b51695b9';
         //console.log("Id",_id);
+        logger.info(`Id - ${_id}`)
         if(!_id){
+            logger.error(`Unique ID is missing`)
             return res.status(400).json('Unique ID is missing')
         }
          //console.log("files",req.files);
         const checkStatus = await Project.findById({_id});
         //console.log(checkStatus);
         if(checkStatus == null){
+            logger.error(`NO record found`)
             return res.status(404).json("NO record found");
         }
         if(checkStatus.projectStatus == 'Inprogress'){
             //allow user to update project details
                 //user input
+                logger.info(`Input - ${req.body}`)
             const {projectName , contact , projectAmount , projectType , projectDescription } = req.body;
             //check for required filed
             if(!projectName || !contact || !projectAmount || !projectType || !projectDescription){
+                logger.error(`All fields are required`)
                 return res.status(400).json('All fields are required')
             }
             //upload files
@@ -59,12 +66,14 @@ module.exports.editProject = async function(req, res){
 
                            
                         }else{
+                            logger.error(`Max allowed size is 1MB`)
                             return res.status(400).json('Max allowed size is 1MB');
                         
                         }
 
                     } else {
-                    return res.status(400).json('Invalid file type');
+                        logger.error(`Invalid file type`)
+                        return res.status(400).json('Invalid file type');
                     }
             
                 }
@@ -76,6 +85,7 @@ module.exports.editProject = async function(req, res){
                 const charLimit = 500;
             // console.log(maxChar);
                 if(maxChar > charLimit){
+                    logger.error(`Description Characters limit is 500`)
                     return res.status(400).json('Characters limit is 500')
                 }
 
@@ -89,17 +99,21 @@ module.exports.editProject = async function(req, res){
                     projectDescription, 
                     projectDocuments:projectDocuments,
                 });
+                logger.info(`Output - ${projectData}`)
                 //console.log("Project data",projectData);
             if(projectData){
+                    logger.error(`Record has been updated'`)
                     return  res.status(200).json('Record has been updated');
             }
         
         }else{
+            logger.error(`Action not allowed as Status is ${checkStatus.projectStatus}`)
             return res.status(405).json(`Action not allowed as Status is ${checkStatus.projectStatus}`)
         }
 
 
     } catch (error) {
+        logger.error(`Edit Project Endpoint Failed`)
         return res.status(500).json('Something wrong in Fetchingproject Data')
     }
         

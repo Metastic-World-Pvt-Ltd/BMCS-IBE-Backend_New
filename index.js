@@ -16,7 +16,7 @@ const { storageValue, fileFilterValue } = require('./controllers/storage');
 const { agentProject } = require('./controllers/agentProject');
 const { getProject } = require('./controllers/getProject');
 const { editProject } = require('./controllers/editProject');
-const { getAllProjects } = require('./controllers/admin/getAllProjects');
+const { getAllProjects } = require('./controllers/Admin/getAllProjects');
 const { adminRegister } = require('./controllers/Admin/adminRegister');
 const { adminLogin } = require('./controllers/Admin/adminLogin');
 const { adminConsole } = require('./controllers/Admin/adminConsole');
@@ -27,6 +27,7 @@ const { filter_Project } = require('./controllers/Admin/filter_Project');
 const { projectApproval } = require('./controllers/Admin/projectApproval');
 const { completeProject } = require('./controllers/Admin/completeProject');
 const { resetPassword } = require('./controllers/Admin/resetPassword');
+const { userKyc } = require('./controllers/userKyc');
 
 
 //Need to change for upload Avtar
@@ -99,6 +100,12 @@ app.get('/verifiedProjects',filter_Project);
 app.post('/approval/:id',projectApproval);
 //mark project as complete
 app.post('/complete/:id',completeProject);
+//user Kyc
+app.post('/kyc',upload.fields([
+  { name: 'Adhar' },
+  { name: 'Pan' },
+  { name: 'Statement_Check' },
+]),userKyc);
 
 
 app.listen(port, () => console.log(`Express Server is listening on port ${port}!`))

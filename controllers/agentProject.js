@@ -2,12 +2,16 @@ const Project = require('../models/Project');
 const fs = require('fs');
 const path = require('path');
 const lc = require('letter-count');
+const logger = require("./logger");
 module.exports.agentProject = async function(req, res){
 try {
+    logger.info(`Activated Agent Project Endpoint`)
     //user input
     const {projectName , contact , projectAmount , projectType , projectDescription } = req.body;
     //check for required filed
+    logger.info(`Input - ${req.body}`)
     if(!projectName || !contact || !projectAmount || !projectType || !projectDescription){
+        logger.error(`All fields are required`)
         return res.status(400).json('All fields are required')
     }
     //store file path
@@ -34,11 +38,13 @@ try {
                      projectDocuments.push(filePath);
 
                 }else{
+                    logger.error(`Max allowed size is 1MB`)
                     return res.status(400).json('Max allowed size is 1MB');
                   
                 }
 
             } else {
+               logger.error(`Invalid file type`) 
                return res.status(400).json('Invalid file type');
             }
     
@@ -51,6 +57,7 @@ try {
         const charLimit = 500;
        // console.log(maxChar);
         if(maxChar > charLimit){
+            logger.error(`Description Characters limit is 500`)
             return res.status(400).json('Characters limit is 500')
         }
 
@@ -74,11 +81,14 @@ try {
         projectDocuments:projectDocuments,
         projectStatus:status
        })
+       logger.info(`Output - ${projectData}`)
        if(projectData){
+            logger.info(`Project has created`)
             return res.status(200).json("Project has created");
        }
        
 } catch (error) {
+    logger.error(`Create Project Endpoint Failed`)
     return res.status(500).json('Something wrong in project creation')
 }
 
