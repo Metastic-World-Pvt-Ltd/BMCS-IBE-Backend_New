@@ -59,10 +59,12 @@ module.exports.userReferral = async function(req, res){
                        // console.log(transactionAmount);
                         const type = 'credit';
                         const origin = 'referralEarning';
+                        const status = 'completed'
                         const userHistory = await History.create({
                             contact,
                             transactionAmount,
                             type,
+                            status,
                             origin,
                         })  
                         logger.info(`History genrated ${userHistory}`)
@@ -87,10 +89,12 @@ module.exports.userReferral = async function(req, res){
                        // console.log(transactionAmount);
                         const type = 'credit';
                         const origin = 'referralEarning';
+                        const status = 'completed'
                         const userHistory = await History.create({
                             contact,
                             transactionAmount,
                             type,
+                            status,
                             origin,
                         })
                         logger.info(`History genrated ${userHistory}`)

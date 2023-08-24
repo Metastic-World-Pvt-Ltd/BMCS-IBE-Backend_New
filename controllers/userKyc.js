@@ -4,12 +4,17 @@ const logger = require('./logger');
 const fs = require('fs');
 
 module.exports.userKyc = async function(req, res){
+try {
+    logger.info(`Activated User Kyc Endpoint`)
     const {contact , accountNumber , ifscCode } = req.body;
+    logger.info(`Input - ${contact , accountNumber , ifscCode }`)
     if(!contact || !accountNumber || !ifscCode ){
+        logger.error(`All Fileds required`)
         return res.status(400).json('All Fileds required');
     }
     const isExist = await User.findOne({contact:contact});
     if(!isExist){
+        logger.error(`No user Found`)
         return res.status(404).json("No user Found")
     }else{
             //store file path
@@ -33,6 +38,7 @@ module.exports.userKyc = async function(req, res){
                     //write file in dir
                      fs.writeFileSync(filePath, uploadedFile.buffer);
                      //push file into array
+                     logger.info(`Input - ${filePath}`)
                      kycDocuments.push(filePath);
 
                 }else{
@@ -52,7 +58,7 @@ module.exports.userKyc = async function(req, res){
         const name = isExist.firstName + " " + isExist.lastName;
         const email = isExist.email;
         console.log(email + "type" + typeof(email));
-        const status = "Verified";
+        const status = "Pending";
         const kycData = await Kyc.create({
             name,
             contact,
@@ -62,8 +68,12 @@ module.exports.userKyc = async function(req, res){
             ifscCode,
             kycDocuments,
         })
-        console.log(kycData);
+        logger.info(`Output - ${kycData}`)
         return res.status(200).json(kycData)
     }
+} catch (error) {
+    logger.error(`User Kyc Endpoint Failed`);
+    return res.status(500).json(`Something went wrong in user kyc`)
+}
 
 }

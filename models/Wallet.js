@@ -14,10 +14,10 @@ const walletData =  new mongoose.Schema({
         projectEarningSchema
     ],
     referralEarning:{
-        type:[Number],        
+        type:Number,        
     },
     totalEarning:{
-        type:String,
+        type:Number,
         required:true,
     },
 },{

@@ -28,6 +28,12 @@ const { projectApproval } = require('./controllers/Admin/projectApproval');
 const { completeProject } = require('./controllers/Admin/completeProject');
 const { resetPassword } = require('./controllers/Admin/resetPassword');
 const { userKyc } = require('./controllers/userKyc');
+const { editKyc } = require('./controllers/editKyc');
+const { withdrawAmt } = require('./controllers/withdrawAmt');
+const { allWithdrawRequest } = require('./controllers/allWithdrawRequest');
+const { updateWithdrawStatus } = require('./controllers/updateWithdrawStatus');
+const { totalEarning } = require('./controllers/totalEraning');
+const { getHistory } = require('./controllers/getHistory');
 
 
 //Need to change for upload Avtar
@@ -81,31 +87,42 @@ app.post('/editProject',upload.fields([
 //admin register
 app.post('/adminRegister',adminRegister);
 //admin login
-app.post('/adminLogin', adminLogin);
+app.post('/adminLogin',loginRateLimiter, adminLogin);
 //reset admin password
 app.post('/reset',resetPassword);
 //Super Admin console view page
-app.post('/superAdmin',superAdminConsole);
+app.post('/superAdmin',verifyUser,superAdminConsole);
 //admin console view page
-app.post('/admin',adminConsole);
+app.post('/admin',verifyUser,adminConsole);
 //Standard console view page
-app.post('/standard',standardConsole);
+app.post('/standard',verifyUser,standardConsole);
  //fetch all the projects for admin
-app.get('/allProjects', getAllProjects); 
+app.get('/allProjects',verifyUser, getAllProjects); 
 //verify project
-app.post('/verify/:id', verifyProject);
+app.post('/verify/:id',verifyUser, verifyProject);
 //get all verified project for admin approval
-app.get('/verifiedProjects',filter_Project);
+app.get('/verifiedProjects',verifyUser,filter_Project);
 //project appoval from Admin
-app.post('/approval/:id',projectApproval);
+app.post('/approval/:id',verifyUser,projectApproval);
 //mark project as complete
-app.post('/complete/:id',completeProject);
+app.post('/complete/:id',verifyUser,completeProject);
 //user Kyc
-app.post('/kyc',upload.fields([
+app.post('/kyc',verifyUser,upload.fields([
   { name: 'Adhar' },
   { name: 'Pan' },
   { name: 'Statement_Check' },
 ]),userKyc);
-
+//update Kyc details
+app.patch('/updateKyc/:id',verifyUser,editKyc);
+//withdraw amount
+app.post('/withdraw',verifyUser,withdrawAmt);
+//fetch all withdraw request
+app.get('/allwithdrawrequest',verifyUser,allWithdrawRequest)
+//update withdraw status as complete
+app.post('/completewithdraw/:id',verifyUser,updateWithdrawStatus)
+//get History by ID
+app.get('/gethistory/:id',verifyUser, getHistory)
+//get total earning of all type transaction as per origin
+app.post('/totalEarning',verifyUser,totalEarning);
 
 app.listen(port, () => console.log(`Express Server is listening on port ${port}!`))

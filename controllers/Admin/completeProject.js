@@ -50,14 +50,17 @@ try {
             //console.log("pending amount ",pendingAmount);
             const type = 'credit';
             const origin = 'projectEarning';
+            const status = 'completed'
             const userHistory = await History.create({
                 contact,
                 transactionAmount:withdrawableAmount,
                 type,
+                status,
                 origin,
             }) 
             logger.info(`Output - ${userHistory}`)
             //console.log("hist",userHistory);
+            
         }else{
             logger.error(`Unable to perform action as status ${projectData.projectStatus}`)
             return res.status(401).json(`Unable to perform action as status ${projectData.projectStatus}`)

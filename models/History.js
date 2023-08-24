@@ -13,6 +13,9 @@ const historyData =  new mongoose.Schema({
         type:String,
         required:true,
     },
+    status:{
+        type:String,
+    },
     origin:{
         type:String,
         required:true,
