@@ -1,4 +1,5 @@
 const express = require('express')
+const helmet = require('helmet');
 const app = express()
 const db = require('./mongoose/mongoose');
 const { generateOtp } = require('./controllers/generateOtp');
@@ -34,8 +35,9 @@ const { allWithdrawRequest } = require('./controllers/allWithdrawRequest');
 const { updateWithdrawStatus } = require('./controllers/updateWithdrawStatus');
 const { totalEarning } = require('./controllers/totalEraning');
 const { getHistory } = require('./controllers/getHistory');
+const { getLogs } = require('./controllers/Admin/getLogs');
 
-
+app.use(helmet());
 //Need to change for upload Avtar
 //const upload = multer({ dest: 'uploads/' })
 var upload = multer({
@@ -46,6 +48,7 @@ require('dotenv').config();
 const port = process.env.PORT
 //json input in body
 app.use(express.json());
+app.use(express.urlencoded({extended:false}))
 app.use('/uploads', express.static('uploads'));
 //Home Directory
 app.get('/', (req, res) => res.send('Welcome to IBE Home'))
@@ -124,5 +127,7 @@ app.post('/completewithdraw/:id',verifyUser,updateWithdrawStatus)
 app.get('/gethistory/:id',verifyUser, getHistory)
 //get total earning of all type transaction as per origin
 app.post('/totalEarning',verifyUser,totalEarning);
+//get logs provide start date (2023-08-23) and end date (2023-08-24)
+app.get('/logs',getLogs);
 
 app.listen(port, () => console.log(`Express Server is listening on port ${port}!`))
