@@ -19,7 +19,7 @@ module.exports.userReferral = async function(req, res){
        //check contact in database 
        const data = await User.findOne({contact});
        //console.log(data);
-       logger.info(`User Foun din DB`)
+       logger.info(`User Found in DB`)
        //check if no data found in DB
        if(data == null){
         logger.error(`Record not found`)
@@ -71,7 +71,6 @@ module.exports.userReferral = async function(req, res){
                       //update user wallet amount        
                       const data = await Wallet.findByIdAndUpdate({_id:id},{
                           contact,
-                          projectEarning,
                           referralEarning ,
                           totalEarning
                      })
@@ -101,7 +100,12 @@ module.exports.userReferral = async function(req, res){
                       //create new DB document 
                       const walletData = await Wallet.create({
                           contact,
-                          projectEarning,
+                          projectEarning:[
+                            {
+                            pendingAmount:0,
+                            withdrawableAmount:0,
+                            }
+                        ],
                           referralEarning ,
                           totalEarning
                      })

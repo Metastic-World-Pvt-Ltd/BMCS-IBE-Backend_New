@@ -68,7 +68,7 @@ try {
        const typeChar = projectType.substr(0, 3);
        const upperCase = typeChar.toUpperCase();
        const projectId =  upperCase + randomNumber ;
-        //create project and push datato DB
+        //create project and push data to DB
         const status = "Inprogress";
         
        const projectData = await Project.create({
@@ -82,6 +82,7 @@ try {
         projectStatus:status
        })
        logger.info(`Output - ${projectData}`)
+       //if Projectadata 
        if(projectData){
             logger.info(`Project has created`)
             return res.status(200).json("Project has created");

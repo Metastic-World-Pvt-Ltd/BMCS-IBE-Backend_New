@@ -6,11 +6,15 @@ const fs = require('fs');
 module.exports.editKyc = async function(req, res){
 try {
     logger.info(`Activated Update User Kyc Endpoint`)
+    //user input 
     const _id = req.params.id || req.body.id || req.query.id || req.headers["id"];
     logger.info(`Input - ${req.body}`)
+    //check old kyc data 
     const oldKycData = await Kyc.findById({_id});
     logger.info(`Body - ${oldKycData}`)
+    //to run loop
     var i = 0;
+    //to store all Kyc documents
     var kycDocuments = [];
     if(req.files || req.file){
         //upload files
@@ -41,17 +45,19 @@ try {
                         fs.writeFileSync(filePath, uploadedFile.buffer);
                         //push file into array
                         kycDocuments.push(filePath);
-
+                        //increase i to travelfuther
                          i++; 
 
                            
                         }else{
+                            //size check 
                             logger.error(`Max allowed size is 1MB`)
                             return res.status(400).json('Max allowed size is 1MB');
                         
                         }
 
                     } else {
+                        //invalid file type response
                         logger.error(`Invalid file type`)
                         return res.status(400).json('Invalid file type');
                     }
@@ -59,10 +65,11 @@ try {
                 }
                 //end of file upload section
     }else{
+        //previuos kyc docs
          kycDocuments = oldKycData.kycDocuments;
     }
     
-    
+    //update data 
     const kycData = await Kyc.findByIdAndUpdate({_id},req.body , kycDocuments,{new:true})
     logger.info(`Record has updated`)
     return res.json("Record has updated")

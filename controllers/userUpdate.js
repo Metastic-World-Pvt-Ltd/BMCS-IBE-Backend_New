@@ -5,21 +5,27 @@ module.exports.userUpdate = async function(req, res){
     try {
         logger.info(`Activated userUpdate Endpoint`)
         logger.info(`Input - ${req.body}`)
+        //check for Body input
         if(!req.body){
             res.status(400).json('Enter valid field to update details')
         }
         logger.info(`req.params.id - ${req.params.id}`)
+        //check for user ID to update
         const _id = req.params.id;
+        //middleware to check user authorized or not
         const middlewareData = verifyUser.data;
+        //check data exist in DB or not
         const findData = await User.findById({_id});
         logger.info(`Midderlware Data ${middlewareData}`)
         logger.info(`output - ${findData}`)
         // console.log(middlewareData);
         // console.log(findData);
-        
+        //check id authorized token then only user can update details
         if(middlewareData.contact == findData.contact && middlewareData.firstName == findData.firstName){
+            //check and update user deatils in DB
             const updateData =  await User.findByIdAndUpdate(_id,req.body,{new:true});
             if(updateData){
+                //response 
                 logger.info(`updated output - ${updateData}`)
                 res.status(200).json(updateData);
             }else{

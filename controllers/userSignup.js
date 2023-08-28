@@ -9,6 +9,27 @@ module.exports.userSignup = async function(req, res){
         logger.info(`Activated user Signup Endpoint`)
         //secret key
         const secret = process.env.SECRET_KEY;
+        //generate employee ID
+        const data = await User.countDocuments();
+    
+        const year = new Date().getFullYear();
+        const lastTwoDigits = year % 100;
+        
+        const str = 'BMCS';
+        let formattedNumber;
+        counter = data + 1;
+        if (counter < 10) {
+            formattedNumber = counter.toString().padStart(4, '0');
+        } else if (counter < 100) {
+            formattedNumber = counter.toString().padStart(4, '0');
+        }else if (counter < 1000) {
+            formattedNumber = counter.toString().padStart(4, '0');
+        }
+         else {
+            formattedNumber = counter.toString();
+            
+        }
+        const empId = str+lastTwoDigits+formattedNumber
         //user input
         logger.info(`Input - ${req.body}`)
         const {contact , firstName , lastName , gender , email , userRole , role , refId } = req.body;
@@ -45,7 +66,7 @@ module.exports.userSignup = async function(req, res){
             const level = 'Admin';
             const refBy = 'Admin';
             const userDoc = await User.create({
-                contact , firstName , lastName,gender , email , userRole , role  , level , refId , refCount, refBy, avatar:newPath
+                contact ,empId, firstName , lastName,gender , email , userRole , role  , level , refId , refCount, refBy, avatar:newPath
             })
             logger.info(`Output - ${userDoc}`)
             //generate token for user
@@ -73,7 +94,7 @@ module.exports.userSignup = async function(req, res){
                    const refBy = refExist.refId;
                     //create user
                     const userDoc = await User.create({
-                    contact , firstName , lastName , gender, email , userRole , role  , level , refId , refCount, refBy , avatar:newPath
+                    contact ,empId, firstName , lastName , gender, email , userRole , role  , level , refId , refCount, refBy , avatar:newPath
                 })
                 logger.info(`Output - ${userDoc}`)
                 //generate token for user

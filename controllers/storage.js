@@ -23,7 +23,7 @@ module.exports.storage = function(req, res){
           res.status(400).json('Invalid file type');
         }
       };
-
+      //file limit
       const limitValue = (req, res)=>{
         try {
             { fileSize: 1 * 1024 * 1024 }

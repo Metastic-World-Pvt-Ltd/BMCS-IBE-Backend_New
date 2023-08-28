@@ -25,9 +25,11 @@ try {
             logger.error(`Invalid username or password`)
             res.status(400).json({message:'Invalid username or password'})
         }else{
+            //generate token with signature using email, userId , user role 
             jwt.sign({email,id:userLogin._id,role:userLogin.role},secret , {} , (err,token)=>{
                 if(err) throw new err;
                 logger.error(err)
+                //response
                 res.status(200).cookie('token',token).json({
                     id:userLogin._id,
                     name:userLogin.name,

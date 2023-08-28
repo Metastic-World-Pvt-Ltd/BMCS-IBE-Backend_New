@@ -36,6 +36,7 @@ const { updateWithdrawStatus } = require('./controllers/updateWithdrawStatus');
 const { totalEarning } = require('./controllers/totalEraning');
 const { getHistory } = require('./controllers/getHistory');
 const { getLogs } = require('./controllers/Admin/getLogs');
+const { getUser } = require('./controllers/getUser');
 
 app.use(helmet());
 //Need to change for upload Avtar
@@ -68,9 +69,9 @@ app.patch('/userUpdate/:id',verifyUser, userUpdate);
 //create referral and distribute earning
 app.post('/referral',userReferral);
 //fetch user transaction history
-app.get('/transactionHist',userHistory);
+app.get('/transactionHist',verifyUser,userHistory);
 //create project 
-app.post('/createProject',upload.fields([
+app.post('/createProject',verifyUser,upload.fields([
     { name: 'Adhar' },
     { name: 'Pan' },
     { name: 'cAdhar' },
@@ -78,7 +79,7 @@ app.post('/createProject',upload.fields([
   ]), agentProject)
 
 //get project details
-app.get('/getProject/:projectId',getProject); 
+app.get('/getProject/:projectId',verifyUser,getProject); 
 //edit/update project details
 app.post('/editProject',upload.fields([
     { name: 'Adhar' },
@@ -92,7 +93,7 @@ app.post('/adminRegister',adminRegister);
 //admin login
 app.post('/adminLogin',loginRateLimiter, adminLogin);
 //reset admin password
-app.post('/reset',resetPassword);
+app.post('/reset',verifyUser,resetPassword);
 //Super Admin console view page
 app.post('/superAdmin',verifyUser,superAdminConsole);
 //admin console view page
@@ -129,5 +130,7 @@ app.get('/gethistory/:id',verifyUser, getHistory)
 app.post('/totalEarning',verifyUser,totalEarning);
 //get logs provide start date (2023-08-23) and end date (2023-08-24)
 app.get('/logs',getLogs);
+//get user details by employee ID
+app.get('/getuser/:empId',getUser);
 
 app.listen(port, () => console.log(`Express Server is listening on port ${port}!`))

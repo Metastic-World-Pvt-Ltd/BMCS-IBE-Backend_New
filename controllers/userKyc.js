@@ -6,18 +6,21 @@ const fs = require('fs');
 module.exports.userKyc = async function(req, res){
 try {
     logger.info(`Activated User Kyc Endpoint`)
+    //user input
     const {contact , accountNumber , ifscCode } = req.body;
     logger.info(`Input - ${contact , accountNumber , ifscCode }`)
+    //check for correct data or not
     if(!contact || !accountNumber || !ifscCode ){
         logger.error(`All Fileds required`)
         return res.status(400).json('All Fileds required');
     }
+    //check record exist in DB or not
     const isExist = await User.findOne({contact:contact});
     if(!isExist){
         logger.error(`No user Found`)
         return res.status(404).json("No user Found")
     }else{
-            //store file path
+    //store file path
     var kycDocuments = [];
     //upload files
     for (const field of Object.keys(req.files)){
@@ -68,6 +71,7 @@ try {
             ifscCode,
             kycDocuments,
         })
+        //return the response
         logger.info(`Output - ${kycData}`)
         return res.status(200).json(kycData)
     }

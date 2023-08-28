@@ -4,6 +4,11 @@ const userData =  new mongoose.Schema({
     contact:{
         type:String,
         required:true
+    }
+    ,
+    empId:{
+        type:String,
+        required:true,
     },
     firstName:{
         type:String,
