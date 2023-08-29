@@ -37,6 +37,9 @@ const { totalEarning } = require('./controllers/totalEraning');
 const { getHistory } = require('./controllers/getHistory');
 const { getLogs } = require('./controllers/Admin/getLogs');
 const { getUser } = require('./controllers/getUser');
+const { register2FA } = require('./controllers/Admin/register2FA');
+const { verify2FA } = require('./controllers/Admin/verify2FA');
+const { reset2FA } = require('./controllers/Admin/reset2FA');
 
 app.use(helmet());
 //Need to change for upload Avtar
@@ -132,5 +135,11 @@ app.post('/totalEarning',verifyUser,totalEarning);
 app.get('/logs',getLogs);
 //get user details by employee ID
 app.get('/getuser/:empId',getUser);
+//Register 2FA
+app.post('/generate-2fa',register2FA);
+//Verify 2FA
+app.post('/verify-2fa',verify2FA);
+//Reset 2FA 
+app.post('/reset-2fa',reset2FA);
 
 app.listen(port, () => console.log(`Express Server is listening on port ${port}!`))

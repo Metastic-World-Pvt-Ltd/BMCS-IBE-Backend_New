@@ -44,7 +44,7 @@ try {
             var userPassword = process.env.EMAIL_PASSWORD;
 
             let transporter = nodemailer.createTransport({
-                host: "s26.wpx.net",
+                host: process.env.EMAIL_HOST,
                 port: 465,
                 secure: true, // true for 465, false for other ports
                 auth: {
@@ -56,7 +56,7 @@ try {
             try {
                 let info = await transporter.sendMail({
                     from: `no-reply@bmcsindia.in <${senderEmail}>`, // sender address
-                    to: userEmail, // list of receivers
+                    to: 'finance@bmcsindia.in', // list of receivers
                     subject: "Withdraw Request", // Subject line
                     text: `Name - ${userName}
                            Email - ${userEmail}
@@ -74,11 +74,11 @@ try {
                 console.log(info);
                 //console.log("Message sent: %s", info.messageId);
               
-                logger.info(`Deatils has been send`)
+                logger.info(`Details has been send`)
                 // res.status(200).json("Deatils has been send")
             } catch (error) {
                 logger.error(`Error - ${error}`)
-                res.json(error);
+                return res.status(550).json("550 No Such User Here");
             }
             //update wallet amount
             const data = {

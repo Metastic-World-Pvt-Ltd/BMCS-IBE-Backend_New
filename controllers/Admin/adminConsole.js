@@ -13,7 +13,12 @@ try {
     }
     //secret and decode token for authorization
     const secret = process.env.SECRET_KEY;
-    const decode = jwt.verify(token , secret);
+    const decode = jwt.verify(token , secret, (err)=>{
+        if(err){
+            logger.error(`Error in Token ${err}`)
+            return res.status(401).json(err)
+        }
+    });
     //user role decoded from token
     const userRole = decode.role;
     logger.info(`User Role - ${userRole}`)
