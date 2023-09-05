@@ -3,7 +3,7 @@ const History = require('../../models/History');
 const Wallet = require('../../models/Wallet');
 const logger = require("../logger");
 module.exports.projectApproval = async function(req, res){
-try {
+// try {
     logger.info(`Activated Project Approval`)
     //input project ID
     const _id =  req.params.id || req.body.id || req.query.id || req.headers["id"];
@@ -21,7 +21,7 @@ try {
     }
     //check for project status to approve
     if(projectData.projectStatus == "Completed" || projectData.projectStatus == "Rejected" || projectData.projectStatus == "Approved"){
-        logger,error(`Unable to perform action as status is ${projectData.projectStatus}`)
+        logger.error(`Unable to perform action as status is ${projectData.projectStatus}`)
         return res.status(403).json(`Unable to perform action as status is ${projectData.projectStatus}`);
     }
     //check project status provided or not
@@ -44,19 +44,36 @@ try {
                         const origin = 'projectEarning';
                         const contact = projectData.contact
                        //create history
+                       const transactionId = 'PRO' + Date.now();
                         const userHistory = await History.create({
                             contact,
                             transactionAmount:sanctionedAmount,
                             type,
+                            status:'Pending',
                             origin,
+                            transactionId,
                         })  
                         logger.info(`Output - ${userHistory}`)
                        //console.log(userHistory);
                       //update user wallet amount 
                       //find user data in Wallet
                      const amountData = await Wallet.findOne({contact});
-                     //console.log(amountData);
-                     //get prev pendig amount and current amount add it
+                     console.log(amountData);
+                     if(amountData == null){
+                        const data = await Wallet.create({
+                            contact,
+                            projectEarning:[
+                              {
+                                pendingAmount:sanctionedAmount,
+                                withdrawableAmount:0,
+                            }
+                            ],
+                            referralEarning:0,
+                            totalEarning:0
+                            
+                       })
+                     }else{
+                    //get prev pendig amount and current amount add it
                       const amount =  amountData.projectEarning[0].pendingAmount + sanctionedAmount; 
                       //update the data into DB
                       const data = await Wallet.findOneAndUpdate({contact},{
@@ -66,6 +83,8 @@ try {
                      })
                      logger.info(`Output - ${data}`)
                      //console.log(data.projectEarning);
+                     }
+
                      //response
             return res.status(200).json(approvedData);
         }else if(projectStatus == "Rejected"){
@@ -76,9 +95,9 @@ try {
             return res.status(401).json(`Unable to perform action as status is ${projectData.projectStatus}`);
         }
     }
-} catch (error) {
-    logger.error(`Project Approval Endoint Failed`)
-    return res.status(500).json("Something went wrong in Project Approval")
-}
+// } catch (error) {
+//     logger.error(`Project Approval Endoint Failed`)
+//     return res.status(500).json("Something went wrong in Project Approval")
+// }
     
 }

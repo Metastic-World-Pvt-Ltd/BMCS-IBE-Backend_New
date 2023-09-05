@@ -15,6 +15,11 @@ try {
         logger.error(`Id and project status is required`)
         return res.status(400).json("Id and project status is required")
     }
+    const checkStatus = await Project.findById({_id})
+    console.log(checkStatus);
+    if(checkStatus.projectStatus == "Verified"){
+        return res.status(400).json(`Project is already Verified`)
+    }
     //check for status and update data as per status
     if(projectStatus == "Verified" || projectStatus == "verified"){
         //update data

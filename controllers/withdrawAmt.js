@@ -32,10 +32,12 @@ try {
             //defined required details 
             const userName = kycData.name
             const userEmail = kycData.email;
+            const userContact = kycData.contact
+            const userId = kycData.empId;
             const userAccount = kycData.accountNumber;
             const userIFSCCode = kycData.ifscCode;
             const amount = checkWallet.totalEarning;
-
+            
             let testAccount = await nodemailer.createTestAccount();
 
             //sender email
@@ -56,25 +58,37 @@ try {
             try {
                 let info = await transporter.sendMail({
                     from: `no-reply@bmcsindia.in <${senderEmail}>`, // sender address
-                    to: 'finance@bmcsindia.in', // list of receivers
+                    to: senderEmail, // list of receivers
                     subject: "Withdraw Request", // Subject line
-                    text: `Name - ${userName}
+                    text: `Withdraw Request received, below are the details 
+
+                           Name - ${userName}
                            Email - ${userEmail}
-                           Account NUmber - ${userAccount}
+                           Contact - ${userContact}
+                           Employee Id - ${userId}
+                           Account Number - ${userAccount}
                            IFSC Code - ${userIFSCCode}
                            Amount - ${amount}   `, // plain text body
 
-                    html: `Name - <b>${userName}</b>
-                            Email - <b>${userEmail}</b>
-                            Account NUmber - <b>${userAccount}</b>
-                            IFSC Code - <b>${userIFSCCode}</b>
-                            Amount - <b>${amount}</b>   `, // html body
+                    html: ` <br>
+                            Hi Team, <br> <br>
+                            Withdraw Request received, below are the details <br> <br>
+                            Name - <b>${userName}</b> <br>
+                            Email - <b>${userEmail}</b> <br>
+                            Contact - <b>${userContact}</b>  <br>
+                            Employee Id - <b>${userId}</b> <br>
+                            Account Number - <b>${userAccount}</b> <br>
+                            IFSC Code - <b>${userIFSCCode}</b> <br>
+                            Amount - <b>${amount}</b>
+                            <br><br><br><br>
+                            Thanks <br>
+                            Team Admin   `, // html body
                 });
-                logger.info(`Email info - ${info}`)
-                console.log(info);
+                logger.info(`Email info - ${info.response , info.envelope , info.accepted , info.rejected, info.messageId}`)
+                //console.log(info);
                 //console.log("Message sent: %s", info.messageId);
               
-                logger.info(`Details has been send`)
+                logger.info(`Email has been send `)
                 // res.status(200).json("Deatils has been send")
             } catch (error) {
                 logger.error(`Error - ${error}`)
@@ -95,12 +109,15 @@ try {
             const udpateAmt = await Wallet.findOneAndUpdate({contact},data,{new:true})
             logger.info(`Output - ${udpateAmt}`)
             //generate history for the transaction
+            const transactionId = 'WIT' + Date.now(); 
             const hist = await History.create({
                 contact,
                 transactionAmount:amount,
                 type:'Debit',
                 status:'Pending',
                 origin:'withdraw',
+                transactionId,
+
             }) 
             logger.info(`Output - ${hist}`)
             //response

@@ -3,7 +3,7 @@ const History = require('../../models/History');
 const Wallet = require('../../models/Wallet');
 const logger = require("../logger");
 module.exports.completeProject = async function(req , res){
-try {
+// try {
     logger.info(`Activated Complete Project Endpoint`)
     //Input project ID
     const _id =  req.params.id || req.body.id || req.query.id || req.headers["id"];
@@ -62,12 +62,14 @@ try {
             const origin = 'projectEarning';
             const status = 'completed'
             //generate history for user transaction
+            const transactionId = 'PRO' + Date.now();
             const userHistory = await History.create({
                 contact,
                 transactionAmount:withdrawableAmount,
                 type,
                 status,
                 origin,
+                transactionId,
             }) 
             logger.info(`Output - ${userHistory}`)
             //console.log("hist",userHistory);
@@ -81,10 +83,10 @@ try {
         logger.error(`Unable to perform action`)
         return res.status(401).json(`Unable to perform action`)
     }
-} catch (error) {
-    logger.error(`Complete Project Endpoint Failed`)
-    return res.status(500).json("Something went wrong in Project Complete")
-}
+// } catch (error) {
+//     logger.error(`Complete Project Endpoint Failed`)
+//     return res.status(500).json("Something went wrong in Project Complete")
+// }
 
 }
 

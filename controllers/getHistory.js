@@ -5,9 +5,9 @@ module.exports.getHistory = async function(req, res){
 try {
     logger.info(`Activated Get History Endpoint`)
     
-    const _id = req.params.id || req.body.id || req.query.id || req.headers["id"];
-    logger.info(`ID - ${_id}`)
-    const allData = await History.findById({_id})
+    const id = req.params.id || req.body.id || req.query.id || req.headers["id"];
+    logger.info(`ID - ${id}`)
+    const allData = await History.findOne({transactionId:id})
     //console.log(allData);
     if(allData){
         logger.info(`Output - ${allData}`)
@@ -19,5 +19,5 @@ try {
 } catch (error) {
     logger.error(`Get Hisotry Endpoint Failed`);
     return res.status(500).json(`Something went wrong in fetching history`)
-}
+ }
 }

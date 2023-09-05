@@ -4,12 +4,12 @@ const path = require('path');
 const lc = require('letter-count');
 const logger = require("./logger");
 module.exports.agentProject = async function(req, res){
-try {
+// try {
     logger.info(`Activated Agent Project Endpoint`)
     //user input
     const {projectName , contact , projectAmount , projectType , projectDescription } = req.body;
     //check for required filed
-    logger.info(`Input - ${req.body}`)
+    logger.info(`Input - ${projectName , contact , projectAmount , projectType , projectDescription}`)
     if(!projectName || !contact || !projectAmount || !projectType || !projectDescription){
         logger.error(`All fields are required`)
         return res.status(400).json('All fields are required')
@@ -88,10 +88,10 @@ try {
             return res.status(200).json("Project has created");
        }
        
-} catch (error) {
-    logger.error(`Create Project Endpoint Failed`)
-    return res.status(500).json('Something wrong in project creation')
-}
+// } catch (error) {
+//     logger.error(`Create Project Endpoint Failed`)
+//     return res.status(500).json('Something wrong in project creation')
+// }
 
 
 }

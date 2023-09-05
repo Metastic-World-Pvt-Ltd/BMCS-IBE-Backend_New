@@ -62,10 +62,12 @@ try {
         const email = isExist.email;
         console.log(email + "type" + typeof(email));
         const status = "Pending";
+        const empId = isExist.empId;
         const kycData = await Kyc.create({
             name,
             contact,
             email,
+            empId,
             status,
             accountNumber,
             ifscCode,

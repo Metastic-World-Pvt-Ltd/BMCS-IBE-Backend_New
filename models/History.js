@@ -20,6 +20,10 @@ const historyData =  new mongoose.Schema({
         type:String,
         required:true,
     },
+    transactionId:{
+        type:String,
+        required:true,
+    }
 },{
     timestamps:true
 })

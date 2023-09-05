@@ -60,12 +60,14 @@ module.exports.userReferral = async function(req, res){
                         const type = 'credit';
                         const origin = 'referralEarning';
                         const status = 'completed'
+                        const transactionId = 'REF' + Date.now(); 
                         const userHistory = await History.create({
                             contact,
                             transactionAmount,
                             type,
                             status,
                             origin,
+                            transactionId,
                         })  
                         logger.info(`History genrated ${userHistory}`)
                       //update user wallet amount        
@@ -89,12 +91,14 @@ module.exports.userReferral = async function(req, res){
                         const type = 'credit';
                         const origin = 'referralEarning';
                         const status = 'completed'
+                        const transactionId = 'REF' + Date.now(); 
                         const userHistory = await History.create({
                             contact,
                             transactionAmount,
                             type,
                             status,
                             origin,
+                            transactionId,
                         })
                         logger.info(`History genrated ${userHistory}`)
                       //create new DB document 

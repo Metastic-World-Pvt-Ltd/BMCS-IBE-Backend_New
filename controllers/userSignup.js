@@ -36,7 +36,7 @@ module.exports.userSignup = async function(req, res){
        // console.log(req.body);
         if(!contact ,!firstName ,!lastName ,!gender ,!email ,!userRole ,!role ,!refId){
             logger.error(`All fields are required`)
-            res.status(400).json('All fields are required')
+            return res.status(400).json('All fields are required')
         }
         var newPath;
         const maxLevel = 15;
@@ -57,7 +57,7 @@ module.exports.userSignup = async function(req, res){
         //console.log(isContact);
         if(isContact || isEmail){
             logger.error(`contact/email already exist`)
-            res.status(422).json('contact/email already exist')
+            return res.status(422).json('contact/email already exist')
         }else{
                     //check userRole
         if(userRole == 'Admin'){
@@ -73,7 +73,7 @@ module.exports.userSignup = async function(req, res){
             jwt.sign({contact,firstName} , secret , { algorithm: 'HS512' } , (err,token)=>{
                 if(err) throw new err;
                 //logger.info(`Token - ${token}`)
-                res.status(200).json({token , userDoc})
+                return res.status(200).json({token , userDoc})
             })
            // res.status(200).json(userDoc);
         }else{
@@ -101,16 +101,16 @@ module.exports.userSignup = async function(req, res){
                     jwt.sign({contact,firstName} , secret , { algorithm: 'HS512' } , (err,token)=>{
                         if(err) throw new err;
                         logger.info(`Token - ${token}`)
-                        res.status(200).json({token , userDoc})
+                        return res.status(200).json({token , userDoc})
                     })
                        // res.status(200).json(userDoc);
                 }else{
                     logger.error(`something went wrong`)
-                    res.status(400).json('something went wrong')
+                    return res.status(400).json('something went wrong')
                 }
             }else{
                 logger.error(`RefID does not exist`)
-                res.status(404).json('RefID does not exist');
+                return res.status(404).json('RefID does not exist');
             }
         }
         }
@@ -118,7 +118,7 @@ module.exports.userSignup = async function(req, res){
 
     } catch (error) {
         logger.error(`user Signup Endpoint Failed`)
-        res.status(500).json('Something went wrong in Signup page')
+        return res.status(500).json('Something went wrong in Signup page')
     }
 
 }

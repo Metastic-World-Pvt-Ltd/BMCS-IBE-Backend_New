@@ -13,6 +13,10 @@ const kycData =  new mongoose.Schema({
         type:String,
         required:true,
     },
+    empId:{
+        type:String,
+        required:true,
+    },
     status:{
         type:String,
         required:true,

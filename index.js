@@ -74,11 +74,11 @@ app.post('/referral',userReferral);
 //fetch user transaction history
 app.get('/transactionHist',verifyUser,userHistory);
 //create project 
-app.post('/createProject',verifyUser,upload.fields([
+app.post('/createProject',upload.fields([
     { name: 'Adhar' },
     { name: 'Pan' },
-    { name: 'cAdhar' },
-    { name: 'cPan' },
+    // { name: 'cAdhar' },
+    // { name: 'cPan' },
   ]), agentProject)
 
 //get project details
