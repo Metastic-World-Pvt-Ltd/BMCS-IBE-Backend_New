@@ -121,6 +121,14 @@ name , contact , email , status , accountNumber , IFSC Code , Kyc documnets - Pa
 we can get projects as per status filter
 required project Status Field to get data 
 
+### DELETE USER OR ADMIN ###
+Only Super Admin can Delete any type of user
+To Delete a user we required email id of the user
+We are checking Super Admin Access through JWT then allowing Super Admin to Delete the data from DB
+We are Stroing Deleted Users info into DB
+For Normal User Required Fields to store in deleted users DB - username , user email , contact , empId , role , deletedBy
+For Admin user deletion Required Fields to store in deleted users DB - user name , user email , role , deletedBy
+
 ### 2FA AUTH ###
 Admin user has to register for 2FA
 User can use any auth App like Microsoft Auth or Google App
@@ -139,12 +147,22 @@ To Secure from Bruet force we have used Middleware 5 max reties and 30 min restr
 To Secure Admin Password we have used bcryptjs to store incrpted password into DB
 We are using ENV file to secure Password and DB URLs
 
+#### LOGS ###
+For every single activity we are generating Logs and storing them into DB as well as local text file
+as of now we are generating two kinds of Info and Error
+Log Ex. - 2023-09-06T07:41:44.350Z [INFO]: Activated Admin Login Endpoint
+
+### GET LOGS ###
+Only Super Admin can see Logs
+We have created Endpoint to get Logs from DB by using Date Filter 
+We need Start Date and End Date to see the logs
+Date Format in Headers - startdate - 2023-08-23 , enddate - 2023-08-23
 
 ### TO RUN SERVER ###
 npm start
 
 ### MODULES ###
-cryptjs - To encypt Password
+bcryptjs - To encypt Password 
 dotenv - To store All ENV avlibales and secure
 express - Framework
 express-rate-limit -  Restict user for Multile attempts and BruetForce Attact
@@ -157,4 +175,5 @@ nodemailer - To send OTP or verify email
 twilio - To send Otp on mobile
 winston - to generate Logs
 winston-mongodb - To store logs directly into mongodb 
+Cluster -  To Handel Load Balancing
 
