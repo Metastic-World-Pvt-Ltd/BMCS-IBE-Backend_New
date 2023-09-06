@@ -136,7 +136,7 @@ With the help of Token we are also checking user Access
 To Generate Token we have used JWT with algorithm: 'HS512'
 To secure Headers and XSS attack we have used Helmet module
 To Secure from Bruet force we have used Middleware 5 max reties and 30 min restriction
-To Secure Admin Password we have used bycrptjs to store incrpted password into DB
+To Secure Admin Password we have used bcryptjs to store incrpted password into DB
 We are using ENV file to secure Password and DB URLs
 
 
