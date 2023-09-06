@@ -26,7 +26,7 @@ module.exports.generateEmailOtp = async function(req, res){
             var userPassword = process.env.EMAIL_PASSWORD;
 
             let transporter = nodemailer.createTransport({
-                host: "s26.wpx.net",
+                host:process.env.EMAIL_HOST,
                 port: 465,
                 secure: true, // true for 465, false for other ports
                 auth: {
@@ -43,7 +43,7 @@ module.exports.generateEmailOtp = async function(req, res){
                 text: `Enter the ${otp} to verify you Please do not share the OTP `, // plain text body
                 html: `Enter the <b>${otp}</b> to verify you Please do not share the OTP `, // html body
             });
-            logger.info(`Email info - ${info}`)
+            logger.info(`Email info - ${info.response , info.envelope , info.accepted , info.rejected, info.messageId}`)
             //console.log(info);
             // console.log("Message sent: %s", info.messageId);
             // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>

@@ -2,6 +2,7 @@ const Project = require('../../models/Project');
 const jwt = require('jsonwebtoken');
 require('dotenv').config({path:'../../.env'});
 const logger = require("../logger");
+const AdminUser = require('../../models/AdminUser');
 module.exports.superAdminConsole = async function(req, res){
 try {
     logger.info(`Activated Super Admin Console Endpoint`)
@@ -17,6 +18,12 @@ try {
     const decode = jwt.verify(token , secret);
     //user role decoded from token signature
     const userRole = decode.role;
+    //check Admin user is active or not
+    const activeUser = await AdminUser.findById({_id}) 
+    if(activeUser == null){
+        logger.error(`In active Admin`)
+        return res.status(401).json(`Access Denied`)
+    }
     logger.info(`User Role - ${userRole}`)
     //check for authorization
     if(userRole == "Super_Admin" || userRole == "super_admin"){

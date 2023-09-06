@@ -49,14 +49,15 @@ try {
             return res.status(422).json({error:'Email already registered'})
         }
         try {
-            //generate salt 
-            var salt = bcrypt.genSaltSync(20);
-            //encypt password by using bycrpt
-            var hashPassword = bcrypt.hashSync(password, salt);
+            // //generate salt 
+            // var salt = bcrypt.genSaltSync(20);
+            // //encypt password by using bycrpt
+            // var hashPassword = bcrypt.hashSync(password, salt);
             //create user in DB
-            const userData = await AdminUser.create({
-                name , email , password:hashPassword , role
+            const userData = new  AdminUser({
+                name , email , password , role
             })
+            await userData.save();
             //console.log(userData);
             logger.info(`Output - ${userData}`)
             //response

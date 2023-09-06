@@ -7,7 +7,7 @@ module.exports.adminLogin = async function(req, res){
 try {
     logger.info(`Activated Admin Login Endpoint`)
     const {email , password} = req.body;
-    logger.info(`Input - ${req.body}`)
+    logger.info(`Input - ${email}`)
     const secret = process.env.SECRET_KEY;
     
     const userLogin = await AdminUser.findOne({email: email});
@@ -26,10 +26,13 @@ try {
             res.status(400).json({message:'Invalid username or password'})
         }else{
             //generate token with signature using email, userId , user role 
-            jwt.sign({email,id:userLogin._id,role:userLogin.role},secret , {expiresIn: '24h' } , (err,token)=>{
-                if(err) throw new err;
-                logger.error(err)
+            jwt.sign({email,id:userLogin._id,role:userLogin.role},secret , {algorithm: 'HS512', expiresIn: '24h' } , (err,token)=>{
+                if(err) {
+                    logger.error(`Error - ${err}`)
+                    throw new err;
+                }
                 //response
+                logger.info(`Logged in Successfully`)
                 res.status(200).cookie('token',token).json({
                     id:userLogin._id,
                     name:userLogin.name,

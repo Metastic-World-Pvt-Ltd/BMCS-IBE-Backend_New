@@ -2,6 +2,7 @@ const Project = require('../../models/Project');
 const jwt = require('jsonwebtoken');
 require('dotenv').config({path:'../../.env'});
 const logger = require("../logger");
+const AdminUser = require('../../models/AdminUser')
 module.exports.adminConsole = async function(req, res){
 try {
     logger.info(`Activated Admin Console Endpoint`)
@@ -21,6 +22,12 @@ try {
     });
     //user role decoded from token
     const userRole = decode.role;
+        //check Admin user is active or not
+        const activeUser = await AdminUser.findById({_id}) 
+        if(activeUser == null){
+            logger.error(`In active Admin`)
+            return res.status(401).json(`Access Denied`)
+        }
     logger.info(`User Role - ${userRole}`)
     //condition to check role specific rights
     if(userRole == "Admin" || userRole == "admin"){

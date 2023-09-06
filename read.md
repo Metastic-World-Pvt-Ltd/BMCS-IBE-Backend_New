@@ -1,13 +1,12 @@
 #IBE 1.0
 
 #### SIGN UP PAGE ####
-
-#User will Enter Contact Number
-#OTP will be generated 
-#verify OTP
-#Enter More details
-#email,fistname , lastname, userRole , refId , role
-#register user in DB and generate Token
+User will Enter Contact Number
+OTP will be generated 
+verify OTP
+Enter More details
+email,fistname , lastname, userRole , refId , role
+register user in DB and generate Token
 
 #### SIGN IN PAGE #####
 Enter Contact
@@ -121,6 +120,25 @@ name , contact , email , status , accountNumber , IFSC Code , Kyc documnets - Pa
 ### FILTER PROJECT ###
 we can get projects as per status filter
 required project Status Field to get data 
+
+### 2FA AUTH ###
+Admin user has to register for 2FA
+User can use any auth App like Microsoft Auth or Google App
+User Has to verify Code every time when user will try to login
+
+### 2FA RESET ###
+Only Super_Admin can reset 2FA
+User will recieve QR code on his/her registered email ID
+
+### SECURITY ###
+To secure web app we are using token based authentication
+With the help of Token we are also checking user Access
+To Generate Token we have used JWT with algorithm: 'HS512'
+To secure Headers and XSS attack we have used Helmet module
+To Secure from Bruet force we have used Middleware 5 max reties and 30 min restriction
+To Secure Admin Password we have used bycrptjs to store incrpted password into DB
+We are using ENV file to secure Password and DB URLs
+
 
 ### TO RUN SERVER ###
 npm start

@@ -1,3 +1,7 @@
+// const cluster = require('cluster');
+// const http = require('http');
+// const numCPUs = require('os').cpus().length;
+//cl
 const express = require('express')
 const helmet = require('helmet');
 const app = express()
@@ -40,6 +44,9 @@ const { getUser } = require('./controllers/getUser');
 const { register2FA } = require('./controllers/Admin/register2FA');
 const { verify2FA } = require('./controllers/Admin/verify2FA');
 const { reset2FA } = require('./controllers/Admin/reset2FA');
+const { handleTimeout } = require('./middleware/handleTimeout');
+const { deleteAdmin } = require('./controllers/Admin/deleteAdmin');
+const { deleteUser } = require('./controllers/deleteUser');
 
 app.use(helmet());
 //Need to change for upload Avtar
@@ -74,17 +81,17 @@ app.post('/referral',userReferral);
 //fetch user transaction history
 app.get('/transactionHist',verifyUser,userHistory);
 //create project 
-app.post('/createProject',upload.fields([
+app.post('/createProject', verifyUser,upload.fields([
     { name: 'Adhar' },
     { name: 'Pan' },
-    // { name: 'cAdhar' },
-    // { name: 'cPan' },
+    { name: 'cAdhar' },
+    { name: 'cPan' },
   ]), agentProject)
 
 //get project details
 app.get('/getProject/:projectId',verifyUser,getProject); 
 //edit/update project details
-app.post('/editProject',upload.fields([
+app.post('/editProject', verifyUser,upload.fields([
     { name: 'Adhar' },
     { name: 'Pan' },
     { name: 'cAdhar' },
@@ -95,6 +102,10 @@ app.post('/editProject',upload.fields([
 app.post('/adminRegister',adminRegister);
 //admin login
 app.post('/adminLogin',loginRateLimiter, adminLogin);
+//Delete Admin User
+app.post('/deleteadmin',deleteAdmin);
+//Delete User
+app.post('/deleteuser',deleteUser);
 //reset admin password
 app.post('/reset',verifyUser,resetPassword);
 //Super Admin console view page
@@ -124,7 +135,7 @@ app.patch('/updateKyc/:id',verifyUser,editKyc);
 //withdraw amount
 app.post('/withdraw',verifyUser,withdrawAmt);
 //fetch all withdraw request
-app.get('/allwithdrawrequest',verifyUser,allWithdrawRequest)
+app.get('/allwithdrawrequest',handleTimeout,allWithdrawRequest)
 //update withdraw status as complete
 app.post('/completewithdraw/:id',verifyUser,updateWithdrawStatus)
 //get History by ID
@@ -132,14 +143,33 @@ app.get('/gethistory/:id',verifyUser, getHistory)
 //get total earning of all type transaction as per origin
 app.post('/totalEarning',verifyUser,totalEarning);
 //get logs provide start date (2023-08-23) and end date (2023-08-24)
-app.get('/logs',getLogs);
+app.get('/logs',verifyUser,getLogs);
 //get user details by employee ID
-app.get('/getuser/:empId',getUser);
+app.get('/getuser/:empId',verifyUser,getUser);
 //Register 2FA
-app.post('/generate-2fa',register2FA);
+app.post('/generate-2fa',loginRateLimiter,register2FA);
 //Verify 2FA
-app.post('/verify-2fa',verify2FA);
+app.post('/verify-2fa', loginRateLimiter,verify2FA);
 //Reset 2FA 
 app.post('/reset-2fa',reset2FA);
+
+// if (cluster.isMaster) {
+//   console.log(`Master ${process.pid} is running`);
+
+//   // Fork workers for each CPU core
+//   for (let i = 0; i < numCPUs; i++) {
+//     cluster.fork();
+//   }
+
+//   cluster.on('exit', (worker, code, signal) => {
+//     console.log(`Worker ${worker.process.pid} died`);
+//   });
+// } else {
+//   const server = http.createServer(app);
+  
+//   server.listen(port, () => {
+//     console.log(`Worker ${process.pid} is listening`);
+//   });
+// }
 
 app.listen(port, () => console.log(`Express Server is listening on port ${port}!`))

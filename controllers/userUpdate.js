@@ -18,6 +18,10 @@ module.exports.userUpdate = async function(req, res){
         const findData = await User.findById({_id});
         logger.info(`Midderlware Data ${middlewareData}`)
         logger.info(`output - ${findData}`)
+        if(findData == null){
+            logger.error(`No Record Found`)
+            return res.status(404).json(`No Record Found`)
+        }
         // console.log(middlewareData);
         // console.log(findData);
         //check id authorized token then only user can update details
