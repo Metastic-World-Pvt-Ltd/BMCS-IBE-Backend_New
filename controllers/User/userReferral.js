@@ -1,6 +1,6 @@
-const User = require('../models/User');
-const Wallet = require('../models/Wallet');
-const History = require('../models/History');
+const User = require('../../models/User');
+const Wallet = require('../../models/Wallet');
+const History = require('../../models/History');
 const logger = require('./logger');
 module.exports.userReferral = async function(req, res){
     try {

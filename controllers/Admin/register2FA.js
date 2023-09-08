@@ -1,7 +1,7 @@
 const speakeasy = require('speakeasy');
 const qrcode = require('qrcode');
 const twoFA = require('../../models/2FA');
-const logger = require('../logger');
+const logger = require('../User/logger');
 
 module.exports.register2FA = async function(req , res){
 try {

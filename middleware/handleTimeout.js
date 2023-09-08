@@ -1,4 +1,4 @@
-const logger = require("../controllers/logger");
+const logger = require("../controllers/User/logger");
 
 module.exports.handleTimeout = function(req, res, next) {
     // Set a timeout (e.g., 5 seconds) for the request

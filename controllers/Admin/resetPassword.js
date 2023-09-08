@@ -2,7 +2,7 @@ const AdminUser = require('../../models/AdminUser');
 const jwt = require('jsonwebtoken');
 require('dotenv').config({path:'../../.env'});
 const bcrypt = require('bcryptjs');
-const logger = require("../logger");
+const logger = require('../User/logger');
 module.exports.resetPassword = async function(req, res){
 try {
     logger.info(`Activated Reset Password Endpoint`)
@@ -15,11 +15,17 @@ try {
     if(!token){
         return res.status(403).json('Please Provide Token');
     }
-    //secret to decode token
-    const secret = process.env.SECRET_KEY;
-    const decode = jwt.verify(token , secret);
-    //user role from token signature
-    const userRole = decode.role;
+    var userRole;
+    try {
+        //decode token signature
+        const secret = process.env.SECRET_KEY;
+        const decode = jwt.verify(token , secret);
+        console.log(decode);
+    //check for user role as per token
+         userRole = decode.role;
+    } catch (error) {
+        return res.status(401).json(`Token Expired`)
+    }
     logger.info(`User Role - ${userRole}`)
     //check for authorization
     if(userRole == "Super_Admin" || userRole == "super_admin"){

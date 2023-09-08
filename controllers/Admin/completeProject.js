@@ -1,7 +1,7 @@
 const Project = require('../../models/Project');
 const History = require('../../models/History');
 const Wallet = require('../../models/Wallet');
-const logger = require("../logger");
+const logger = require('../User/logger');
 module.exports.completeProject = async function(req , res){
 // try {
     logger.info(`Activated Complete Project Endpoint`)

@@ -1,6 +1,6 @@
-const History = require('../models/History');
-const Wallet = require('../models/Wallet');
-const Kyc = require('../models/Kyc');
+const History = require('../../models/History');
+const Wallet = require('../../models/Wallet');
+const Kyc = require('../../models/Kyc');
 const nodemailer = require("nodemailer");
 const logger = require('./logger');
 

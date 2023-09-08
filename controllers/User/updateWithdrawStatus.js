@@ -1,4 +1,4 @@
-const History = require('../models/History');
+const History = require('../../models/History');
 const logger = require('./logger');
 module.exports.updateWithdrawStatus = async function(req, res){
     logger.info(`Activated Update Withdraw Status Endpint`)

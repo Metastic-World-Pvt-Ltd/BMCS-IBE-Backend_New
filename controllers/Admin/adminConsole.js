@@ -1,8 +1,8 @@
 const Project = require('../../models/Project');
 const jwt = require('jsonwebtoken');
 require('dotenv').config({path:'../../.env'});
-const logger = require("../logger");
-const AdminUser = require('../../models/AdminUser')
+const AdminUser = require('../../models/AdminUser');
+const logger = require('../User/logger');
 module.exports.adminConsole = async function(req, res){
 try {
     logger.info(`Activated Admin Console Endpoint`)
@@ -12,16 +12,17 @@ try {
     if(!token){
         return res.status(401).json('Please Provide Token');
     }
-    //secret and decode token for authorization
-    const secret = process.env.SECRET_KEY;
-    const decode = jwt.verify(token , secret, (err)=>{
-        if(err){
-            logger.error(`Error in Token ${err}`)
-            return res.status(401).json(err)
-        }
-    });
-    //user role decoded from token
-    const userRole = decode.role;
+    var userRole;
+    try {
+        //decode token signature
+        const secret = process.env.SECRET_KEY;
+        const decode = jwt.verify(token , secret);
+        console.log(decode);
+    //check for user role as per token
+         userRole = decode.role;
+    } catch (error) {
+        return res.status(401).json(`Token Expired`)
+    }
         //check Admin user is active or not
         const activeUser = await AdminUser.findById({_id}) 
         if(activeUser == null){

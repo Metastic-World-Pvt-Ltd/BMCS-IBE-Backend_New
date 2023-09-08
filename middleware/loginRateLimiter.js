@@ -1,5 +1,6 @@
 const rateLimit = require('express-rate-limit');
 
+
 const loginRateLimiter = rateLimit({
     windowMs: 30 * 60 * 1000, // 30 min in milliseconds
     max: 5, //max retry limit
@@ -8,3 +9,4 @@ const loginRateLimiter = rateLimit({
     Headers: true,
   });
   module.exports = { loginRateLimiter }
+

@@ -1,6 +1,6 @@
 const speakeasy = require('speakeasy');
 const twoFA = require('../../models/2FA');
-const logger = require('../logger');
+const logger = require('../User/logger');
 module.exports.verify2FA = async function(req, res){
 try {
     logger.info(`Activated Verify 2FA Endoint`)

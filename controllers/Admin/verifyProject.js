@@ -1,5 +1,5 @@
 const Project = require('../../models/Project');
-const logger = require("../logger");
+const logger = require('../User/logger');
 module.exports.verifyProject = async function(req, res){
 try {
     logger.info(`Activated Verify Project Endpoint`)

@@ -2,12 +2,13 @@ const AdminUser = require('../../models/AdminUser');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 require('dotenv').config({path:'../../.env'});
-const logger = require("../logger");
+const logger = require('../User/logger');
 module.exports.adminLogin = async function(req, res){
 try {
     logger.info(`Activated Admin Login Endpoint`)
     const {email , password} = req.body;
     logger.info(`Input - ${email}`)
+    logger.info(`Input - ${password}`)
     const secret = process.env.SECRET_KEY;
     
     const userLogin = await AdminUser.findOne({email: email});

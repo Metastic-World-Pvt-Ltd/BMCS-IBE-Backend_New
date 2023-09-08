@@ -1,5 +1,5 @@
-const User = require('../models/User');
-require('dotenv').config();
+const User = require('../../models/User'); 
+require('dotenv').config({path:'../../.env'});
 const logger = require('./logger');
 
 module.exports.generateOtp = async function(req, res){

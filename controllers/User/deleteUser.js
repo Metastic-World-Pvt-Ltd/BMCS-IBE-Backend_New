@@ -1,8 +1,8 @@
-const AdminUser = require('../models/AdminUser');
-const User =  require(`../models/User`);
-require('dotenv').config({path:'../.env'});
+const AdminUser = require('../../models/AdminUser');
+const User =  require(`../../models/User`);
+require('dotenv').config({path:'../../.env'});
 const jwt = require('jsonwebtoken');
-const DeletedUser =  require(`../models/DeletedUser`);
+const DeletedUser =  require(`../../models/DeletedUser`);
 const logger = require('./logger');
 
 module.exports.deleteUser = async function(req, res){

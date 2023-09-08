@@ -2,23 +2,29 @@ const AdminUser = require('../../models/AdminUser');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 require('dotenv').config({path:'../../.env'});
-const logger = require("../logger");
+const logger = require('../User/logger');
 module.exports.adminRegister = async function(req, res){
-try {
+// try {
     logger.info(`Activated Admin Register Endpoint`)
     //input data
     const {name , email , password, role}  = req.body;
-    logger.info(`Input - ${name , email , password, role}`)
+    logger.info(`Input - ${name} , ${email} , ${password}, ${role}}`)
     const token = req.body.token || req.query.token || req.headers["x-access-token"];
     //check for token provided or not
     if(!token){
         return res.status(401).json('Please Provide Token');
     }
-    //decode token signature
-    const secret = process.env.SECRET_KEY;
-    const decode = jwt.verify(token , secret);
+    var userRole;
+    try {
+        //decode token signature
+        const secret = process.env.SECRET_KEY;
+        const decode = jwt.verify(token , secret);
+        console.log(decode);
     //check for user role as per token
-    const userRole = decode.role;
+         userRole = decode.role;
+    } catch (error) {
+        return res.status(401).json(`Token Expired`)
+    }
     logger.info(`User Role - ${userRole}`)
     //check condition user specific role
     if(userRole == "Super_Admin" || userRole == "super_admin"){
@@ -67,9 +73,9 @@ try {
             return res.json(error);   
         }
     }
-} catch (error) {
-    logger.error(`Admin Register Endpoint Failed`)
-    return res.status(500).json("Something went wrong in Admin Register")
-}
+// } catch (error) {
+//     logger.error(`Admin Register Endpoint Failed`)
+//     return res.status(500).json("Something went wrong in Admin Register")
+// }
 }
 

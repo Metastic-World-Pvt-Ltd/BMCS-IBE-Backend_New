@@ -1,4 +1,4 @@
-const Project = require('../models/Project');
+const Project = require('../../models/Project');
 const logger = require('./logger');
 
 module.exports.getProject = async function(req, res){

@@ -1,6 +1,6 @@
 const nodemailer = require("nodemailer");
 const logger = require("./logger");
-require('dotenv').config({path:'../.env'});
+require('dotenv').config({path:'../../.env'});
 
 module.exports.generateEmailOtp = async function(req, res){
     try {

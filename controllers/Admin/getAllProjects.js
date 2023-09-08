@@ -1,5 +1,5 @@
 const Project = require('../../models/Project');
-const logger = require("../logger");
+const logger = require('../User/logger');
 module.exports.getAllProjects = async function(req, res){
     try {
         logger.info(`Activated Get All Project Endpoint`)

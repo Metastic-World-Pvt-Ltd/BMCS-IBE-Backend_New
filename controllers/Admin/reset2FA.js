@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const speakeasy = require('speakeasy');
 const qrcode = require('qrcode');
 const nodemailer = require("nodemailer");
-const logger = require('../logger');
+const logger = require('../User/logger');
 require('dotenv').config({path:'../.env'});
 
 module.exports.reset2FA = async function(req, res){

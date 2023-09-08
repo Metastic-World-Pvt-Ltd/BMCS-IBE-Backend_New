@@ -1,7 +1,7 @@
 const Log = require('../../models/Log');
 const jwt = require('jsonwebtoken');
 require('dotenv').config({path:'../../.env'});
-const logger = require('../logger');
+const logger = require('../User/logger');
 module.exports.getLogs = async function(req, res){
 try {
     logger.info(`Activated Logs Endpoint`);
@@ -15,11 +15,17 @@ try {
     if(!token){
         return res.status(401).json('Please Provide Token');
     }
-    //secret to decode token and get signature
-    const secret = process.env.SECRET_KEY;
-    const decode = jwt.verify(token , secret);
-    //user role from token
-    const userRole = decode.role;
+    var userRole;
+    try {
+        //decode token signature
+        const secret = process.env.SECRET_KEY;
+        const decode = jwt.verify(token , secret);
+        console.log(decode);
+    //check for user role as per token
+         userRole = decode.role;
+    } catch (error) {
+        return res.status(401).json(`Token Expired`)
+    }
     logger.info(`User Role - ${userRole}`)
     //chck for user authoried or not
     if(userRole == "Super_Admin" || userRole == "super_admin"){

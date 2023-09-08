@@ -1,5 +1,5 @@
-const User = require('../models/User');
-const verifyUser = require('../middleware/verifyUser');
+const User = require('../../models/User');
+const verifyUser = require('../../middleware/verifyUser');
 const logger = require('./logger');
 module.exports.userUpdate = async function(req, res){
     try {

@@ -1,4 +1,4 @@
-const History = require('../models/History');
+const History = require('../../models/History');
 const logger = require('./logger')
 module.exports.totalEarning = async function(req, res){
 try {

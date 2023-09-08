@@ -1,4 +1,4 @@
-const Project = require('../models/Project');
+const Project = require('../../models/Project');
 const fs = require('fs');
 const path = require('path');
 const lc = require('letter-count');

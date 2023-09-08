@@ -1,7 +1,8 @@
-const User = require('../models/User');
+const User = require('../../models/User');
 const jwt = require('jsonwebtoken');
+const logger = require('./logger');
 require('dotenv').config({path:'../../.env'});
-const logger = require("./logger");
+
 
 module.exports.getUser = async function(req, res){
  try {

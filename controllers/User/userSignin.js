@@ -1,7 +1,7 @@
-const User = require('../models/User');
+const User = require('../../models/User');
 const jwt = require('jsonwebtoken');
 const logger = require('./logger');
-require('dotenv').config();
+require('dotenv').config({path:'../../.env'});
 module.exports.userSignin =  async function(req, res){
 try {
     logger.info(`Activated User Sign IN Endpoint`)

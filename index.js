@@ -4,23 +4,24 @@
 //cl
 const express = require('express')
 const helmet = require('helmet');
+const cors = require('cors');
 const app = express()
 const db = require('./mongoose/mongoose');
-const { generateOtp } = require('./controllers/generateOtp');
-const { verifyOtp } = require('./controllers/verifyOtp');
-const { userSignup } = require('./controllers/userSignup');
+const { generateOtp } = require('./controllers/User/generateOtp');
+const { verifyOtp } = require('./controllers/User/verifyOtp');
+const { userSignup } = require('./controllers/User/userSignup');
 const multer = require('multer');
-const { userSignin } = require('./controllers/userSignin');
-const { userUpdate } = require('./controllers/userUpdate');
-const { generateEmailOtp } = require('./controllers/generateEmailOtp');
+const { userSignin } = require('./controllers/User/userSignin');
+const { userUpdate } = require('./controllers/User/userUpdate');
+const { generateEmailOtp } = require('./controllers/User/generateEmailOtp');
 const { loginRateLimiter } = require('./middleware/loginRateLimiter');
 const { verifyUser } = require('./middleware/verifyUser');
-const { userReferral } = require('./controllers/userReferral');
-const { userHistory } = require('./controllers/userHistory');
-const { storageValue, fileFilterValue } = require('./controllers/storage');
-const { agentProject } = require('./controllers/agentProject');
-const { getProject } = require('./controllers/getProject');
-const { editProject } = require('./controllers/editProject');
+const { userReferral } = require('./controllers/User/userReferral');
+const { userHistory } = require('./controllers/User/userHistory');
+const { storageValue, fileFilterValue } = require('./controllers/User/storage');
+const { agentProject } = require('./controllers/User/agentProject');
+const { getProject } = require('./controllers/User/getProject');
+const { editProject } = require('./controllers/User/editProject');
 const { getAllProjects } = require('./controllers/Admin/getAllProjects');
 const { adminRegister } = require('./controllers/Admin/adminRegister');
 const { adminLogin } = require('./controllers/Admin/adminLogin');
@@ -32,23 +33,27 @@ const { filter_Project } = require('./controllers/Admin/filter_Project');
 const { projectApproval } = require('./controllers/Admin/projectApproval');
 const { completeProject } = require('./controllers/Admin/completeProject');
 const { resetPassword } = require('./controllers/Admin/resetPassword');
-const { userKyc } = require('./controllers/userKyc');
-const { editKyc } = require('./controllers/editKyc');
-const { withdrawAmt } = require('./controllers/withdrawAmt');
-const { allWithdrawRequest } = require('./controllers/allWithdrawRequest');
-const { updateWithdrawStatus } = require('./controllers/updateWithdrawStatus');
-const { totalEarning } = require('./controllers/totalEraning');
-const { getHistory } = require('./controllers/getHistory');
+const { userKyc } = require('./controllers/User/userKyc');
+const { editKyc } = require('./controllers/User/editKyc');
+const { withdrawAmt } = require('./controllers/User/withdrawAmt');
+const { allWithdrawRequest } = require('./controllers/User/allWithdrawRequest');
+const { updateWithdrawStatus } = require('./controllers/User/updateWithdrawStatus');
+const { totalEarning } = require('./controllers/User/totalEraning');
+const { getHistory } = require('./controllers/User/getHistory');
 const { getLogs } = require('./controllers/Admin/getLogs');
-const { getUser } = require('./controllers/getUser');
+const { getUser } = require('./controllers/User/getUser');
 const { register2FA } = require('./controllers/Admin/register2FA');
 const { verify2FA } = require('./controllers/Admin/verify2FA');
 const { reset2FA } = require('./controllers/Admin/reset2FA');
 const { handleTimeout } = require('./middleware/handleTimeout');
 const { deleteAdmin } = require('./controllers/Admin/deleteAdmin');
-const { deleteUser } = require('./controllers/deleteUser');
+const { deleteUser } = require('./controllers/User/deleteUser');
+const { createProduct } = require('./controllers/Products/createProduct');
+const { editProduct } = require('./controllers/Products/editProduct');
+const { deleteProject } = require('./controllers/Products/deleteProduct');
 
 app.use(helmet());
+app.use(cors())
 //Need to change for upload Avtar
 //const upload = multer({ dest: 'uploads/' })
 var upload = multer({
@@ -119,7 +124,7 @@ app.get('/allProjects',verifyUser, getAllProjects);
 //verify project
 app.post('/verify/:id',verifyUser, verifyProject);
 //get all verified project for admin approval
-app.get('/verifiedProjects',verifyUser,filter_Project);
+app.get('/filterProjects',verifyUser,filter_Project);
 //project appoval from Admin
 app.post('/approval/:id',verifyUser,projectApproval);
 //mark project as complete
@@ -152,6 +157,12 @@ app.post('/generate-2fa',loginRateLimiter,register2FA);
 app.post('/verify-2fa', loginRateLimiter,verify2FA);
 //Reset 2FA 
 app.post('/reset-2fa',reset2FA);
+//create Product
+app.post('/createproduct',createProduct);
+//edit product
+app.patch('/editproduct/:id',editProduct);
+//delete project
+app.post('/deleteproject/:id', deleteProject);
 
 // if (cluster.isMaster) {
 //   console.log(`Master ${process.pid} is running`);

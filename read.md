@@ -158,6 +158,21 @@ We have created Endpoint to get Logs from DB by using Date Filter
 We need Start Date and End Date to see the logs
 Date Format in Headers - startdate - 2023-08-23 , enddate - 2023-08-23
 
+### CREATE PRODUCT ###
+Only Admin and Super_Admin can create or Add a product from console
+Required Fields - productName , productSummary , requiredDoc -  From User end
+For Collention Required Fields - productId , productName , productSummary , requiredDoc ,costomerCount ,createdBy , updatedBy , deletedBy
+We are tracking activity for product creation, updation and deletion
+
+### EDIT PRODUCT ###
+Only Admin and Super_Admin can edit a product from console
+To Edit a product we required product Id as per Database and required filed -
+like - productName , productSummary , requiredDoc and updatedBy
+
+### DELETE PRODUCT ###
+To Delete a product we again required product Id as per Database
+Before Deleting we are copying product details to another new collection that is called DeletedProject and we are also inserting deletedBy field
+
 ### TO RUN SERVER ###
 npm start
 

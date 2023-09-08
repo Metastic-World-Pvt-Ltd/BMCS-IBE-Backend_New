@@ -1,6 +1,6 @@
 const winston = require('winston');
 require('winston-mongodb');
-require('dotenv').config({path:'../.env'});
+require('dotenv').config({path:'../../.env'});
 // Define log format
 const logFormat = winston.format.printf(({ timestamp, level, message }) => {
   return `${timestamp} [${level.toUpperCase()}]: ${message}`;

@@ -1,5 +1,5 @@
 const AdminUser = require('../../models/AdminUser');
-const logger = require('../logger');
+const logger = require('../User/logger');
 require('dotenv').config({path:'../../.env'});
 const jwt = require('jsonwebtoken');
 const DeletedUser =  require(`../../models/DeletedUser`);
@@ -20,11 +20,18 @@ try {
         logger.error(`Please provide email id`)
         return res.status(400).json(`Please provide email id`)
     }
-    //secret ket to decode token
-    const secret = process.env.SECRET_KEY;
-    const decode = jwt.verify(token , secret);
-    //user role decoded from token signature    
-    const userRole = decode.role;
+    var userRole;
+    var decode;
+    try {
+        //decode token signature
+        const secret = process.env.SECRET_KEY;
+         decode = jwt.verify(token , secret);
+        console.log(decode);
+    //check for user role as per token
+         userRole = decode.role;
+    } catch (error) {
+        return res.status(401).json(`Token Expired`)
+    }
     const _id = decode.id;
     const adminEmail = decode.email;
     const activeUser = await AdminUser.findById({_id})
