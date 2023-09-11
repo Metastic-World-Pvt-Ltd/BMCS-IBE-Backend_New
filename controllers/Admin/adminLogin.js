@@ -24,7 +24,7 @@ try {
         if(!isMatch){
             // console.log('Invalid username or password');
             logger.error(`Invalid username or password`)
-            res.status(400).json({message:'Invalid username or password'})
+            res.status(401).json({message:'Invalid username or password'})
         }else{
             //generate token with signature using email, userId , user role 
             jwt.sign({email,id:userLogin._id,role:userLogin.role},secret , {algorithm: 'HS512', expiresIn: '24h' } , (err,token)=>{

@@ -7,6 +7,9 @@ module.exports.adminRegister = async function(req, res){
 // try {
     logger.info(`Activated Admin Register Endpoint`)
     //input data
+    if(!req.body){
+        return res.status(400).json('Please send Required Fields')
+    }
     const {name , email , password, role}  = req.body;
     logger.info(`Input - ${name} , ${email} , ${password}, ${role}}`)
     const token = req.body.token || req.query.token || req.headers["x-access-token"];

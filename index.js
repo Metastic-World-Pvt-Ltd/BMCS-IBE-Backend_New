@@ -54,6 +54,8 @@ const { deleteProject } = require('./controllers/Products/deleteProduct');
 
 app.use(helmet());
 app.use(cors())
+
+
 //Need to change for upload Avtar
 //const upload = multer({ dest: 'uploads/' })
 var upload = multer({

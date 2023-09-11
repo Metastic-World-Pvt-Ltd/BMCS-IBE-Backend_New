@@ -4,7 +4,7 @@ require('dotenv').config({path:'../.env'});
 
 module.exports.verifyUser = async function(req, res, next){
 
-try {
+// try {
     const token = req.body.token || req.query.token || req.headers["x-access-token"];
     if (!token) {
         logger.error(`Token is required for authentication`)
@@ -31,10 +31,10 @@ try {
         
     }
     return next();
-} catch (error) {
-    logger.error(`Verify user middleware Failed`)
-    return res.status(500).json('Something went wrong in updating user')
-}
+// } catch (error) {
+//     logger.error(`Verify user middleware Failed`)
+//     return res.status(500).json('Something went wrong in user verification')
+// }
 
     
 }
