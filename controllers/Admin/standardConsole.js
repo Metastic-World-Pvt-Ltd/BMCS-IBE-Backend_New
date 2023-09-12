@@ -14,6 +14,7 @@ try {
         return res.status(401).json('Please Provide Token');
     }
     var userRole;
+    var _id;
     try {
         //decode token signature
         const secret = process.env.SECRET_KEY;
@@ -21,6 +22,7 @@ try {
         console.log(decode);
     //check for user role as per token
          userRole = decode.role;
+         _id = decode.id
     } catch (error) {
         return res.status(401).json(`Token Expired`)
     }

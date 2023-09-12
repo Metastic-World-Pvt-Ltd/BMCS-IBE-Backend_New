@@ -55,7 +55,7 @@ const { deleteProject } = require('./controllers/Products/deleteProduct');
 app.use(helmet());
 app.use(cors())
 
-
+app.use('/',require('./router/index'))
 //Need to change for upload Avtar
 //const upload = multer({ dest: 'uploads/' })
 var upload = multer({
@@ -70,101 +70,101 @@ app.use(express.urlencoded({extended:false}))
 app.use('/uploads', express.static('uploads'));
 //Home Directory
 app.get('/', (req, res) => res.send('Welcome to IBE Home'))
-//Generate Mobile Otp
-app.post('/generateOtp', generateOtp);
-//Generate Email Otp
-app.post('/generateEmailOtp',generateEmailOtp);
-//verify otp
-//loginRateLimiter middleware to restrict number of retry limits
-app.post('/verifyOtp',loginRateLimiter, verifyOtp);
-//user details from signup page
-app.post('/signup',upload.single('avatar'),userSignup);
-//sign in auth
-app.post('/signin', userSignin);
-//update user details
-app.patch('/userUpdate/:id',verifyUser, userUpdate);
-//create referral and distribute earning
-app.post('/referral',userReferral);
-//fetch user transaction history
-app.get('/transactionHist',verifyUser,userHistory);
-//create project 
-app.post('/createProject', verifyUser,upload.fields([
-    { name: 'Adhar' },
-    { name: 'Pan' },
-    { name: 'cAdhar' },
-    { name: 'cPan' },
-  ]), agentProject)
+// //Generate Mobile Otp
+// app.post('/generateOtp', generateOtp);
+// //Generate Email Otp
+// app.post('/generateEmailOtp',generateEmailOtp);
+// //verify otp
+// //loginRateLimiter middleware to restrict number of retry limits
+// app.post('/verifyOtp',loginRateLimiter, verifyOtp);
+// //user details from signup page
+// app.post('/signup',upload.single('avatar'),userSignup);
+// //sign in auth
+// app.post('/signin', userSignin);
+// //update user details
+// app.patch('/userUpdate/:id',verifyUser, userUpdate);
+// //create referral and distribute earning
+// app.post('/referral',userReferral);
+// //fetch user transaction history
+// app.get('/transactionHist',verifyUser,userHistory);
+// //create project 
+// app.post('/createProject', verifyUser,upload.fields([
+//     { name: 'Adhar' },
+//     { name: 'Pan' },
+//     { name: 'cAdhar' },
+//     { name: 'cPan' },
+//   ]), agentProject)
 
-//get project details
-app.get('/getProject/:projectId',verifyUser,getProject); 
-//edit/update project details
-app.post('/editProject', verifyUser,upload.fields([
-    { name: 'Adhar' },
-    { name: 'Pan' },
-    { name: 'cAdhar' },
-    { name: 'cPan' },
-  ]),editProject);
+// //get project details
+// app.get('/getProject/:projectId',verifyUser,getProject); 
+// //edit/update project details
+// app.post('/editProject', verifyUser,upload.fields([
+//     { name: 'Adhar' },
+//     { name: 'Pan' },
+//     { name: 'cAdhar' },
+//     { name: 'cPan' },
+//   ]),editProject);
 
-//admin register
-app.post('/adminRegister',adminRegister);
-//admin login
-app.post('/adminLogin',loginRateLimiter, adminLogin);
-//Delete Admin User
-app.post('/deleteadmin',deleteAdmin);
-//Delete User
-app.post('/deleteuser',deleteUser);
-//reset admin password
-app.post('/reset',verifyUser,resetPassword);
-//Super Admin console view page
-app.post('/superAdmin',verifyUser,superAdminConsole);
-//admin console view page
-app.post('/admin',verifyUser,adminConsole);
-//Standard console view page
-app.post('/standard',verifyUser,standardConsole);
- //fetch all the projects for admin
-app.get('/allProjects',verifyUser, getAllProjects); 
-//verify project
-app.post('/verify/:id',verifyUser, verifyProject);
-//get all verified project for admin approval
-app.get('/filterProjects',verifyUser,filter_Project);
-//project appoval from Admin
-app.post('/approval/:id',verifyUser,projectApproval);
-//mark project as complete
-app.post('/complete/:id',verifyUser,completeProject);
-//user Kyc
-app.post('/kyc',verifyUser,upload.fields([
-  { name: 'Adhar' },
-  { name: 'Pan' },
-  { name: 'Statement_Check' },
-]),userKyc);
-//update Kyc details
-app.patch('/updateKyc/:id',verifyUser,editKyc);
-//withdraw amount
-app.post('/withdraw',verifyUser,withdrawAmt);
-//fetch all withdraw request
-app.get('/allwithdrawrequest',handleTimeout,allWithdrawRequest)
-//update withdraw status as complete
-app.post('/completewithdraw/:id',verifyUser,updateWithdrawStatus)
-//get History by ID
-app.get('/gethistory/:id',verifyUser, getHistory)
-//get total earning of all type transaction as per origin
-app.post('/totalEarning',verifyUser,totalEarning);
-//get logs provide start date (2023-08-23) and end date (2023-08-24)
-app.get('/logs',verifyUser,getLogs);
-//get user details by employee ID
-app.get('/getuser/:empId',verifyUser,getUser);
-//Register 2FA
-app.post('/generate-2fa',loginRateLimiter,register2FA);
-//Verify 2FA
-app.post('/verify-2fa', loginRateLimiter,verify2FA);
-//Reset 2FA 
-app.post('/reset-2fa',reset2FA);
-//create Product
-app.post('/createproduct',createProduct);
-//edit product
-app.patch('/editproduct/:id',editProduct);
-//delete project
-app.post('/deleteproject/:id', deleteProject);
+// //admin register
+// app.post('/adminRegister',adminRegister);
+// //admin login
+// app.post('/adminLogin',loginRateLimiter, adminLogin);
+// //Delete Admin User
+// app.post('/deleteadmin',deleteAdmin);
+// //Delete User
+// app.post('/deleteuser',deleteUser);
+// //reset admin password
+// app.post('/reset',verifyUser,resetPassword);
+// //Super Admin console view page
+// app.post('/superAdmin',verifyUser,superAdminConsole);
+// //admin console view page
+// app.post('/admin',verifyUser,adminConsole);
+// //Standard console view page
+// app.post('/standard',verifyUser,standardConsole);
+//  //fetch all the projects for admin
+// app.get('/allProjects',verifyUser, getAllProjects); 
+// //verify project
+// app.post('/verify/:id',verifyUser, verifyProject);
+// //get all verified project for admin approval
+// app.get('/filterProjects',verifyUser,filter_Project);
+// //project appoval from Admin
+// app.post('/approval/:id',verifyUser,projectApproval);
+// //mark project as complete
+// app.post('/complete/:id',verifyUser,completeProject);
+// //user Kyc
+// app.post('/kyc',verifyUser,upload.fields([
+//   { name: 'Adhar' },
+//   { name: 'Pan' },
+//   { name: 'Statement_Check' },
+// ]),userKyc);
+// //update Kyc details
+// app.patch('/updateKyc/:id',verifyUser,editKyc);
+// //withdraw amount
+// app.post('/withdraw',verifyUser,withdrawAmt);
+// //fetch all withdraw request
+// app.get('/allwithdrawrequest',handleTimeout,allWithdrawRequest)
+// //update withdraw status as complete
+// app.post('/completewithdraw/:id',verifyUser,updateWithdrawStatus)
+// //get History by ID
+// app.get('/gethistory/:id',verifyUser, getHistory)
+// //get total earning of all type transaction as per origin
+// app.post('/totalEarning',verifyUser,totalEarning);
+// //get logs provide start date (2023-08-23) and end date (2023-08-24)
+// app.get('/logs',verifyUser,getLogs);
+// //get user details by employee ID
+// app.get('/getuser/:empId',verifyUser,getUser);
+// //Register 2FA
+// app.post('/generate-2fa',loginRateLimiter,register2FA);
+// //Verify 2FA
+// app.post('/verify-2fa', loginRateLimiter,verify2FA);
+// //Reset 2FA 
+// app.post('/reset-2fa',reset2FA);
+// //create Product
+// app.post('/createproduct',createProduct);
+// //edit product
+// app.patch('/editproduct/:id',editProduct);
+// //delete project
+// app.post('/deleteproject/:id', deleteProject);
 
 // if (cluster.isMaster) {
 //   console.log(`Master ${process.pid} is running`);

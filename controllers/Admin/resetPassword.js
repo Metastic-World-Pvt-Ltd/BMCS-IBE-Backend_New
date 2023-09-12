@@ -35,13 +35,14 @@ try {
             return res.status(400).json("Email & New Password both required")
         }else{
             //generate salt to create hash
-            var salt = bcrypt.genSaltSync(20);
+            //var salt = bcrypt.genSaltSync(20);
             //encypt thepassword
-            var hashPassword = bcrypt.hashSync(password, salt);
+           // var hashPassword = bcrypt.hashSync(password, salt);
             //check the email and update the password in DB
-            const userData = await AdminUser.findOneAndUpdate({email},{password:hashPassword},{new:true})
+            const userData = await AdminUser.findOneAndUpdate({email},{password},{new:true})
             //console.log(userData);
             //check for record found or not in DB
+            userData.save();
             if(userData == null){
                 logger.error(`No Record Found`)
                 return res.status(404).json("NO Record Found")

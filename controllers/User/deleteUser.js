@@ -21,13 +21,27 @@ try {
         logger.error(`Please provide email id`)
         return res.status(400).json(`Please provide email id`)
     }
-    //secret ket to decode token
-    const secret = process.env.SECRET_KEY;
-    const decode = jwt.verify(token , secret);
+    // //secret ket to decode token
+    // const secret = process.env.SECRET_KEY;
+    // const decode = jwt.verify(token , secret);
+    var userRole;
+    var _id;
+    var adminEmail;
+    try {
+        //decode token signature
+        const secret = process.env.SECRET_KEY;
+        const decode = jwt.verify(token , secret);
+        console.log(decode);
+         _id = decode.id;
+         adminEmail = decode.email;
+    //check for user role as per token
+         userRole = decode.role;
+    } catch (error) {
+        return res.status(401).json(`Token Expired`)
+    }
     //user role decoded from token signature    
-    const userRole = decode.role;
-    const _id = decode.id;
-    const adminEmail = decode.email;
+    //const userRole = decode.role;
+
     const activeUser = await AdminUser.findById({_id})
     
     if(activeUser == null){
