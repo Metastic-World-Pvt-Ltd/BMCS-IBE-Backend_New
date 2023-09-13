@@ -8,7 +8,6 @@ const { allWithdrawRequest } = require('../controllers/User/allWithdrawRequest')
 const { getHistory } = require('../controllers/User/getHistory');
 const { totalEarning } = require('../controllers/User/totalEraning');
 const { storageValue, fileFilterValue } = require('../controllers/User/storage');
-const { handleTimeout } = require('../middleware/handleTimeout');
 const { generateOtp } = require('../controllers/User/generateOtp');
 const { generateEmailOtp } = require('../controllers/User/generateEmailOtp');
 const { verifyOtp } = require('../controllers/User/verifyOtp');
@@ -44,7 +43,7 @@ router.patch('/updateKyc/:id',verifyUser,editKyc);
 //withdraw amount
 router.post('/withdraw',verifyUser,withdrawAmt);
 //fetch all withdraw request
-router.get('/allwithdrawrequest',handleTimeout,allWithdrawRequest)
+router.get('/allwithdrawrequest',allWithdrawRequest)
 //get History by ID
 router.get('/gethistory/:id',verifyUser, getHistory)
 //get total earning of all type transaction as per origin

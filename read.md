@@ -1,4 +1,8 @@
 #IBE 1.0
+### ROUTER ###
+ADMIN ROUTE - http://localhost:4000/admin
+
+USER ROUTE - http://localhost:4000/user
 
 #### SIGN UP PAGE ####
 User will Enter Contact Number
@@ -191,4 +195,6 @@ twilio - To send Otp on mobile
 winston - to generate Logs
 winston-mongodb - To store logs directly into mongodb 
 Cluster -  To Handel Load Balancing
+speakeasy - To count string character
+qrcode - To Generate QR for 2FA
 
