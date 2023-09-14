@@ -2,9 +2,11 @@ const Project = require('../../models/Project');
 const History = require('../../models/History');
 const Wallet = require('../../models/Wallet');
 const logger = require('../User/logger');
+const successMessages = require('../successMessages');
+const errorMessages = require('../errorMessages');
 module.exports.completeProject = async function(req , res){
-// try {
-    logger.info(`Activated Complete Project Endpoint`)
+try {
+    logger.info(successMessages.COMPLETE_PROJECT_ACTIVATED)
     //Input project ID
     const _id =  req.params.id || req.body.id || req.query.id || req.headers["id"];
     logger.info(`Id - ${_id}`)
@@ -13,13 +15,13 @@ module.exports.completeProject = async function(req , res){
     logger.info(`Input - ${req.body}`)
     //check if ID provided or not
     if(!_id){
-        logger.error(`Project Id is required`)
-        return res.status(400).json("Project Id is required")
+        logger.error(errorMessages.PROJECT_ID)
+        return res.status(400).json(errorMessages.PROJECT_ID)
     }
     //check for project status provided or not
     if(!projectStatus){
-        logger.error(`Project Status is required`)
-        return res.status(400).json("Project Status is required")
+        logger.error(errorMessages.PROJECT_STATUS)
+        return res.status(400).json(errorMessages.PROJECT_STATUS)
     }
     //check for project status by admin
     if(projectStatus == "Completed" || projectStatus == "completed"){
@@ -28,8 +30,8 @@ module.exports.completeProject = async function(req , res){
         //console.log(projectData);
         //if no record found
         if(projectData ==  null){
-            logger.error(`No Records Found`)
-            return res.status(404).json("No Records Found");
+            logger.error(errorMessages.NOT_FOUND)
+            return res.status(404).json(errorMessages.NOT_FOUND);
         }
         //check if Data in DB status is approved or not
         if(projectData.projectStatus == "Approved" || projectData.projectStatus == "approved"){
@@ -75,18 +77,18 @@ module.exports.completeProject = async function(req , res){
             //console.log("hist",userHistory);
             
         }else{
-            logger.error(`Unable to perform action as status is ${projectData.projectStatus}`)
-            return res.status(401).json(`Unable to perform action as status is ${projectData.projectStatus}`)
+            logger.error(errorMessages.ACCESS_DENIED)
+            return res.status(401).json(errorMessages.ACCESS_DENIED)
         }
-        return res.status(200).json("Project has been completed successfully");
+        return res.status(200).json(successMessages.COMPLETE_PROJECT);
     }else{
-        logger.error(`Unable to perform action`)
-        return res.status(401).json(`Unable to perform action`)
+        logger.error(errorMessages.UNABLE_TO_PERFORM)
+        return res.status(401).json(errorMessages.UNABLE_TO_PERFORM)
     }
-// } catch (error) {
-//     logger.error(`Complete Project Endpoint Failed`)
-//     return res.status(500).json("Something went wrong in Project Complete")
-// }
+} catch (error) {
+    logger.error(errorMessages.COMPLETE_PROJECT_FAILED)
+    return res.status(500).json(errorMessages.INTERNAL_ERROR);
+}
 
 }
 

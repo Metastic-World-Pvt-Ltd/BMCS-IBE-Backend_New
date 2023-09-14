@@ -2,9 +2,11 @@ const Project = require('../../models/Project');
 const History = require('../../models/History');
 const Wallet = require('../../models/Wallet');
 const logger = require('../User/logger');
+const successMessages = require('../successMessages');
+const errorMessages = require('../errorMessages');
 module.exports.projectApproval = async function(req, res){
-// try {
-    logger.info(`Activated Project Approval`)
+try {
+    logger.info(successMessages.PROJECT_APPROVAL_ACTIVATED)
     //input project ID
     const _id =  req.params.id || req.body.id || req.query.id || req.headers["id"];
     logger.info(`Id - ${_id}`)
@@ -16,25 +18,25 @@ module.exports.projectApproval = async function(req, res){
     //console.log(projectData);
     //check for record in DB
     if(projectData == null){
-        logger.error(`NO Records Found`)
-        return res.status(404).json("NO Records Found")
+        logger.error(errorMessages.NOT_FOUND)
+        return res.status(404).json(errorMessages.NOT_FOUND)
     }
     //check for project status to approve
     if(projectData.projectStatus == "Completed" || projectData.projectStatus == "Rejected" || projectData.projectStatus == "Approved"){
-        logger.error(`Unable to perform action as status is ${projectData.projectStatus}`)
-        return res.status(403).json(`Unable to perform action as status is ${projectData.projectStatus}`);
+        logger.error(errorMessages.ACCESS_DENIED)
+        return res.status(403).json(errorMessages.ACCESS_DENIED);
     }
     //check project status provided or not
     if(!projectStatus){
-        logger.error(`Project Status is required`)
-        return res.status(400).json("Project Status is required");
+        logger.error(errorMessages.PROJECT_STATUS_REQUIRED)
+        return res.status(400).json(errorMessages.PROJECT_STATUS_REQUIRED);
     }else{
         //check for project status and authorzie it 
         if(projectStatus == "Approved"){
             //check for sacntioned amount is provided or not
             if(!sanctionedAmount){
-                logger.error(`Sanctioned Amount is required`)
-                return res.status(400).json("Sanctioned Amount is required");
+                logger.error(errorMessages.SANCTIONED_AMOUNT_REQUIRED)
+                return res.status(400).json(errorMessages.SANCTIONED_AMOUNT_REQUIRED);
             }
             //update the data in DB
             const approvedData = await Project.findByIdAndUpdate({_id},{projectStatus,sanctionedAmount},{new:true})
@@ -95,9 +97,9 @@ module.exports.projectApproval = async function(req, res){
             return res.status(401).json(`Unable to perform action as status is ${projectData.projectStatus}`);
         }
     }
-// } catch (error) {
-//     logger.error(`Project Approval Endoint Failed`)
-//     return res.status(500).json("Something went wrong in Project Approval")
-// }
+} catch (error) {
+    logger.error(errorMessages.PROJECT_APPROVAL_FAILED)
+    return res.status(500).json(errorMessages.INTERNAL_ERROR)
+}
     
 }

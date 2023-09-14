@@ -3,9 +3,11 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config({path:'../../.env'});
 const bcrypt = require('bcryptjs');
 const logger = require('../User/logger');
+const successMessages = require('../successMessages');
+const errorMessages = require('../errorMessages');
 module.exports.resetPassword = async function(req, res){
 try {
-    logger.info(`Activated Reset Password Endpoint`)
+    logger.info(successMessages.RESET_PASSWORD_ACTIVATED)
     //input token from iser
     const token = req.body.token || req.query.token || req.headers["x-access-token"];
     logger.info(`Input - ${req.body}`)
@@ -13,7 +15,7 @@ try {
     const {email, password} = req.body;
     //check for token provided or not
     if(!token){
-        return res.status(403).json('Please Provide Token');
+        return res.status(403).json(errorMessages.TOKEN_NOT_FOUND);
     }
     var userRole;
     try {
@@ -24,41 +26,39 @@ try {
     //check for user role as per token
          userRole = decode.role;
     } catch (error) {
-        return res.status(401).json(`Token Expired`)
+        logger.error(errorMessages.TOKEN_EXPIRED)
+        return res.status(401).json(errorMessages.TOKEN_EXPIRED)
     }
     logger.info(`User Role - ${userRole}`)
     //check for authorization
     if(userRole == "Super_Admin" || userRole == "super_admin"){
         //check for email and password provided or not
         if(!email || !password){
-            logger.error(`Email & New Password both required`)
-            return res.status(400).json("Email & New Password both required")
+            logger.error(errorMessages.EMAIL_AND_NEWPASS_REQUIRED)
+            return res.status(400).json(errorMessages.EMAIL_AND_NEWPASS_REQUIRED)
         }else{
-            //generate salt to create hash
-            //var salt = bcrypt.genSaltSync(20);
-            //encypt thepassword
-           // var hashPassword = bcrypt.hashSync(password, salt);
+            
             //check the email and update the password in DB
             const userData = await AdminUser.findOneAndUpdate({email},{password},{new:true})
             //console.log(userData);
             //check for record found or not in DB
             userData.save();
             if(userData == null){
-                logger.error(`No Record Found`)
-                return res.status(404).json("NO Record Found")
+                logger.error(errorMessages.NOT_FOUND)
+                return res.status(404).json(errorMessages.NOT_FOUND)
             }else{
-                logger.info(`Password has been reset`)
+                logger.info(successMessages.PASSWORD_RESET_SUCCESSFULLY)
                 //response
-                return res.status(200).json("Password has been reset")
+                return res.status(200).json(successMessages.PASSWORD_RESET_SUCCESSFULLY)
             }
         }
 
     }else{
-        logger.error(`Anauthorized Access`)
-        return res.status(403).json(`Anauthorized Access`)
+        logger.error(errorMessages.ACCESS_DENIED)
+        return res.status(403).json(errorMessages.ACCESS_DENIED)
     }
 } catch (error) {
-    logger.error(`Reset Password Endpoint Failed`)
-    return res.status(500).json("Something went wrong in Password Reset")
+    logger.error(errorMessages.RESET_PASSWORD_FAILED)
+    return res.status(500).json(errorMessages.INTERNAL_ERROR)
 }
 }

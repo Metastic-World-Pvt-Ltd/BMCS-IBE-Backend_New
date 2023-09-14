@@ -3,22 +3,24 @@ const logger = require('../User/logger');
 require('dotenv').config({path:'../../.env'});
 const jwt = require('jsonwebtoken');
 const DeletedUser =  require(`../../models/DeletedUser`);
+const errorMessages = require('../errorMessages');
+const successMessages = require('../successMessages');
 
 module.exports.deleteAdmin = async function(req, res){
 try {
-    logger.info(`Activated Delete Admin Endpoint`)
+    logger.info(successMessages.DELETE_ADMIN_ACTIVATED)
     const {email} = req.body;
     logger.info(`email - ${email}`)
     const token = req.body.token || req.query.token || req.headers["x-access-token"];
     logger.info(`Token - ${token } `)
     //check for token provided or not
     if(!token){
-        logger.error(`Please Provide Token`)
-        return res.status(401).json('Please Provide Token');
+        logger.error(errorMessages.TOKEN_NOT_FOUND)
+        return res.status(401).json(errorMessages.TOKEN_NOT_FOUND);
     }
     if(!email){
-        logger.error(`Please provide email id`)
-        return res.status(400).json(`Please provide email id`)
+        logger.error(errorMessages.EMAIL_REQUIRED)
+        return res.status(400).json(errorMessages.EMAIL_REQUIRED)
     }
     var userRole;
     var decode;
@@ -30,7 +32,8 @@ try {
     //check for user role as per token
          userRole = decode.role;
     } catch (error) {
-        return res.status(401).json(`Token Expired`)
+        logger.error(errorMessages.TOKEN_EXPIRED);
+        return res.status(401).json(errorMessages.TOKEN_EXPIRED)
     }
     const _id = decode.id;
     const adminEmail = decode.email;
@@ -38,7 +41,7 @@ try {
     
     if(activeUser == null){
         logger.error(`In active Admin`)
-        return res.status(401).json(`Access Denied`)
+        return res.status(401).json(errorMessages.ACCESS_DENIED)
     }
     logger.info(`User Role - ${userRole}`)
     //check for authorization
@@ -46,8 +49,8 @@ try {
         const isExist = await AdminUser.findOne({email});
         logger.info(`User In DB - ${isExist}`)
         if(isExist == null){
-            logger.error(`NO Record Found`)
-            return res.status(404).json(`No Record Found`)
+            logger.error(errorMessages.NOT_FOUND)
+            return res.status(404).json(errorMessages.NOT_FOUND)
         }
         try {
             const deleteData = await AdminUser.findOneAndDelete({email});
@@ -57,22 +60,22 @@ try {
                 role:isExist.role,
                 deletedBy:adminEmail,
             })
-            logger.info(`Created USer Delete History`);
-            logger.error(`User Deleted SuccessFully -  ${deleteData}`)
-            return res.status(200).json(`User Deleted SuccessFully`)
+            
+            logger.info(successMessages.DELETED_USER_SUCCESS +' ' + deleteData)
+            return res.status(200).json(successMessages.DELETED_USER_SUCCESS)
         } catch (error) {
             logger.error(`Error -${error}`)
-            return res.json(`Somthing went wrong`)
+            return res.json(errorMessages.SOMETHING_WENT_WRONG)
         }
 
     }else{
-        logger.error(`Access Denied`)
-        return res.status(403).json(`Access Denied`)
+        logger.error(errorMessages.ACCESS_DENIED)
+        return res.status(403).json(errorMessages.ACCESS_DENIED)
     }
 
 } catch (error) {
-    logger.error(`Delete Admin User Endpoint Failed`);
-    return res.status(500).json(`Something went wrong in deleting user`)
+    logger.error(errorMessages.DELETE_ADMIN_FAILED);
+    return res.status(500).json(errorMessages.INTERNAL_ERROR)
 }
 
 }

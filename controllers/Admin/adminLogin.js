@@ -3,9 +3,11 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 require('dotenv').config({path:'../../.env'});
 const logger = require('../User/logger');
+const successMessages = require('../successMessages');
+const errorMessages = require('../errorMessages');
 module.exports.adminLogin = async function(req, res){
 try {
-    logger.info(`Activated Admin Login Endpoint`)
+    logger.info(successMessages.ADMIN_LOGIN_ACTIVATED)
     const {email , password} = req.body;
     logger.info(`Input - ${email}`)
     logger.info(`Input - ${password}`)
@@ -16,15 +18,15 @@ try {
 
     if(!userLogin){
         // console.log('Invalid username or password');
-        logger.error(`Invalid username or password`)
-        res.status(400).json({message:'Invalid username or password'})
+        logger.error(errorMessages.INVALID_USER_PASSWORD)
+        res.status(400).json({message:errorMessages.INVALID_USER_PASSWORD})
     }else{
         // console.log(password);
         const isMatch = bcrypt.compareSync(password, userLogin.password); ;
         if(!isMatch){
             // console.log('Invalid username or password');
-            logger.error(`Invalid username or password`)
-            res.status(401).json({message:'Invalid username or password'})
+            logger.error(errorMessages.INVALID_USER_PASSWORD)
+            res.status(401).json({message:errorMessages.INVALID_USER_PASSWORD})
         }else{
             //generate token with signature using email, userId , user role 
             jwt.sign({email,id:userLogin._id,role:userLogin.role},secret , {algorithm: 'HS512', expiresIn: '24h' } , (err,token)=>{
@@ -33,7 +35,7 @@ try {
                     throw new err;
                 }
                 //response
-                logger.info(`Logged in Successfully`)
+                logger.info(successMessages.ADMIN_LOGIN_SUCCESS)
                 res.status(200).cookie('token',token).json({
                     id:userLogin._id,
                     name:userLogin.name,
@@ -45,8 +47,8 @@ try {
         }
     }
 } catch (error) {
-    logger.error(`Admin Login Endpoint Failed`)
-    return res.status(500).json("Something went wrong in Admin Login")
+    logger.error(errorMessages.ADMIN_LOGIN_FAILED)
+    return res.status(500).json(errorMessages.INTERNAL_ERROR)
 }
 }
 

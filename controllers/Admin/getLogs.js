@@ -2,9 +2,11 @@ const Log = require('../../models/Log');
 const jwt = require('jsonwebtoken');
 require('dotenv').config({path:'../../.env'});
 const logger = require('../User/logger');
+const successMessages = require('../successMessages');
+const errorMessages = require('../errorMessages');
 module.exports.getLogs = async function(req, res){
 try {
-    logger.info(`Activated Logs Endpoint`);
+    logger.info(successMessages.GET_LOGS_ACTIVATED);
     //check for token and start and end date to get logs
     const token = req.body.token || req.query.token || req.headers["x-access-token"];
     const startdate = req.body.startdate || req.query.startdate || req.headers["startdate"];
@@ -13,7 +15,8 @@ try {
     logger.info(`Token - ${token}`)
     //token provided or not
     if(!token){
-        return res.status(401).json('Please Provide Token');
+        logger.error(errorMessages.TOKEN_NOT_FOUND)
+        return res.status(401).json(errorMessages.TOKEN_NOT_FOUND);
     }
     var userRole;
     try {
@@ -24,7 +27,8 @@ try {
     //check for user role as per token
          userRole = decode.role;
     } catch (error) {
-        return res.status(401).json(`Token Expired`)
+        logger.error(errorMessages.TOKEN_EXPIRED)
+        return res.status(401).json(errorMessages.TOKEN_EXPIRED)
     }
     logger.info(`User Role - ${userRole}`)
     //chck for user authoried or not
@@ -51,22 +55,22 @@ try {
         //console.log(data);
         //check for record found or not
         if(data.length == 0){
-            logger.error(`No data available`)
-            return res.status(404).json(`No Data available`)
+            logger.error(errorMessages.NOT_FOUND)
+            return res.status(404).json(errorMessages.NOT_FOUND)
         }else{
             logger.info(`Output - ${data}`)
             //response
             res.status(200).json(data);
         }
     }else{
-        logger.error(`Anauthorized Access`)
-        return res.status(403).json(`Anauthorized Access`)
+        logger.error(errorMessages.ACCESS_DENIED)
+        return res.status(403).json(errorMessages.ACCESS_DENIED)
     }
 
 
 } catch (error) {
-    logger.error(`Logs Endpoint Failed`)
-    return res.status(500).json(`Something went wrong in fetching logs`)
+    logger.error(errorMessages.GET_LOGS_FAILED)
+    return res.status(500).json(errorMessages.INTERNAL_ERROR)
 }
     
 }

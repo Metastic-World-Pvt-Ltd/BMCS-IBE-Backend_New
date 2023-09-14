@@ -1,14 +1,15 @@
 const jwt = require('jsonwebtoken');
 const logger = require('../controllers/User/logger');
 require('dotenv').config({path:'../.env'});
+const errorMessages = require('../controllers/errorMessages');
 
 module.exports.verifyUser = async function(req, res, next){
 
 // try {
     const token = req.body.token || req.query.token || req.headers["x-access-token"];
     if (!token) {
-        logger.error(`Token is required for authentication`)
-        return res.status(400).send("Token is required for authentication");
+        logger.error(errorMessages.TOKEN_NOT_FOUND)
+        return res.status(400).send(errorMessages.TOKEN_NOT_FOUND);
       }
 
     const secret = process.env.SECRET_KEY;
@@ -19,11 +20,11 @@ module.exports.verifyUser = async function(req, res, next){
                
     } catch (error) {
         if(error.message == "jwt expired"){
-            logger.error(`Token expired`)
-            return res.status(401).json('Token Expired')
+            logger.error(errorMessages.TOKEN_EXPIRED)
+            return res.status(401).json(errorMessages.TOKEN_EXPIRED)
         }else if(error.message == "invalid token"){
-            logger.error(`Invalid token`)
-            return res.status(401).json('Invalid token')
+            logger.error(errorMessages.TOKEN_INVALID)
+            return res.status(401).json(errorMessages.TOKEN_INVALID)
         }else{
             logger.error(`Error -${error}`)
             return res.status(401).json(error)

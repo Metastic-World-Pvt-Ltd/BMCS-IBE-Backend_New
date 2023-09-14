@@ -1,14 +1,16 @@
 const Project = require('../../models/Project');
 const logger = require('../User/logger');
+const errorMessages = require('../errorMessages');
+const successMessages = require('../successMessages');
 module.exports.getAllProjects = async function(req, res){
     try {
-        logger.info(`Activated Get All Project Endpoint`)
+        logger.info(successMessages.GET_ALL_PROJECT_ACTIVATED)
         //check for projects in DB
         const projectData = await Project.find();
         //check for record found or not
         if(projectData.length == 0){
-            logger.error(`No Record Found`)
-            return res.status(404).json('No Record Found');
+            logger.error(errorMessages.NOT_FOUND)
+            return res.status(404).json(errorMessages.NOT_FOUND);
         }else{
             logger.info(`Output - ${projectData}`)
             //reponse
@@ -16,7 +18,7 @@ module.exports.getAllProjects = async function(req, res){
         }
         
     } catch (error) {
-        logger.error(`Get All Project Endpoint Failed`)
-        return res.status(500).json("Something wrong in Fetching Porjects")
+        logger.error(errorMessages.GET_ALL_PROJECT_FAILED)
+        return res.status(500).json(errorMessages.INTERNAL_ERROR)
     }
 }

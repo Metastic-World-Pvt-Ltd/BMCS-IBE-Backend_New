@@ -1,8 +1,10 @@
 const Project = require('../../models/Project');
 const logger = require('../User/logger');
+const errorMessages = require('../errorMessages');
+const successMessages = require('../successMessages');
 module.exports.filter_Project = async function(req, res){
 try {
-    logger.info(`Activated Filter Project Endpoint`)
+    logger.info(successMessages.FILTER_PROJECT_ACTIVATED)
     //check user input project status to filet accordingly
     const projectStatus = req.body.projectStatus || req.query.projectStatus || req.headers["project-status"]
     logger.info(`Input - ${projectStatus}`)
@@ -10,14 +12,14 @@ try {
     const projectData = await Project.find({projectStatus});
     //check for record found or not
     if(projectData.length == 0){
-        logger.error(`No records available"`)
-        return res.status(404).json("No records available")
+        logger.error(errorMessages.NOT_FOUND)
+        return res.status(404).json(errorMessages.NOT_FOUND)
     }
     logger.info(`Output - ${projectData}`)
     //response
     return res.status(200).json(projectData);
 } catch (error) {
-    logger.error(`Filter Project Endpoint Failed`)
-    return res.status(500).json("Something went wrong in fetching Filetred Projects")
+    logger.error(errorMessages.FILTER_PROJECT_FAILED)
+    return res.status(500).json(errorMessages.INTERNAL_ERROR)
 }
 }

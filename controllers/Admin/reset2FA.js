@@ -4,16 +4,19 @@ const speakeasy = require('speakeasy');
 const qrcode = require('qrcode');
 const nodemailer = require("nodemailer");
 const logger = require('../User/logger');
+const successMessages = require('../successMessages');
+const errorMessages = require('../errorMessages');
 require('dotenv').config({path:'../.env'});
 
 module.exports.reset2FA = async function(req, res){
 try {
-    logger.info(`Activated Reset 2FA Endpoint`)
+    logger.info(successMessages.RESET_2FA_ACTIVATED)
     const token = req.body.token || req.query.token || req.headers["x-access-token"];
     
     //check for token provided or not
     if(!token){
-        return res.status(401).json('Please Provide Token');
+        logger.error(errorMessages.TOKEN_NOT_FOUND)
+        return res.status(401).json(errorMessages.TOKEN_NOT_FOUND);
     }
     //secret ket to decode token
     const secret = process.env.SECRET_KEY;
@@ -23,7 +26,7 @@ try {
         
          userRole = decode.role;
     } catch (error) {
-        return res.status(403).json(`Token Expired`)
+        return res.status(403).json(errorMessages.TOKEN_EXPIRED)
     }
  
     
@@ -37,14 +40,14 @@ try {
     logger.info(`Input - ${email}`)
     //check email provided or not
     if(!email){
-        return res.status(400).json(`Email is required`)
+        return res.status(400).json(errorMessages.EMAIL_REQUIRED)
     }
     //check email exist in DB or not
     const user = await twoFA.findOne({email})
     logger.info(`User in DB - ${user}`)
     if(!user){
-        logger.error(`No Record Found`)
-        return res.status(404).json(`No Record Found`)
+        logger.error(errorMessages.NOT_FOUND)
+        return res.status(404).json(errorMessages.NOT_FOUND)
     }
     const secretKey = speakeasy.generateSecret({ length: 20 }); // Generate a 20-character secret
     //update secret key in DB
@@ -59,8 +62,8 @@ try {
     
       qrcode.toDataURL(otpAuthUrl, (err, imageUrl) => {
         if (err) {
-          logger.error(`Failed to generate QR code`)
-          return res.status(500).json({ message: 'Failed to generate QR code' });
+          logger.error(errorMessages.QR_GENERATE_FAILED)
+          return res.status(500).json({ message: errorMessages.QR_GENERATE_FAILED });
         }
        
         // console.log('Url inside fn',url);
@@ -101,22 +104,22 @@ try {
             // console.log("Message sent: %s", info.messageId);
             // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
             
-            logger.info(`QR has been send to the email`)
-            return res.status(200).json("QR has been send to the email")
+            logger.info(successMessages.QR_SUCCESSFULLY_SENT)
+            return res.status(200).json(successMessages.QR_SUCCESSFULLY_SENT)
         } catch (error) {
             logger.error(`Error - ${error}`)
-            return res.status(550).json("No Such User Found");
+            return res.status(550).json(errorMessages.NOT_FOUND);
         }
 
       }
     }else{
         logger.error(`Access Denied as user Role is ${userRole}`)
-        return res.status(403).json(`Access Denied`)
+        return res.status(403).json(errorMessages.ACCESS_DENIED)
     }
     
 } catch (error) {
-    logger.error(`Reset 2FA Endpoint Failed`);
-    return res.status(500).json(`Something went wrong in reseting 2FA`)
+    logger.error(errorMessages.RESET_2FA_FAILED);
+    return res.status(500).json(errorMessages.INTERNAL_ERROR)
 }
 
 }
