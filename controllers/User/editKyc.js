@@ -1,11 +1,13 @@
 const Kyc = require('../../models/Kyc');
 const User = require('../../models/User');
+const errorMessages = require('../errorMessages');
+const successMessages = require('../successMessages');
 const logger = require('./logger');
 const fs = require('fs');
 
 module.exports.editKyc = async function(req, res){
 try {
-    logger.info(`Activated Update User Kyc Endpoint`)
+    logger.info(successMessages.EDIT_KYC_ACTIVATED)
     //user input 
     const _id = req.params.id || req.body.id || req.query.id || req.headers["id"];
     logger.info(`Input - ${req.body}`)
@@ -51,15 +53,15 @@ try {
                            
                         }else{
                             //size check 
-                            logger.error(`Max allowed size is 1MB`)
-                            return res.status(400).json('Max allowed size is 1MB');
+                            logger.error(errorMessages.MAX_ALLOWED_SIZE)
+                            return res.status(400).json(errorMessages.MAX_ALLOWED_SIZE);
                         
                         }
 
                     } else {
                         //invalid file type response
-                        logger.error(`Invalid file type`)
-                        return res.status(400).json('Invalid file type');
+                        logger.error(errorMessages.INVALID_FILE)
+                        return res.status(400).json(errorMessages.INVALID_FILE);
                     }
             
                 }
@@ -71,14 +73,14 @@ try {
     
     //update data 
     const kycData = await Kyc.findByIdAndUpdate({_id},req.body , kycDocuments,{new:true})
-    logger.info(`Record has updated`)
-    return res.json("Record has updated")
+    logger.info(successMessages.RECORD_UPDATED_SUCCESSFULLY)
+    return res.json(successMessages.RECORD_UPDATED_SUCCESSFULLY)
 
 
     
 } catch (error) {
-    logger.error(`User Kyc Endpoint Failed`);
-    return res.status(500).json(`Something went wrong in user kyc`)
+    logger.error(errorMessages.EDIT_KYC_FAILED);
+    return res.status(500).json(errorMessages.INTERNAL_ERROR)
 }
 
 }

@@ -1,21 +1,23 @@
 const speakeasy = require('speakeasy');
 const twoFA = require('../../models/2FA');
 const logger = require('../User/logger');
+const successMessages = require('../successMessages');
+const errorMessages = require('../errorMessages');
 module.exports.verify2FA = async function(req, res){
 try {
-    logger.info(`Activated Verify 2FA Endoint`)
+    logger.info(successMessages.VERIFY_2FA_ACTIVATED)
     const email = req.body.email; // User identification
     logger.info(`Input - ${email}`)
     const user = await twoFA.findOne({email}) 
     logger.info(`User in DB - ${user}`)
     if (!user) {
-      return res.status(400).json({ message: 'User not found' });
+      return res.status(400).json({ message: errorMessages.NOT_FOUND });
     }
   
     const otpCode = req.body.otpCode; // OTP code entered by the user
     if(!otpCode){
-        logger.error(`OTP CODE is Rquired`)
-        return res.status(400).json(`OTP CODE is Rquired`)
+        logger.error(errorMessages.OTP_CODE_REQUIRED)
+        return res.status(400).json(errorMessages.OTP_CODE_REQUIRED)
     }
     const verified = speakeasy.totp.verify({
       secret: user.secret,
@@ -25,14 +27,14 @@ try {
     });
   
     if (verified) {
-        logger.info(`OTP verification successful'`)
-      return res.status(200).json({ message: 'OTP verification successful' });
+        logger.info(successMessages.OTP_VERIFICATION_SUCCESSFULL)
+      return res.status(200).json({ message: successMessages.OTP_VERIFICATION_SUCCESSFULL });
     } else {
-        logger.error(`OTP verification failed`)
-        return res.status(400).json({ message: 'OTP verification failed' });
+        logger.error(errorMessages.OTP_VERIFICATION_FAILED)
+        return res.status(400).json({ message: errorMessages.OTP_VERIFICATION_FAILED });
     }
 } catch (error) {
-    logger.error(`Verify 2FA Endpoint Failed`);
-    return res.status(500).json(`Something went wrong in verify 2FA`)
+    logger.error(errorMessages.VERIFY_OTP_FAILED);
+    return res.status(500).json(errorMessages.INTERNAL_ERROR)
 }
 }

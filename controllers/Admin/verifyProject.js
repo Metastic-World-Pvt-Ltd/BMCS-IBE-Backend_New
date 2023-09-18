@@ -1,8 +1,10 @@
 const Project = require('../../models/Project');
 const logger = require('../User/logger');
+const errorMessages = require('../errorMessages');
+const successMessages = require('../successMessages');
 module.exports.verifyProject = async function(req, res){
 try {
-    logger.info(`Activated Verify Project Endpoint`)
+    logger.info(successMessages.VERIFY_PROJECT_ACTIVATED)
     //input projectID
     const _id = req.params.id || req.body.id || req.query.id || req.headers["id"];
     logger.info(`Id - ${_id}`)
@@ -12,13 +14,13 @@ try {
     //console.log(_id, projectStatus);
     //check for project id and status
     if(!_id || !projectStatus ){
-        logger.error(`Id and project status is required`)
-        return res.status(400).json("Id and project status is required")
+        logger.error(errorMessages.PROJECT_ID_AND_STATUS_REQUIRED)
+        return res.status(400).json(errorMessages.PROJECT_ID_AND_STATUS_REQUIRED)
     }
     const checkStatus = await Project.findById({_id})
     console.log(checkStatus);
     if(checkStatus.projectStatus == "Verified"){
-        return res.status(400).json(`Project is already Verified`)
+        return res.status(400).json(errorMessages.PROJECT_ALREADY_VERIFIED)
     }
     //check for status and update data as per status
     if(projectStatus == "Verified" || projectStatus == "verified"){
@@ -31,8 +33,8 @@ try {
     }else if(projectStatus == "Re_Verified" || projectStatus == "re_verified"){
         //check if comment provided or not
         if(!comment){
-            logger.error(`Comment is required`)
-            res.status(400).json("Comment is required")
+            logger.error(errorMessages.COMMENT_REQUIRED)
+            res.status(400).json(errorMessages.COMMENT_REQUIRED)
         }else{
             //updste the data into DB
             const projectData = await Project.findByIdAndUpdate({_id},{comment},{new:true})
@@ -42,12 +44,12 @@ try {
         }
 
     }else{
-        logger.error(`Invalid Input`)
-        return res.status(400).json("Invalid Input")
+        logger.error(errorMessages.INVALID_INPUT)
+        return res.status(400).json(errorMessages.INVALID_INPUT)
     }
 } catch (error) {
-    logger.error(`Verify Project Endpoint Failed`)
-    return res.status(500).json("Something went wrong in Verify Project")
+    logger.error(errorMessages.VERIFY_PROJECT_FAILED)
+    return res.status(500).json(errorMessages.INTERNAL_ERROR)
 }
 
 }

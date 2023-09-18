@@ -1,21 +1,23 @@
 const History = require('../../models/History');
+const errorMessages = require('../errorMessages');
+const successMessages = require('../successMessages');
 const logger = require('./logger');
 module.exports.allWithdrawRequest = async function(req, res){
 try {
     //find all withdraw request
-    logger.info(`Activated All Withdraw Endpoint`)
+    logger.info(successMessages.ALL_WITHDRAW_REQUEST_ACTIVATED)
     const allData = await History.find({origin:'withdraw'});
     //check for records in DB
     if(allData.length == 0){
-        logger.error(`No Records Available`)
-        return res.status(`No Records Available`)
+        logger.error(errorMessages.NOT_FOUND)
+        return res.status(errorMessages.NOT_FOUND)
     }else{
         logger.info(`Output - ${allData}`)
         res.status(200).json(allData); 
     }
 } catch (error) {
-    logger.error(`All Withdraw Endpint Failed`)
-    return res.status(500).json(`Something went wrong in all withdraw request `)
+    logger.error(errorMessages.ALL_WITHDRAW_REQUEST_FAILED)
+    return res.status(500).json(errorMessages.INTERNAL_ERROR)
 }
     
 }

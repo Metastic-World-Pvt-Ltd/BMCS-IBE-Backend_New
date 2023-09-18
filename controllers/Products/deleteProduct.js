@@ -3,11 +3,13 @@ const AdminUser = require('../../models/AdminUser');
 const jwt = require('jsonwebtoken');
 const logger = require('../User/logger');
 const DeletedProject = require('../../models/DeletedProject');
+const successMessages = require('../successMessages');
+const errorMessages = require('../errorMessages');
 require('dotenv').config({path:'../../.env'});
 
 module.exports.deleteProject = async function(req , res){
 try {
-    logger.info(`Activated Delete Product Endoint`)
+    logger.info(successMessages.DELETE_PRODUCT_ACTIVATED)
     //token input
     const token = req.body.token || req.query.token || req.headers["x-access-token"];
     //product id to delete the product
@@ -15,8 +17,8 @@ try {
     // console.log("Id", _id);
     //check for valid response
     if(!token){
-        logger.error(`Token not Found`)
-        return res.status(401).json('Please Provide Token');
+        logger.error(errorMessages.TOKEN_NOT_FOUND)
+        return res.status(401).json(errorMessages.TOKEN_NOT_FOUND);
     }
     var decode;
     var userRole;
@@ -27,7 +29,7 @@ try {
     //check for user role as per token
          userRole = decode.role;
     } catch (error) {
-        return res.status(401).json(`Token Expired`)
+        return res.status(401).json(errorMessages.TOKEN_EXPIRED)
     }
     const userId = decode.id;
     const adminEmail = decode.email;
@@ -37,7 +39,7 @@ try {
         const activeUser = await AdminUser.findById({_id:userId}) 
         if(activeUser == null){
             logger.error(`In active Admin`)
-            return res.status(401).json(`Access Denied`)
+            return res.status(401).json(errorMessages.ACCESS_DENIED)
         }
     logger.info(`User Role - ${userRole}`)
     //condition to check role specific rights
@@ -55,20 +57,20 @@ try {
             const deletedData = await Product.findByIdAndDelete({_id});
             try {
                 //response
-                logger.info(`Record Deleted Successfully - Data - ${deletedData}`)
-                return res.status(200).json(`Record Deleted Successfully!`)
+                logger.info(`${successMessages.RECORD_DELETED_SUCCESSFULLY} - Data - ${deletedData}`)
+                return res.status(200).json(successMessages.RECORD_DELETED_SUCCESSFULLY)
             } catch (error) {
                 logger.error(`Error - ${error}`)
                 return res.json(`Error - ${error}`)
             }
                           
         }else{
-            logger.error(`No Record Found`)
-            return res.status(404).json(`No Record Found`)
+            logger.error(errorMessages.NOT_FOUND)
+            return res.status(404).json(errorMessages.NOT_FOUND)
         }
     }
 } catch (error) {
-    logger.error(`Delete Project Endpoint Failed`);
-    return res.status(500).json(`Something went wrong in deleting product`)
+    logger.error(errorMessages.DELETE_PRODUCT_FAILED);
+    return res.status(500).json(errorMessages.INTERNAL_ERROR)
 }
 }

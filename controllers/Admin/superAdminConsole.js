@@ -3,15 +3,17 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config({path:'../../.env'});
 const logger = require('../User/logger');
 const AdminUser = require('../../models/AdminUser');
+const successMessages = require('../successMessages');
+const errorMessages = require('../errorMessages');
 module.exports.superAdminConsole = async function(req, res){
 try {
-    logger.info(`Activated Super Admin Console Endpoint`)
+    logger.info(successMessages.SUPER_ADMIN_CONSOLE_ACTIVATED)
     //input token from user
     const token = req.body.token || req.query.token || req.headers["x-access-token"];
     logger.info(`Token - ${token}`)
     //check for token provided or not
     if(!token){
-        return res.status(401).json('Please Provide Token');
+        return res.status(401).json(errorMessages.TOKEN_NOT_FOUND);
     }
     var decode;
     var userRole;
@@ -23,14 +25,14 @@ try {
     //check for user role as per token
          userRole = decode.role;
     } catch (error) {
-        return res.status(401).json(`Token Expired`)
+        return res.status(401).json(errorMessages.TOKEN_EXPIRED)
     }
     const _id = decode.id;
     //check Admin user is active or not
     const activeUser = await AdminUser.findById({_id}) 
     if(activeUser == null){
         logger.error(`In active Admin`)
-        return res.status(401).json(`Access Denied`)
+        return res.status(401).json(errorMessages.ACCESS_DENIED)
     }
     logger.info(`User Role - ${userRole}`)
     //check for authorization
@@ -39,20 +41,20 @@ try {
         const projectData = await Project.find()
         //check record found in DB or not
         if(projectData.length == 0){
-            logger.error(`NO Projects Available`)
-            return res.status(404).json("NO Projects Available")
+            logger.error(errorMessages.NOT_FOUND)
+            return res.status(404).json(errorMessages.NOT_FOUND)
         }else{
             logger.info(`Output - ${projectData}`)
             //response
             return res.status(200).json(projectData)
         }
     }else{
-        logger.error(`Anauthorized Access`)
-        return res.status(403).json(`Anauthorized Access`)
+        logger.error(errorMessages.ACCESS_DENIED)
+        return res.status(403).json(errorMessages.ACCESS_DENIED)
     }
 } catch (error) {
-    logger.error(`Super Admin Console Endpoint Failed`)
-    return res.status(500).json("Something went wrong in Super Admin Console")
+    logger.error(errorMessages.SUPER_ADMIN_CONSOLE_FAILED)
+    return res.status(500).json(errorMessages.INTERNAL_ERROR)
 }
     
 }
