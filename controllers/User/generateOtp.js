@@ -1,15 +1,17 @@
 const User = require('../../models/User'); 
 require('dotenv').config({path:'../../.env'});
 const logger = require('./logger');
+const successMessages = require('../successMessages');
+const errorMessages = require('../errorMessages');
 
 module.exports.generateOtp = async function(req, res){
 try {
-    logger.info(`Activated Generate OTP Endpoint`);
+    logger.info(successMessages.GENERATE_OTP_ACTIVATED);
     //user input
     const {contact} = req.body;
     logger.info(`Input - ${contact}`)
     if(!contact){
-        res.status(400).json('contact is Mandatory')
+        res.status(400).json(errorMessages.CONTACT_IS_REQUIRED)
     }
 
         const otpInt = Math.floor(1000 + Math.random() *9000);
@@ -37,13 +39,13 @@ try {
             .catch((error) => {
                 console.log(error);
               });
-            logger.info(`OTP has been sent successfully'`)
-            res.status(200).json('OTP has been sent successfully');    
+            logger.info(successMessages.OTP_SENT_SUCCESSFULLY)
+            res.status(200).json(successMessages.OTP_SENT_SUCCESSFULLY);    
 
 
 } catch (error) {
-    logger.error(`Generate OTP Endpoint Failed`)
-    res.status(500).json('Something went wrong in Generating OTP')
+    logger.error(errorMessages.GENERATE_OTP_FAILED)
+    res.status(500).json(errorMessages.INTERNAL_ERROR)
 }
 
 }

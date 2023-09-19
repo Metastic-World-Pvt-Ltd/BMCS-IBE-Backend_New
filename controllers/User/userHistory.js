@@ -1,24 +1,26 @@
 const History = require('../../models/History');
+const errorMessages = require('../errorMessages');
+const successMessages = require('../successMessages');
 const logger = require('./logger');
 
 module.exports.userHistory = async  function(req, res){
 try {
     
-    logger.info(`Activated Transaction History Endpoint`)
+    logger.info(successMessages.USER_HISTORY_ACTIVATED)
     //input data of user
     const contact = req.body.contact || req.query.contact || req.headers["contact"];
     logger.info(`Input - ${contact}`)
     //check for contact is provided or not
     if(!contact){
-        logger.error(`Please provide contact`)
-        res.status(400).json('Please provide contact')
+        logger.error(errorMessages.COMMENT_REQUIRED)
+        res.status(400).json(errorMessages.COMMENT_REQUIRED)
     }else{
         //check history by contact in DB
         const userHist = await History.find({contact});
         //if no data in DN return msg
         if(userHist.length == 0){
-            logger.error(`No Record Found`)
-            res.status(404).json('No record found')
+            logger.error(errorMessages.NOT_FOUND)
+            res.status(404).json(errorMessages.NOT_FOUND)
         }else{
             //found the data in DB
             logger.info(`Ouptput - ${userHist}`)
@@ -26,8 +28,8 @@ try {
         }
     }
 } catch (error) {
-    logger.error(`User History Endpoint Failed`)
-    res.status(500).json('Something went wrong in fetching user transaction History')
+    logger.error(errorMessages.GET_USER_FAILED)
+    res.status(500).json(errorMessages.INTERNAL_ERROR)
 }
 
 }

@@ -1,13 +1,15 @@
 const User = require('../../models/User');
 const verifyUser = require('../../middleware/verifyUser');
 const logger = require('./logger');
+const errorMessages = require('../errorMessages');
+const successMessages = require('../successMessages');
 module.exports.userUpdate = async function(req, res){
     try {
-        logger.info(`Activated userUpdate Endpoint`)
+        logger.info(successMessages.USER_UPDATED_ACTIVATED)
         logger.info(`Input - ${req.body}`)
         //check for Body input
         if(!req.body){
-            res.status(400).json('Enter valid field to update details')
+            res.status(400).json(errorMessages.INVALID_INPUT)
         }
         logger.info(`req.params.id - ${req.params.id}`)
         //check for user ID to update
@@ -19,8 +21,8 @@ module.exports.userUpdate = async function(req, res){
         logger.info(`Midderlware Data ${middlewareData}`)
         logger.info(`output - ${findData}`)
         if(findData == null){
-            logger.error(`No Record Found`)
-            return res.status(404).json(`No Record Found`)
+            logger.error(errorMessages.NOT_FOUND)
+            return res.status(404).json(errorMessages.NOT_FOUND)
         }
         // console.log(middlewareData);
         // console.log(findData);
@@ -33,18 +35,17 @@ module.exports.userUpdate = async function(req, res){
                 logger.info(`updated output - ${updateData}`)
                 res.status(200).json(updateData);
             }else{
-                logger.error(`User does not exist`)
-                res.status(404).json('User does not exist')
+                logger.error(errorMessages.USER_DOES_NOT_EXIST)
+                res.status(404).json(errorMessages.USER_DOES_NOT_EXIST)
             }
         }else{
-            logger.error(`seems you do not have access to perform this action`)
-            res.status(401).json('seems you do not have access to perform this action')
+            logger.error(errorMessages.ACCESS_DENIED)
+            res.status(401).json(errorMessages.ACCESS_DENIED)
         }
-
-        
+       
 
     } catch (error) {
-        logger.error(`User update Endpoint Failed`)
-        res.status(500).json('Something went wrong in updating user')
+        logger.error(errorMessages.USER_UPDATE_FAILED)
+        res.status(500).json(errorMessages.INTERNAL_ERROR)
     }
 }

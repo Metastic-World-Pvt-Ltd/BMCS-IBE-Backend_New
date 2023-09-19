@@ -1,10 +1,12 @@
 const OTP = require('./generateOtp');
 const emailOTP = require('./generateEmailOtp');
 const logger = require('./logger');
+const errorMessages = require('../errorMessages');
+const successMessages = require('../successMessages');
 
 module.exports.verifyOtp = async function(req, res){
     try {
-        logger.info('Activated Verify OTP Endpoint')
+        logger.info(successMessages.VERIFY_OTP_ACTIVATED)
         //check for user input
         const {otp} = req.body;
         logger.info(`Input OTP - ${otp}`)
@@ -13,19 +15,19 @@ module.exports.verifyOtp = async function(req, res){
        if(OTP.otp == otp || emailOTP.otp == otp){
         //check for OTP expire time
             if(OTP.expiration > Date.now() || emailOTP.expiration > Date.now()){
-                logger.info(`OTP Verified Successfully`);
-                res.status(200).json('OTP Verified Successfully');
+                logger.info(successMessages.OTP_VERIFIED_SUCCESSFULLY);
+                res.status(200).json(successMessages.OTP_VERIFIED_SUCCESSFULLY);
             }else{
-                logger.error(`OTP has been expired`)
-                res.status(498).json('OTP has been expired');
+                logger.error(errorMessages.OTP_EXPIRED)
+                res.status(498).json(errorMessages.OTP_EXPIRED);
             }       
        }else{
-            logger.error(`Invalid OTP`)
-            res.status(404).json('Invalid OTP')
+            logger.error(errorMessages.INVALID_OTP)
+            res.status(404).json(errorMessages.INVALID_OTP)
        }
     } catch (error) {
-        logger.error(`Verify OTP Endpoint Failed`);
-        res.status(500).json('Something went wrong while OTP verification')
+        logger.error(errorMessages.VERIFY_OTP_FAILED);
+        res.status(500).json(errorMessages.INTERNAL_ERROR)
     }
 
 }

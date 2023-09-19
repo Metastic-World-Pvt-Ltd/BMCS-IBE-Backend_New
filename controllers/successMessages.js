@@ -69,7 +69,52 @@ module.exports = {
 
     RECORD_UPDATED_SUCCESSFULLY:'Record has updated Successfully!',
 
-    
+    EDIT_PROJECT_ACTIVATED:'Activated Edit Project Endpoint',
+
+    GENERATE_EMAIL_OTP_ACTIVATED:'Activated Email OTP Endpoint',
+
+    EMAIL_OTP_SENT_SUCCESSFULLY:'OTP has been send to your email',
+
+    GENERATE_OTP_ACTIVATED:'Activated Generate OTP Endpoint',
+
+    OTP_SENT_SUCCESSFULLY:'OTP has been sent successfully',
+
+    GET_HISTORY_ACTIVATED:'Activated Get History Endpoint',
+
+    GET_PROJECT_ACTIVATED:'Activated Get Project Endpoint',
+
+    GET_USER_ACTIVATED:'Activated Get User Endpoint',
+
+    TOTAL_EARNING_ACTIVATED:'Activated Total Earning Endpoint',
+
+    UPDATE_WITHDRAW_STATUS_ACTIVATED:'Activated Update Withdraw Status Endpint',
+
+    USER_HISTORY_ACTIVATED:'Activated Transaction History Endpoint',
+
+    USER_KYC_ACYIVATED:'Activated User Kyc Endpoint',
+
+    USER_REFERRAL_ACTIVATED:'Acivated user Referral Endpoint',
+
+    ADMIN_PATH_COMPLETED:'Path completed , NO More Data Available',
+
+    USER_SIGN_IN_ACTIVATED:'Activated User Sign IN Endpoint',
+
+    USER_SIGN_UP_ACTIVATED:'Activated User Signup Endpoint',
+
+    USER_UPDATED_ACTIVATED:'Activated userUpdate Endpoint',
+
+    VERIFY_OTP_ACTIVATED:'Activated Verify OTP Endpoint',
+
+    OTP_VERIFIED_SUCCESSFULLY:'OTP Verified Successfully',
+
+    WITHDRAW_AMOUNT_ACTIVATED:'Activated Withdraw Amount Endpoint',
+
+    EMAIL_SENT_TO_FINANACE:'Email has been send to Finance Team',
+
+
+
+
+
 
     // Add more error messages as needed...
   };

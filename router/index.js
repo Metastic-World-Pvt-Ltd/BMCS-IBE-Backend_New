@@ -2,7 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 
-console.log('router loaded');
+console.log('Router Loaded SuccessFully!');
 
 
 router.get('/', function(req, res){

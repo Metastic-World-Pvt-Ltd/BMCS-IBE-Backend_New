@@ -2,10 +2,12 @@ const User = require('../../models/User');
 const Wallet = require('../../models/Wallet');
 const History = require('../../models/History');
 const logger = require('./logger');
+const errorMessages = require('../errorMessages');
+const successMessages = require('../successMessages');
 module.exports.userReferral = async function(req, res){
     try {
         //input data of user
-        logger.info(`Acivated user Referral Endpoint`)
+        logger.info(successMessages.USER_REFERRAL_ACTIVATED)
         logger.info(`Input - ${req.body}`)
         const contact = req.body.contact || req.query.contact || req.headers["contact"];
         const amount = req.body.amount || req.query.amount || req.headers["amount"];
@@ -13,17 +15,17 @@ module.exports.userReferral = async function(req, res){
         const maxLimit = 15;
         //check user input
         if(!contact || !amount){
-            logger.error(`All fields are required`)
-           res.status(400).json('All fields are required')
+            logger.error(errorMessages.ALL_FIELDS_REQUIRED)
+           res.status(400).json(errorMessages.ALL_FIELDS_REQUIRED)
         }else{
        //check contact in database 
        const data = await User.findOne({contact});
        //console.log(data);
-       logger.info(`User Found in DB`)
+       logger.info(`User Found in DB - ${data}`)
        //check if no data found in DB
        if(data == null){
-        logger.error(`Record not found`)
-         return res.status(404).json('Record not found')
+        logger.error(errorMessages.NOT_FOUND)
+         return res.status(404).json(errorMessages.NOT_FOUND)
        }else{
          //store parent contact
          var parent = data.refBy;
@@ -35,8 +37,8 @@ module.exports.userReferral = async function(req, res){
              //console.log("new Data",newdata);
              //check if parent available or not in DB
              if(newdata == null){
-                 logger.info(`NO Parent data found`)
-                 return res.status(404).json('No Parent data found')
+                 logger.info(errorMessages.PARENT_DATA_NOT_FOUND)
+                 return res.status(404).json(errorMessages.PARENT_DATA_NOT_FOUND)
              }else{
                  //define referral earning percentage
                  var percent = [20,10,3,2,1.5,1,0.5,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25];
@@ -120,8 +122,8 @@ module.exports.userReferral = async function(req, res){
                      parent = newdata.refBy;
                      //check for Admin Level
                      if(parent == 'Admin'){
-                        logger.info(`Path completed , NO More Data Available`)
-                         return res.json('Path completed , NO More Data Available');
+                        logger.info(successMessages.ADMIN_PATH_COMPLETED)
+                         return res.json(successMessages.ADMIN_PATH_COMPLETED);
                      }
                   //console.log(parent);
              }
@@ -133,7 +135,7 @@ module.exports.userReferral = async function(req, res){
  
         } 
  } catch (error) {
-    logger.error(`User Referral Endpoint Failed`)
-     res.status(500).json('Something went wrong in referral earning page')
+    logger.error(errorMessages.USER_REFERRAL_FAILED)
+     res.status(500).json(errorMessages.INTERNAL_ERROR)
  }
 }

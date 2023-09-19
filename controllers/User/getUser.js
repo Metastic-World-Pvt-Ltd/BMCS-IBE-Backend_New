@@ -1,19 +1,21 @@
 const User = require('../../models/User');
 const jwt = require('jsonwebtoken');
 const logger = require('./logger');
+const successMessages = require('../successMessages');
+const errorMessages = require('../errorMessages');
 require('dotenv').config({path:'../../.env'});
 
 
 module.exports.getUser = async function(req, res){
  try {
-    logger.info(`Activated Get User Endpoint `);
+    logger.info(successMessages.GET_USER_ACTIVATED);
     //user input
     const empId = req.params.empId || req.body.empId || req.query.empId || req.headers["empId"];
     const token = req.body.token || req.query.token || req.headers["x-access-token"];
     logger.info(`Token - ${token}`)
     //check for token provided or not
     if(!token){
-        return res.status(401).json('Please Provide Token');
+        return res.status(401).json(errorMessages.TOKEN_NOT_FOUND);
     }
     //secret ket to decode token
     const secret = process.env.SECRET_KEY;
@@ -25,29 +27,29 @@ module.exports.getUser = async function(req, res){
         logger.info(`Input - ${empId}`);
         //check for empID is provided or not
         if(!empId){
-            logger.error(`Please provide employee ID`)
-            return res. status(400).json(`Please provide employee ID`)
+            logger.error(errorMessages.EMPID_REQUIRED)
+            return res. status(400).json(errorMessages.EMPID_REQUIRED)
         }
         //search empId in db
         const userData = await User.findOne({empId});
         //check record found or not
         if(userData == null){
-            logger.error(`No Record Found`);
-            return res.status(404).json(`No Record Found`);
+            logger.error(errorMessages.NOT_FOUND);
+            return res.status(404).json(errorMessages.NOT_FOUND);
         }
         logger.info(`Output - ${userData}`)
         //return response
         return res.status(200).json(userData)
     }else{
-        logger.error(`Anauthorized Access`);
-        return res.status(403).json(`Anauthorized Access`);
+        logger.error(errorMessages.ACCESS_DENIED);
+        return res.status(403).json(errorMessages.ACCESS_DENIED);
     }
 
 
 } catch (error) {
     //if Endpoint failed
-    logger.error(`Get User Endpoint Failed`);
-    return res.status(500).json(`Something went wrong in get user`)
+    logger.error(errorMessages.GET_USER_FAILED);
+    return res.status(500).json(errorMessages.INTERNAL_ERROR)
 }
     
 }

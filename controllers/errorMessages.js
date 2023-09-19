@@ -3,7 +3,7 @@
 module.exports = {
     INVALID_INPUT: 'Invalid input data.',
     NOT_FOUND: 'No Record Found.',
-    INTERNAL_ERROR: 'Internal server error.',
+    INTERNAL_ERROR: 'INTERNAL SERVER ERROR!',
     TOKEN_NOT_FOUND: 'Please Provide Token',
     TOKEN_EXPIRED: 'Token Expired',
     TOKEN_INVALID: 'Invalid Token',
@@ -61,7 +61,7 @@ module.exports = {
     DELETE_PRODUCT_FAILED:'Delete Project Endpoint Failed',
     EDIT_PRODUCT_FAILED:'Edit Product Endpoint Failed',
 
-    ALL_FILEDS_REQUIRED:'All fields are required',   
+    ALL_FIELDS_REQUIRED:'All fields are required',   
     MAX_ALLOWED_SIZE:'Max allowed size is 1MB',
     INVALID_FILE:'Invalid file type',
     DISCRIPTION_CHAR_LIMIT:'Description Characters limit is 500',
@@ -70,6 +70,54 @@ module.exports = {
     
     DELETE_USER_FAILED:'Delete Admin User Endpoint Failed',
     EDIT_KYC_FAILED:'User Kyc Endpoint Failed',
+
+    UNIQUE_ID_MISSING:'Unique ID is missing',
+    ACTION_NOT_ALLOWED:'Action not allowed as Status is',
+    EDIT_PROJECT_FAILED:'Edit Project Endpoint Failed',
+    GENERATE_EMAIL_OTP_FAILED:'Generate Email OTP Endpoint Failed',
+
+    CONTACT_IS_REQUIRED:'Contact is Required',
+    GENERATE_OTP_FAILED:'Generate OTP Endpoint Failed',
+
+    GET_HISTORY_FAILED:'Get Hisotry Endpoint Failed',
+    GET_PROJECT_FAILED:'Get Project Endpoint Failed',
+
+    EMPID_REQUIRED:'Please provide employee ID',
+    GET_USER_FAILED:'Get User Endpoint Failed',
+
+    TOTAL_EARNING_FAILED:'Total Earning Endpoint Failed',
+    UPDATED_WITHDRAW_STATUS_FAILED:'Update Withdraw Status Failed',
+
+    USER_HISTORY_FAILED:'User History Endpoint Failed',
+    USER_KYC_FAILED:'User Kyc Endpoint Failed',
+    PARENT_DATA_NOT_FOUND:'NO Parent data found',
+    USER_REFERRAL_FAILED:'User Referral Endpoint Failed',
+
+    USER_DOES_NOT_EXIST:'User Does Not Exist',
+    USER_SIGN_IN_FAILED:'User Sign In Endpoint Failed',
+
+    EMAIL_AND_CONTACT_EXIST:'Contact/Email Already Exist',
+
+    REFID_DOSE_NOT_EXIST:'RefID does not exist',
+
+    USER_SIGNUP_FAILED:'User Signup Endpoint Failed',
+
+    USER_UPDATE_FAILED:'User Update Endpoint Failed',
+  
+    OTP_EXPIRED:'OTP has been expired',
+
+    INVALID_OTP:'Invalid OTP',
+
+    VERIFY_OTP_FAILED:'Verify OTP Endpoint Failed',
+
+    EMAIL_SENT_ERROR:'550 No Such User Here',
+
+    MINMUM_AMOUNT_ERROR:'Minimum withdraw Amount is 2000',
+
+    WITHDRAW_AMOUNT_FAILED:'Withdraw Amount Endpoint Failed',
+
+
+
     // Add more error messages as needed...
   };
   

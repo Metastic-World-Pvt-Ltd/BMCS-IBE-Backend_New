@@ -1,10 +1,12 @@
 const User = require('../../models/User');
 const jwt = require('jsonwebtoken');
 const logger = require('./logger');
+const successMessages = require('../successMessages');
+const errorMessages = require('../errorMessages');
 require('dotenv').config({path:'../../.env'});
 module.exports.userSignin =  async function(req, res){
 try {
-    logger.info(`Activated User Sign IN Endpoint`)
+    logger.info(successMessages.USER_SIGN_IN_ACTIVATED)
     const {contact} = req.body;
     logger.info(`Input - ${req.body}`)
     const userDoc = await User.findOne({contact:contact});
@@ -20,11 +22,11 @@ try {
            })
        // res.status(200).json('user verified')
     }else{
-        logger.error(`user does not exist`)
-        res.status(404).json('user does not exist')
+        logger.error(errorMessages.USER_DOES_NOT_EXIST)
+        res.status(404).json(errorMessages.USER_DOES_NOT_EXIST)
     }
 } catch (error) {
-    logger.error(`User Sign In Endpoint Failed`)
-    res.status(500).json('Something went wrong in Signin')
+    logger.error(errorMessages.USER_SIGN_IN_FAILED)
+    res.status(500).json(errorMessages.INTERNAL_ERROR)
 }
 }

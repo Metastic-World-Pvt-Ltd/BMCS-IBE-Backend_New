@@ -1,9 +1,11 @@
 const History = require('../../models/History');
 const logger = require('./logger');
+const successMessages = require('../successMessages');
+const errorMessages = require('../errorMessages');
 
 module.exports.getHistory = async function(req, res){
 try {
-    logger.info(`Activated Get History Endpoint`)
+    logger.info(successMessages.GET_HISTORY_ACTIVATED)
     
     const id = req.params.id || req.body.id || req.query.id || req.headers["id"];
     logger.info(`ID - ${id}`)
@@ -13,11 +15,11 @@ try {
         logger.info(`Output - ${allData}`)
         return res.status(200).json(allData)
     }else{
-        logger.error(`No Record Found`)
-        return res.status(404).json("No Record Found")
+        logger.error(errorMessages.NOT_FOUND)
+        return res.status(404).json(errorMessages.NOT_FOUND)
     }
 } catch (error) {
-    logger.error(`Get Hisotry Endpoint Failed`);
-    return res.status(500).json(`Something went wrong in fetching history`)
+    logger.error(errorMessages.GET_HISTORY_FAILED);
+    return res.status(500).json(errorMessages.INTERNAL_ERROR)
  }
 }

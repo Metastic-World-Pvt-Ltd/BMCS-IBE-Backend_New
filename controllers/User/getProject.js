@@ -1,9 +1,11 @@
 const Project = require('../../models/Project');
+const errorMessages = require('../errorMessages');
+const successMessages = require('../successMessages');
 const logger = require('./logger');
 
 module.exports.getProject = async function(req, res){
 try {
-    logger.info(`Activated Get Project Endpoint`)
+    logger.info(successMessages.GET_PROJECT_ACTIVATED)
     //project Id input
     const projectId = req.params.projectId;
     logger.info(`Project Id - ${projectId}`)
@@ -12,16 +14,16 @@ try {
     // console.log(projectData);
     //check for records
     if(projectData == null){
-        logger.error(`No Record Found`)
-        return res.status(404).json('No Record Found')
+        logger.error(errorMessages.NOT_FOUND)
+        return res.status(404).json(errorMessages.NOT_FOUND)
     }else{
         //send response as data found
         logger.info(`Output - ${projectData}`)
         return res.status(200).json(projectData);
     }
 } catch (error) {
-    logger.error(`Get Project Endpoint Failed`)
-    return res.status(500).json('Something wrong in Fetchingproject Data')
+    logger.error(errorMessages.GET_PROJECT_FAILED)
+    return res.status(500).json(errorMessages.INTERNAL_ERROR)
 }
     
 }

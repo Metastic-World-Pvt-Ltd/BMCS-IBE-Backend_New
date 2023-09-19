@@ -3,20 +3,22 @@ const Wallet = require('../../models/Wallet');
 const Kyc = require('../../models/Kyc');
 const nodemailer = require("nodemailer");
 const logger = require('./logger');
+const successMessages = require('../successMessages');
+const errorMessages = require('../errorMessages');
 
 require('dotenv').config({path:'../.env'});
 
 module.exports.withdrawAmt = async function(req, res){
 try {
     
-    logger.info(`Activated Withdraw Amount Endpoint`)
+    logger.info(successMessages.WITHDRAW_AMOUNT_ACTIVATED)
     //user input
     const {contact} = req.body;
     logger.info(`Input - ${contact}`)
     //valid inout or not
     if(!contact){
-        logger.error(`contact is required`)
-        return res.status(400).json("contact is required")
+        logger.error(errorMessages.CONTACT_IS_REQUIRED)
+        return res.status(400).json(errorMessages.CONTACT_IS_REQUIRED)
     } 
     //check for user wallet exist or not 
     const checkWallet = await Wallet.findOne({contact:contact});
@@ -88,11 +90,11 @@ try {
                 //console.log(info);
                 //console.log("Message sent: %s", info.messageId);
               
-                logger.info(`Email has been send `)
+                logger.info(successMessages.EMAIL_SENT_TO_FINANACE)
                 // res.status(200).json("Deatils has been send")
             } catch (error) {
                 logger.error(`Error - ${error}`)
-                return res.status(550).json("550 No Such User Here");
+                return res.status(550).json(errorMessages.EMAIL_SENT_ERROR);
             }
             //update wallet amount
             const data = {
@@ -123,16 +125,16 @@ try {
             //response
             return res.status(200).json(hist)
         }else{
-            logger.error(`No Record Found`)
-            return res.status(404).json("No record Found")
+            logger.error(errorMessages.NOT_FOUND)
+            return res.status(404).json(errorMessages.NOT_FOUND)
         }
     }else{
-        logger.error(`Minimum withdraw Amount is 2000`)
-        return res.status(401).json('Minimum withdraw Amount is 2000')
+        logger.error(errorMessages.MINMUM_AMOUNT_ERROR)
+        return res.status(401).json(errorMessages.MINMUM_AMOUNT_ERROR)
     }
 } catch (error) {
-    logger.error(`Withdraw Amount Endpint Failed`)
-    return res.status(500).json(`Something went wrong in withdraw amount`)
+    logger.error(errorMessages.WITHDRAW_AMOUNT_FAILED)
+    return res.status(500).json(errorMessages.INTERNAL_ERROR)
 }
     
 }

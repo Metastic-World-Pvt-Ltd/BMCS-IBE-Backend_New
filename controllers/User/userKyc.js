@@ -1,24 +1,26 @@
 const Kyc = require('../../models/Kyc');
 const User = require('../../models/User');
+const errorMessages = require('../errorMessages');
+const successMessages = require('../successMessages');
 const logger = require('./logger');
 const fs = require('fs');
 
 module.exports.userKyc = async function(req, res){
 try {
-    logger.info(`Activated User Kyc Endpoint`)
+    logger.info(successMessages.USER_KYC_ACYIVATED)
     //user input
     const {contact , accountNumber , ifscCode } = req.body;
     logger.info(`Input - ${contact , accountNumber , ifscCode }`)
     //check for correct data or not
     if(!contact || !accountNumber || !ifscCode ){
-        logger.error(`All Fileds required`)
-        return res.status(400).json('All Fileds required');
+        logger.error(errorMessages.ALL_FIELDS_REQUIRED)
+        return res.status(400).json(errorMessages.ALL_FIELDS_REQUIRED);
     }
     //check record exist in DB or not
     const isExist = await User.findOne({contact:contact});
     if(!isExist){
-        logger.error(`No user Found`)
-        return res.status(404).json("No user Found")
+        logger.error(errorMessages.NOT_FOUND)
+        return res.status(404).json(errorMessages.NOT_FOUND)
     }else{
     //store file path
     var kycDocuments = [];
@@ -45,14 +47,14 @@ try {
                      kycDocuments.push(filePath);
 
                 }else{
-                    logger.error(`Max allowed size is 1MB`)
-                    return res.status(400).json('Max allowed size is 1MB');
+                    logger.error(errorMessages.MAX_ALLOWED_SIZE)
+                    return res.status(400).json(errorMessages.MAX_ALLOWED_SIZE);
                   
                 }
 
             } else {
-               logger.error(`Invalid file type`) 
-               return res.status(400).json('Invalid file type');
+               logger.error(errorMessages.INVALID_FILE) 
+               return res.status(400).json(errorMessages.INVALID_FILE);
             }
     
         }
@@ -78,8 +80,8 @@ try {
         return res.status(200).json(kycData)
     }
 } catch (error) {
-    logger.error(`User Kyc Endpoint Failed`);
-    return res.status(500).json(`Something went wrong in user kyc`)
+    logger.error(errorMessages.USER_KYC_FAILED);
+    return res.status(500).json(errorMessages.INTERNAL_ERROR)
 }
 
 }

@@ -1,10 +1,12 @@
 const nodemailer = require("nodemailer");
 const logger = require("./logger");
 require('dotenv').config({path:'../../.env'});
+const successMessages = require('../successMessages');
+const errorMessages = require('../errorMessages');
 
 module.exports.generateEmailOtp = async function(req, res){
     try {
-        logger.info(`Activated Email OTP Endpoint`)
+        logger.info(successMessages.GENERATE_EMAIL_OTP_ACTIVATED)
             //user email address
             var useremail = req.body.email;
             logger.info(`Input - ${req.body}`)
@@ -50,14 +52,14 @@ module.exports.generateEmailOtp = async function(req, res){
             
             // Preview only available when sending through an Ethereal account
             // console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-            logger.info(`OTP has been send to your email`)
-            res.send("OTP has been send to your email")
+            logger.info(successMessages.EMAIL_OTP_SENT_SUCCESSFULLY)
+            res.send(successMessages.EMAIL_OTP_SENT_SUCCESSFULLY)
         } catch (error) {
             logger.error(`Error - ${error}`)
             res.json(error);
         }
     } catch (error) {
-        logger.error(`Generate Email OTP Endpoint Failed`)
-        res.status(500).json(`smething went wrong generating otp via email  ${error}`)
+        logger.error(errorMessages.GENERATE_EMAIL_OTP_FAILED)
+        res.status(500).json(errorMessages.INTERNAL_ERROR)
     }
 }

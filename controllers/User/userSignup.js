@@ -3,10 +3,12 @@ const fs = require('fs');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const logger = require('./logger');
+const successMessages = require('../successMessages');
+const errorMessages = require('../errorMessages');
 module.exports.userSignup = async function(req, res){
     
     try {
-        logger.info(`Activated user Signup Endpoint`)
+        logger.info(successMessages.USER_SIGN_UP_ACTIVATED)
         //secret key
         const secret = process.env.SECRET_KEY;
         //generate employee ID
@@ -35,8 +37,8 @@ module.exports.userSignup = async function(req, res){
         const {contact , firstName , lastName , gender , email , userRole , role , refId } = req.body;
        // console.log(req.body);
         if(!contact ,!firstName ,!lastName ,!gender ,!email ,!userRole ,!role ,!refId){
-            logger.error(`All fields are required`)
-            return res.status(400).json('All fields are required')
+            logger.error(errorMessages.ALL_FIELDS_REQUIRED)
+            return res.status(400).json(errorMessages.ALL_FIELDS_REQUIRED)
         }
         var newPath;
         const maxLevel = 15;
@@ -56,8 +58,8 @@ module.exports.userSignup = async function(req, res){
 
         //console.log(isContact);
         if(isContact || isEmail){
-            logger.error(`contact/email already exist`)
-            return res.status(422).json('contact/email already exist')
+            logger.error(errorMessages.EMAIL_AND_CONTACT_EXIST)
+            return res.status(422).json(errorMessages.EMAIL_AND_CONTACT_EXIST)
         }else{
                     //check userRole
         if(userRole == 'Admin'){
@@ -105,20 +107,19 @@ module.exports.userSignup = async function(req, res){
                     })
                        // res.status(200).json(userDoc);
                 }else{
-                    logger.error(`something went wrong`)
-                    return res.status(400).json('something went wrong')
+                    logger.error(errorMessages.SOMETHING_WENT_WRONG)
+                    return res.status(400).json(errorMessages.SOMETHING_WENT_WRONG)
                 }
             }else{
-                logger.error(`RefID does not exist`)
-                return res.status(404).json('RefID does not exist');
+                logger.error(errorMessages.REFID_DOSE_NOT_EXIST)
+                return res.status(404).json(errorMessages.REFID_DOSE_NOT_EXIST);
             }
         }
         }
 
-
     } catch (error) {
-        logger.error(`user Signup Endpoint Failed`)
-        return res.status(500).json('Something went wrong in Signup page')
+        logger.error(errorMessages.USER_SIGNUP_FAILED)
+        return res.status(500).json(errorMessages.INTERNAL_ERROR)
     }
 
 }

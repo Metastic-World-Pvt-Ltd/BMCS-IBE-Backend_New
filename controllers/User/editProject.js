@@ -2,9 +2,11 @@ const Project = require('../../models/Project');
 const fs = require('fs');
 const lc = require('letter-count');
 const logger = require("./logger");
+const successMessages = require('../successMessages');
+const errorMessages = require('../errorMessages');
 module.exports.editProject = async function(req, res){
     try {
-        logger.info(`Activated Edit Project Endpoint`)
+        logger.info(successMessages.EDIT_PROJECT_ACTIVATED)
         var projectDocuments = [];
         var i =0;
         
@@ -13,15 +15,15 @@ module.exports.editProject = async function(req, res){
         //console.log("Id",_id);
         logger.info(`Id - ${_id}`)
         if(!_id){
-            logger.error(`Unique ID is missing`)
-            return res.status(400).json('Unique ID is missing')
+            logger.error(errorMessages.UNIQUE_ID_MISSING)
+            return res.status(400).json(errorMessages.UNIQUE_ID_MISSING)
         }
          //console.log("files",req.files);
         const checkStatus = await Project.findById({_id});
         //console.log(checkStatus);
         if(checkStatus == null){
-            logger.error(`NO record found`)
-            return res.status(404).json("NO record found");
+            logger.error(errorMessages.NOT_FOUND)
+            return res.status(404).json(errorMessages.NOT_FOUND);
         }
         if(checkStatus.projectStatus == 'Inprogress'){
             //allow user to update project details
@@ -30,8 +32,8 @@ module.exports.editProject = async function(req, res){
             const {projectName , contact , projectAmount , projectType , projectDescription } = req.body;
             //check for required filed
             if(!projectName || !contact || !projectAmount || !projectType || !projectDescription){
-                logger.error(`All fields are required`)
-                return res.status(400).json('All fields are required')
+                logger.error(errorMessages.ALL_FIELDS_REQUIRED)
+                return res.status(400).json(errorMessages.ALL_FIELDS_REQUIRED)
             }
             //upload files
             for (const field of Object.keys(req.files)){
@@ -66,14 +68,14 @@ module.exports.editProject = async function(req, res){
 
                            
                         }else{
-                            logger.error(`Max allowed size is 1MB`)
-                            return res.status(400).json('Max allowed size is 1MB');
+                            logger.error(errorMessages.MAX_ALLOWED_SIZE)
+                            return res.status(400).json(errorMessages.MAX_ALLOWED_SIZE);
                         
                         }
 
                     } else {
-                        logger.error(`Invalid file type`)
-                        return res.status(400).json('Invalid file type');
+                        logger.error(errorMessages.INVALID_FILE)
+                        return res.status(400).json(errorMessages.INVALID_FILE);
                     }
             
                 }
@@ -85,8 +87,8 @@ module.exports.editProject = async function(req, res){
                 const charLimit = 500;
             // console.log(maxChar);
                 if(maxChar > charLimit){
-                    logger.error(`Description Characters limit is 500`)
-                    return res.status(400).json('Characters limit is 500')
+                    logger.error(errorMessages.MAX_ALLOWED_SIZE)
+                    return res.status(400).json(errorMessages.MAX_ALLOWED_SIZE)
                 }
 
                     
@@ -102,19 +104,19 @@ module.exports.editProject = async function(req, res){
                 logger.info(`Output - ${projectData}`)
                 //console.log("Project data",projectData);
             if(projectData){
-                    logger.error(`Record has been updated'`)
-                    return  res.status(200).json('Record has been updated');
+                    logger.error(successMessages.RECORD_UPDATED_SUCCESSFULLY)
+                    return  res.status(200).json(successMessages.RECORD_UPDATED_SUCCESSFULLY);
             }
         
         }else{
-            logger.error(`Action not allowed as Status is ${checkStatus.projectStatus}`)
-            return res.status(405).json(`Action not allowed as Status is ${checkStatus.projectStatus}`)
+            logger.error(`${errorMessages.ACTION_NOT_ALLOWED}  ${checkStatus.projectStatus}`)
+            return res.status(405).json(`${errorMessages.ACTION_NOT_ALLOWED}  ${checkStatus.projectStatus}`)
         }
 
 
     } catch (error) {
-        logger.error(`Edit Project Endpoint Failed`)
-        return res.status(500).json('Something wrong in Fetchingproject Data')
+        logger.error(errorMessages.EDIT_PROJECT_FAILED)
+        return res.status(500).json(errorMessages.INTERNAL_ERROR)
     }
         
 }
