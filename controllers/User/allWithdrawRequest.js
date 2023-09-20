@@ -1,6 +1,6 @@
 const History = require('../../models/History');
-const errorMessages = require('../errorMessages');
-const successMessages = require('../successMessages');
+const errorMessages = require('../../response/errorMessages');
+const successMessages = require('../../response/successMessages');
 const logger = require('./logger');
 module.exports.allWithdrawRequest = async function(req, res){
 try {

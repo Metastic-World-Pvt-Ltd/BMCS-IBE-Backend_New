@@ -1,8 +1,8 @@
 const User = require('../../models/User');
 const verifyUser = require('../../middleware/verifyUser');
 const logger = require('./logger');
-const errorMessages = require('../errorMessages');
-const successMessages = require('../successMessages');
+const errorMessages = require('../../response/errorMessages');
+const successMessages = require('../../response/successMessages');
 module.exports.userUpdate = async function(req, res){
     try {
         logger.info(successMessages.USER_UPDATED_ACTIVATED)

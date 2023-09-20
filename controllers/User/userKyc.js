@@ -1,7 +1,7 @@
 const Kyc = require('../../models/Kyc');
 const User = require('../../models/User');
-const errorMessages = require('../errorMessages');
-const successMessages = require('../successMessages');
+const errorMessages = require('../../response/errorMessages');
+const successMessages = require('../../response/successMessages');
 const logger = require('./logger');
 const fs = require('fs');
 

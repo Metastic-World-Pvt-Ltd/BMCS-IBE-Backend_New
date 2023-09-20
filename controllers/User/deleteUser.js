@@ -4,8 +4,8 @@ require('dotenv').config({path:'../../.env'});
 const jwt = require('jsonwebtoken');
 const DeletedUser =  require(`../../models/DeletedUser`);
 const logger = require('./logger');
-const successMessages = require('../successMessages');
-const errorMessages = require('../errorMessages');
+const errorMessages = require('../../response/errorMessages');
+const successMessages = require('../../response/successMessages');
 
 module.exports.deleteUser = async function(req, res){
 try {

@@ -116,6 +116,8 @@ module.exports = {
 
     WITHDRAW_AMOUNT_FAILED:'Withdraw Amount Endpoint Failed',
 
+    CLIENT_PRODUCT_EXIST:'Product Already Exist',
+
 
 
     // Add more error messages as needed...

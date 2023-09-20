@@ -1,8 +1,8 @@
 const speakeasy = require('speakeasy');
 const twoFA = require('../../models/2FA');
 const logger = require('../User/logger');
-const successMessages = require('../successMessages');
-const errorMessages = require('../errorMessages');
+const errorMessages = require('../../response/errorMessages');
+const successMessages = require('../../response/successMessages');
 module.exports.verify2FA = async function(req, res){
 try {
     logger.info(successMessages.VERIFY_2FA_ACTIVATED)

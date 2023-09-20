@@ -1,11 +1,11 @@
-const Project = require('../../models/ClientProduct');
+const ClientProduct = require('../../models/ClientProduct');
 const fs = require('fs');
 const path = require('path');
 const lc = require('letter-count');
-const logger = require("./logger");
+const logger = require("../User/logger");
 const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
-module.exports.agentProject = async function(req, res){
+module.exports.createClientProduct = async function(req, res){
 try {
     logger.info(successMessages.AGENT_PROJECT_ACTIVATED)
     //user input
@@ -20,7 +20,7 @@ try {
     var projectDocuments = [];
     //upload files
     for (const field of Object.keys(req.files)){
-        const uploadedFile = req.files[field][0];
+        const uploadedFile = req.files[field];
         //split file extention name       
         const parts = uploadedFile.mimetype.split('/')
         const ext = parts[1];
@@ -72,8 +72,11 @@ try {
        const projectId =  upperCase + randomNumber ;
         //create project and push data to DB
         const status = "Inprogress";
-        
-       const projectData = await Project.create({
+        const isExist = await ClientProduct.findOne({projectName});
+        if(isExist){
+            return res.status(422).json(errorMessages.CLIENT_PRODUCT_EXIST)
+        }
+       const projectData = await ClientProduct.create({
         projectId,
         projectName,
         contact,

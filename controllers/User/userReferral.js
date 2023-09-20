@@ -2,8 +2,8 @@ const User = require('../../models/User');
 const Wallet = require('../../models/Wallet');
 const History = require('../../models/History');
 const logger = require('./logger');
-const errorMessages = require('../errorMessages');
-const successMessages = require('../successMessages');
+const errorMessages = require('../../response/errorMessages');
+const successMessages = require('../../response/successMessages');
 module.exports.userReferral = async function(req, res){
     try {
         //input data of user

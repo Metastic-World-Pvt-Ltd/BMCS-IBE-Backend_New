@@ -1,10 +1,10 @@
-const Project = require('../../models/Project');
+const Project = require('../../models/ClientProduct');
 const jwt = require('jsonwebtoken');
 require('dotenv').config({path:'../../.env'});
 const AdminUser = require('../../models/AdminUser');
 const logger = require('../User/logger');
-const errorMessages = require('../errorMessages');
-const successMessages = require('../successMessages');
+const errorMessages = require('../../response/errorMessages');
+const successMessages = require('../../response/successMessages');
 module.exports.adminConsole = async function(req, res){
 try {
     logger.info(successMessages.ADMIN_CONSOLE_ACTIVATED);

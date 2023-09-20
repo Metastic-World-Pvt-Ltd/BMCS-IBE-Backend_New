@@ -3,8 +3,8 @@ const AdminUser = require('../../models/AdminUser');
 const jwt = require('jsonwebtoken');
 const logger = require('../User/logger');
 const DeletedProject = require('../../models/DeletedProject');
-const successMessages = require('../successMessages');
-const errorMessages = require('../errorMessages');
+const errorMessages = require('../../response/errorMessages');
+const successMessages = require('../../response/successMessages');
 require('dotenv').config({path:'../../.env'});
 
 module.exports.deleteProject = async function(req , res){

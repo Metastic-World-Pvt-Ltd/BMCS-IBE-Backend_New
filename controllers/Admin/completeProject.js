@@ -1,9 +1,9 @@
-const Project = require('../../models/Project');
+const Project = require('../../models/ClientProduct');
 const History = require('../../models/History');
 const Wallet = require('../../models/Wallet');
 const logger = require('../User/logger');
-const successMessages = require('../successMessages');
-const errorMessages = require('../errorMessages');
+const errorMessages = require('../../response/errorMessages');
+const successMessages = require('../../response/successMessages');
 module.exports.completeProject = async function(req , res){
 try {
     logger.info(successMessages.COMPLETE_PROJECT_ACTIVATED)

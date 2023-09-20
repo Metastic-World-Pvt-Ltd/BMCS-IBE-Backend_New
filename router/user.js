@@ -20,6 +20,7 @@ const { userHistory } = require('../controllers/User/userHistory');
 const { agentProject } = require('../controllers/User/agentProject');
 const { getProject } = require('../controllers/User/getProject');
 const { editProduct } = require('../controllers/Products/editProduct');
+const { createClientProduct } = require('../controllers/Products/createClientProduct');
 var upload = multer({
     dest: storageValue,
     fileFilter: fileFilterValue,
@@ -67,12 +68,13 @@ router.post('/referral',userReferral);
 //fetch user transaction history
 router.get('/transactionHist',verifyUser,userHistory);
 //create project 
-router.post('/createProject', verifyUser,upload.fields([
+router.post('/createProject',upload.fields([
     { name: 'Adhar' },
     { name: 'Pan' },
     { name: 'cAdhar' },
     { name: 'cPan' },
   ]), agentProject)
+
 
 //get project details
 router.get('/getProject/:projectId',verifyUser,getProject); 
@@ -83,5 +85,7 @@ router.post('/editProject', verifyUser,upload.fields([
     { name: 'cAdhar' },
     { name: 'cPan' },
   ]),editProduct);
+
+router.post('/clientproduct',upload.array('files'),createClientProduct);  
 
 module.exports = router;

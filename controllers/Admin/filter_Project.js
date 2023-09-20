@@ -1,7 +1,7 @@
-const Project = require('../../models/Project');
+const Project = require('../../models/ClientProduct');
 const logger = require('../User/logger');
-const errorMessages = require('../errorMessages');
-const successMessages = require('../successMessages');
+const errorMessages = require('../../response/errorMessages');
+const successMessages = require('../../response/successMessages');
 module.exports.filter_Project = async function(req, res){
 try {
     logger.info(successMessages.FILTER_PROJECT_ACTIVATED)

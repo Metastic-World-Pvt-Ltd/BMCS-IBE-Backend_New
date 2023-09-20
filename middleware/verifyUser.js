@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const logger = require('../controllers/User/logger');
 require('dotenv').config({path:'../.env'});
-const errorMessages = require('../controllers/errorMessages');
+const errorMessages = require('../response/errorMessages');
 
 module.exports.verifyUser = async function(req, res, next){
 

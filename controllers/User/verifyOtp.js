@@ -1,8 +1,8 @@
 const OTP = require('./generateOtp');
 const emailOTP = require('./generateEmailOtp');
 const logger = require('./logger');
-const errorMessages = require('../errorMessages');
-const successMessages = require('../successMessages');
+const errorMessages = require('../../response/errorMessages');
+const successMessages = require('../../response/successMessages');
 
 module.exports.verifyOtp = async function(req, res){
     try {

@@ -1,6 +1,6 @@
-const Project = require('../../models/Project');
-const errorMessages = require('../errorMessages');
-const successMessages = require('../successMessages');
+const Project = require('../../models/ClientProduct');
+const errorMessages = require('../../response/errorMessages');
+const successMessages = require('../../response/successMessages');
 const logger = require('./logger');
 
 module.exports.getProject = async function(req, res){

@@ -99,7 +99,7 @@ module.exports = {
 
     USER_SIGN_IN_ACTIVATED:'Activated User Sign IN Endpoint',
 
-    USER_SIGN_UP_ACTIVATED:'Activated User Signup Endpoint',
+    USER_SIGN_UP_ACTIVATED:'Activated User Sign UP Endpoint',
 
     USER_UPDATED_ACTIVATED:'Activated userUpdate Endpoint',
 
