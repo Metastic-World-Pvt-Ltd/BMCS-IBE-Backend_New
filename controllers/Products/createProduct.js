@@ -8,6 +8,7 @@ require('dotenv').config({path:'../../.env'});
 
 module.exports.createProduct = async function(req , res){
 try {
+    logger.info(`Start`);
     logger.info(successMessages.CREATE_PRODUCT_ACTIVATED)
     //user input
     const {productName, productSummary, requiredDoc} = req.body;
@@ -60,6 +61,7 @@ try {
                 productId, productName, productSummary, requiredDoc, costomerCount:0 , createdBy ,
             })
             logger.info(`Product Created - ${productData}`)
+            logger.info(`End`);
             //response
             return res.status(200).json(productData)
         }else{

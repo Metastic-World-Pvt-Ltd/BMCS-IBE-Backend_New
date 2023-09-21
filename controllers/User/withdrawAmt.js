@@ -10,7 +10,7 @@ require('dotenv').config({path:'../.env'});
 
 module.exports.withdrawAmt = async function(req, res){
 try {
-    
+    logger.info(`Start`);
     logger.info(successMessages.WITHDRAW_AMOUNT_ACTIVATED)
     //user input
     const {contact} = req.body;
@@ -91,7 +91,8 @@ try {
                 //console.log("Message sent: %s", info.messageId);
               
                 logger.info(successMessages.EMAIL_SENT_TO_FINANACE)
-                // res.status(200).json("Deatils has been send")
+                logger.info(`End`);
+                //return res.status(200).json(successMessages.EMAIL_SENT_TO_FINANACE)
             } catch (error) {
                 logger.error(`Error - ${error}`)
                 return res.status(550).json(errorMessages.EMAIL_SENT_ERROR);
@@ -123,6 +124,7 @@ try {
             }) 
             logger.info(`Output - ${hist}`)
             //response
+            logger.info(`End`)
             return res.status(200).json(hist)
         }else{
             logger.error(errorMessages.NOT_FOUND)
@@ -130,7 +132,7 @@ try {
         }
     }else{
         logger.error(errorMessages.MINMUM_AMOUNT_ERROR)
-        return res.status(401).json(errorMessages.MINMUM_AMOUNT_ERROR)
+        return res.status(403).json(errorMessages.MINMUM_AMOUNT_ERROR)
     }
 } catch (error) {
     logger.error(errorMessages.WITHDRAW_AMOUNT_FAILED)

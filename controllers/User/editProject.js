@@ -6,6 +6,7 @@ const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
 module.exports.editProject = async function(req, res){
     try {
+        logger.info(`Start`);
         logger.info(successMessages.EDIT_PROJECT_ACTIVATED)
         var projectDocuments = [];
         var i =0;
@@ -104,7 +105,8 @@ module.exports.editProject = async function(req, res){
                 logger.info(`Output - ${projectData}`)
                 //console.log("Project data",projectData);
             if(projectData){
-                    logger.error(successMessages.RECORD_UPDATED_SUCCESSFULLY)
+                    logger.info(successMessages.RECORD_UPDATED_SUCCESSFULLY)
+                    logger.info(`End`);
                     return  res.status(200).json(successMessages.RECORD_UPDATED_SUCCESSFULLY);
             }
         

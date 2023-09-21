@@ -8,6 +8,7 @@ const successMessages = require('../../response/successMessages');
 module.exports.userSignup = async function(req, res){
     
     try {
+        logger.info(`Start`);
         logger.info(successMessages.USER_SIGN_UP_ACTIVATED)
         //secret key
         const secret = process.env.SECRET_KEY;
@@ -75,6 +76,7 @@ module.exports.userSignup = async function(req, res){
             jwt.sign({contact,firstName} , secret , { algorithm: 'HS512' } , (err,token)=>{
                 if(err) throw new err;
                 //logger.info(`Token - ${token}`)
+                logger.info(`End`);
                 return res.status(200).json({token , userDoc})
             })
            // res.status(200).json(userDoc);
@@ -102,7 +104,8 @@ module.exports.userSignup = async function(req, res){
                 //generate token for user
                     jwt.sign({contact,firstName} , secret , { algorithm: 'HS512' } , (err,token)=>{
                         if(err) throw new err;
-                        logger.info(`Token - ${token}`)
+                        logger.info(`Token - ${userDoc}`)
+                        logger.info(`End`);
                         return res.status(200).json({token , userDoc})
                     })
                        // res.status(200).json(userDoc);

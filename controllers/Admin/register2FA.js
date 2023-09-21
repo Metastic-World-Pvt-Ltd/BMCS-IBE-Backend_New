@@ -7,6 +7,7 @@ const successMessages = require('../../response/successMessages');
 
 module.exports.register2FA = async function(req , res){
 try {
+    logger.info(`Start`);
     logger.info(successMessages.REGISTER_2FA_ACTIVATED)
     //user input
     const email = req.body.email; // User identification
@@ -40,7 +41,8 @@ try {
         logger.error(errorMessages.QR_GENERATE_FAILED)
         return res.status(500).json({ message: errorMessages.QR_GENERATE_FAILED });
       }
-      logger.info(`Output - Secret - ${secret.base32} ImageURL - ${imageUrl}`)
+      logger.info(`Output - ${imageUrl}`)
+      logger.info(`End`);
       return res.status(200).json({ imageUrl });
     });
 } catch (error) {

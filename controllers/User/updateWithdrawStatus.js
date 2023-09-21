@@ -4,6 +4,7 @@ const successMessages = require('../../response/successMessages');
 const logger = require('./logger');
 module.exports.updateWithdrawStatus = async function(req, res){
 try {
+    logger.info(`Start`);
     logger.info(successMessages.UPDATE_WITHDRAW_STATUS_ACTIVATED)
     //inout user ID
     const id = req.params.id || req.body.id || req.query.id || req.headers["id"];
@@ -19,6 +20,7 @@ try {
     const updateData = await History.findOneAndUpdate({transactionId:id},{status:status},{new:true})
     if(updateData){
         logger.info(`Output - ${updateData}`)
+        logger.info(`End`);
         return res.status(200).json(updateData)
     }else{
         logger.error(errorMessages.NOT_FOUND)

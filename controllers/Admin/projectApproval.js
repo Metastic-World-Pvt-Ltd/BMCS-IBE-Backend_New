@@ -6,6 +6,7 @@ const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
 module.exports.projectApproval = async function(req, res){
 try {
+    logger.info(`Start`);
     logger.info(successMessages.PROJECT_APPROVAL_ACTIVATED)
     //input project ID
     const _id =  req.params.id || req.body.id || req.query.id || req.headers["id"];
@@ -86,11 +87,13 @@ try {
                      logger.info(`Output - ${data}`)
                      //console.log(data.projectEarning);
                      }
-
+                     logger.info(`End`);
                      //response
             return res.status(200).json(approvedData);
         }else if(projectStatus == "Rejected"){
             const rejectedData = await Project.findByIdAndUpdate({_id},{projectStatus},{new:true})
+            logger.info(`Output - ${rejectedData}`)
+            logger.info(`End`);
             return res.status(200).json(rejectedData);
         }else{
             logger.error(`Unable to perform action as status is ${projectData.projectStatus}`)

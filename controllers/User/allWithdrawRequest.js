@@ -4,6 +4,7 @@ const successMessages = require('../../response/successMessages');
 const logger = require('./logger');
 module.exports.allWithdrawRequest = async function(req, res){
 try {
+    logger.info(`Start`);
     //find all withdraw request
     logger.info(successMessages.ALL_WITHDRAW_REQUEST_ACTIVATED)
     const allData = await History.find({origin:'withdraw'});
@@ -13,6 +14,7 @@ try {
         return res.status(errorMessages.NOT_FOUND)
     }else{
         logger.info(`Output - ${allData}`)
+        logger.info(`End`);
         res.status(200).json(allData); 
     }
 } catch (error) {

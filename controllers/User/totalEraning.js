@@ -4,6 +4,7 @@ const successMessages = require('../../response/successMessages');
 const logger = require('./logger')
 module.exports.totalEarning = async function(req, res){
 try {
+    logger.info(`Start`);
     logger.info(successMessages.TOTAL_EARNING_ACTIVATED)
     //user input to find  all earning with origin
     const {contact , origin} = req.body;
@@ -27,7 +28,8 @@ try {
         logger.error(errorMessages.NOT_FOUND)
         return res.status(404).json(errorMessages.NOT_FOUND)
       }else{
-        logger.info(data)
+        logger.info(`Output  - ${data}`)
+        logger.info(`End`);
         return res.status(200).json(data)
       }
 } catch (error) {

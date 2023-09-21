@@ -6,6 +6,7 @@ const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
 module.exports.completeProject = async function(req , res){
 try {
+    logger.info(`Start`);
     logger.info(successMessages.COMPLETE_PROJECT_ACTIVATED)
     //Input project ID
     const _id =  req.params.id || req.body.id || req.query.id || req.headers["id"];
@@ -78,8 +79,10 @@ try {
             
         }else{
             logger.error(errorMessages.ACCESS_DENIED)
-            return res.status(401).json(errorMessages.ACCESS_DENIED)
+            return res.status(403).json(errorMessages.ACCESS_DENIED)
         }
+        logger.info(successMessages.COMPLETE_PROJECT);
+        logger.info(`End`);
         return res.status(200).json(successMessages.COMPLETE_PROJECT);
     }else{
         logger.error(errorMessages.UNABLE_TO_PERFORM)

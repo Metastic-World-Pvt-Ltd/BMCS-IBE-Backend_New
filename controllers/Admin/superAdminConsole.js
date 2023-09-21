@@ -7,12 +7,14 @@ const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
 module.exports.superAdminConsole = async function(req, res){
 try {
+    logger.info(`Start`);
     logger.info(successMessages.SUPER_ADMIN_CONSOLE_ACTIVATED)
     //input token from user
     const token = req.body.token || req.query.token || req.headers["x-access-token"];
-    logger.info(`Token - ${token}`)
+    
     //check for token provided or not
     if(!token){
+        logger.error(`Error - ${errorMessages.TOKEN_NOT_FOUND}`)
         return res.status(401).json(errorMessages.TOKEN_NOT_FOUND);
     }
     var decode;
@@ -25,6 +27,7 @@ try {
     //check for user role as per token
          userRole = decode.role;
     } catch (error) {
+        logger.error(`Error - ${errorMessages.TOKEN_EXPIRED}`)
         return res.status(401).json(errorMessages.TOKEN_EXPIRED)
     }
     const _id = decode.id;
@@ -45,6 +48,7 @@ try {
             return res.status(404).json(errorMessages.NOT_FOUND)
         }else{
             logger.info(`Output - ${projectData}`)
+            logger.info(`End`);
             //response
             return res.status(200).json(projectData)
         }

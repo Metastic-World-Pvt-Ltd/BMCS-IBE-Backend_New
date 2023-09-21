@@ -5,7 +5,7 @@ const logger = require('./logger');
 
 module.exports.userHistory = async  function(req, res){
 try {
-    
+    logger.info(`Start`);
     logger.info(successMessages.USER_HISTORY_ACTIVATED)
     //input data of user
     const contact = req.body.contact || req.query.contact || req.headers["contact"];
@@ -24,6 +24,7 @@ try {
         }else{
             //found the data in DB
             logger.info(`Ouptput - ${userHist}`)
+            logger.info(`End`);
             res.status(200).json(userHist);
         }
     }

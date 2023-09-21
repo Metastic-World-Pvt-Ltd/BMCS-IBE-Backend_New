@@ -6,12 +6,13 @@ const successMessages = require('../../response/successMessages');
 
 module.exports.generateOtp = async function(req, res){
 try {
+    logger.info(`Start`);
     logger.info(successMessages.GENERATE_OTP_ACTIVATED);
     //user input
     const {contact} = req.body;
     logger.info(`Input - ${contact}`)
     if(!contact){
-        res.status(400).json(errorMessages.CONTACT_IS_REQUIRED)
+        return res.status(400).json(errorMessages.CONTACT_IS_REQUIRED)
     }
 
         const otpInt = Math.floor(1000 + Math.random() *9000);
@@ -40,12 +41,13 @@ try {
                 console.log(error);
               });
             logger.info(successMessages.OTP_SENT_SUCCESSFULLY)
-            res.status(200).json(successMessages.OTP_SENT_SUCCESSFULLY);    
+            logger.info(`End`);
+            return res.status(200).json(successMessages.OTP_SENT_SUCCESSFULLY);    
 
 
 } catch (error) {
     logger.error(errorMessages.GENERATE_OTP_FAILED)
-    res.status(500).json(errorMessages.INTERNAL_ERROR)
+    return res.status(500).json(errorMessages.INTERNAL_ERROR)
 }
 
 }

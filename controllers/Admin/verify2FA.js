@@ -5,12 +5,14 @@ const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
 module.exports.verify2FA = async function(req, res){
 try {
+    logger.info(`Start`);
     logger.info(successMessages.VERIFY_2FA_ACTIVATED)
     const email = req.body.email; // User identification
     logger.info(`Input - ${email}`)
     const user = await twoFA.findOne({email}) 
     logger.info(`User in DB - ${user}`)
     if (!user) {
+      logger.error(`Error - ${errorMessages.NOT_FOUND}`)
       return res.status(400).json({ message: errorMessages.NOT_FOUND });
     }
   
@@ -28,7 +30,7 @@ try {
   
     if (verified) {
         logger.info(successMessages.OTP_VERIFICATION_SUCCESSFULL)
-      return res.status(200).json({ message: successMessages.OTP_VERIFICATION_SUCCESSFULL });
+        return res.status(200).json({ message: successMessages.OTP_VERIFICATION_SUCCESSFULL });
     } else {
         logger.error(errorMessages.OTP_VERIFICATION_FAILED)
         return res.status(400).json({ message: errorMessages.OTP_VERIFICATION_FAILED });

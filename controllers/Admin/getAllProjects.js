@@ -4,6 +4,7 @@ const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
 module.exports.getAllProjects = async function(req, res){
     try {
+        logger.info(`Start`);
         logger.info(successMessages.GET_ALL_PROJECT_ACTIVATED)
         //check for projects in DB
         const projectData = await Project.find();
@@ -13,6 +14,7 @@ module.exports.getAllProjects = async function(req, res){
             return res.status(404).json(errorMessages.NOT_FOUND);
         }else{
             logger.info(`Output - ${projectData}`)
+            logger.info(`End`);
             //reponse
             return res.status(200).json(projectData);
         }

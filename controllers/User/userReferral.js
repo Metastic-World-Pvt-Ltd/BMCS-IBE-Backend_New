@@ -6,12 +6,14 @@ const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
 module.exports.userReferral = async function(req, res){
     try {
+      logger.info(`Start`);
         //input data of user
         logger.info(successMessages.USER_REFERRAL_ACTIVATED)
-        logger.info(`Input - ${req.body}`)
+        
         const contact = req.body.contact || req.query.contact || req.headers["contact"];
         const amount = req.body.amount || req.query.amount || req.headers["amount"];
        //level limit to distribute referral comission
+       logger.info(`Input - ${contact} , ${amount}`)
         const maxLimit = 15;
         //check user input
         if(!contact || !amount){
@@ -123,6 +125,7 @@ module.exports.userReferral = async function(req, res){
                      //check for Admin Level
                      if(parent == 'Admin'){
                         logger.info(successMessages.ADMIN_PATH_COMPLETED)
+                        logger.info(`End`);
                          return res.json(successMessages.ADMIN_PATH_COMPLETED);
                      }
                   //console.log(parent);

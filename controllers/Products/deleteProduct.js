@@ -58,6 +58,7 @@ try {
             try {
                 //response
                 logger.info(`${successMessages.RECORD_DELETED_SUCCESSFULLY} - Data - ${deletedData}`)
+                logger.info(`End`);
                 return res.status(200).json(successMessages.RECORD_DELETED_SUCCESSFULLY)
             } catch (error) {
                 logger.error(`Error - ${error}`)

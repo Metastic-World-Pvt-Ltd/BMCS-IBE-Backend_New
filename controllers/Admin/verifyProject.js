@@ -14,13 +14,14 @@ try {
     //console.log(_id, projectStatus);
     //check for project id and status
     if(!_id || !projectStatus ){
-        logger.error(errorMessages.PROJECT_ID_AND_STATUS_REQUIRED)
-        return res.status(400).json(errorMessages.PROJECT_ID_AND_STATUS_REQUIRED)
+        logger.error(errorMessages.PROJECT_ID_AND_STATUS_REQUIRED);
+        return res.status(400).json(errorMessages.PROJECT_ID_AND_STATUS_REQUIRED);
     }
     const checkStatus = await Project.findById({_id})
     console.log(checkStatus);
     if(checkStatus.projectStatus == "Verified"){
-        return res.status(400).json(errorMessages.PROJECT_ALREADY_VERIFIED)
+        logger.error(`Error - ${errorMessages.PROJECT_ALREADY_VERIFIED}`);
+        return res.status(400).json(errorMessages.PROJECT_ALREADY_VERIFIED);
     }
     //check for status and update data as per status
     if(projectStatus == "Verified" || projectStatus == "verified"){
@@ -44,13 +45,12 @@ try {
         }
 
     }else{
-        logger.error(errorMessages.INVALID_INPUT)
-        return res.status(400).json(errorMessages.INVALID_INPUT)
+        logger.error(errorMessages.INVALID_INPUT);
+        return res.status(400).json(errorMessages.INVALID_INPUT);
     }
 } catch (error) {
-    logger.error(errorMessages.VERIFY_PROJECT_FAILED)
-    return res.status(500).json(errorMessages.INTERNAL_ERROR)
+    logger.error(errorMessages.VERIFY_PROJECT_FAILED);
+    return res.status(500).json(errorMessages.INTERNAL_ERROR);
 }
 
 }
-

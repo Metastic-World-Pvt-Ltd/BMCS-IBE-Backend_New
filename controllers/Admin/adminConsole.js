@@ -7,6 +7,7 @@ const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
 module.exports.adminConsole = async function(req, res){
 try {
+    logger.info(`Start`);
     logger.info(successMessages.ADMIN_CONSOLE_ACTIVATED);
     //user input
     const token = req.body.token || req.query.token || req.headers["x-access-token"];
@@ -42,6 +43,7 @@ try {
         }else{
             //response
             logger.info(`Output - ${projectData}`)
+            logger.info(`End`);
             return res.status(200).json(projectData)
         }
     }else{

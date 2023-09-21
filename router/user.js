@@ -21,6 +21,7 @@ const { agentProject } = require('../controllers/User/agentProject');
 const { getProject } = require('../controllers/User/getProject');
 const { editProduct } = require('../controllers/Products/editProduct');
 const { createClientProduct } = require('../controllers/Products/createClientProduct');
+const { getRefChild } = require('../controllers/User/getRefChild');
 var upload = multer({
     dest: storageValue,
     fileFilter: fileFilterValue,
@@ -87,5 +88,7 @@ router.post('/editProject', verifyUser,upload.fields([
   ]),editProduct);
 
 router.post('/clientproduct',upload.array('files'),createClientProduct);  
+//Get All Child Referral
+router.get('/getrefchild',verifyUser,getRefChild);
 
 module.exports = router;

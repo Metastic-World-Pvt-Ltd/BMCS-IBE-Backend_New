@@ -6,6 +6,7 @@ const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
 module.exports.getLogs = async function(req, res){
 try {
+    logger.info(`Start`);
     logger.info(successMessages.GET_LOGS_ACTIVATED);
     //check for token and start and end date to get logs
     const token = req.body.token || req.query.token || req.headers["x-access-token"];
@@ -59,6 +60,7 @@ try {
             return res.status(404).json(errorMessages.NOT_FOUND)
         }else{
             logger.info(`Output - ${data}`)
+            logger.info(`End`);
             //response
             res.status(200).json(data);
         }

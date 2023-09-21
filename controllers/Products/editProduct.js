@@ -8,6 +8,7 @@ require('dotenv').config({path:'../../.env'});
 
 module.exports.editProduct = async function(req, res){
 try {
+    logger.info(`Start`);
     logger.info(successMessages.EDIT_PRODUCT_ACTIVATED)
     //user input
     const {productName, productSummary, requiredDoc} = req.body;
@@ -56,7 +57,8 @@ try {
                 const updatedData = await Product.findByIdAndUpdate(_id, 
                     {productName, productSummary, requiredDoc , updatedBy}
                      , {new:true} )
-                logger.info(`Updated Data - ${updatedData}`)     
+                logger.info(`Updated Data - ${updatedData}`) 
+                logger.info(`End`);    
                 return res.status(200).json(updatedData);
             } catch (error) {
                 logger.error(`Error - ${error}`)

@@ -9,6 +9,7 @@ const successMessages = require('../../response/successMessages');
 
 module.exports.deleteUser = async function(req, res){
 try {
+    logger.info(`Start`);
     logger.info(successMessages.DELETE_USER_ACTIVATED)
     const {email} = req.body;
     logger.info(`email - ${email}`)
@@ -72,6 +73,7 @@ try {
             })
             logger.info(successMessages.CREATED_USER_HISTORY);
             logger.error(errorMessages.USER_DELETED_SUCCESSFULLY+ " " + deleteData)
+            logger.info(`End`);
             return res.status(200).json(errorMessages.USER_DELETED_SUCCESSFULLY)
         } catch (error) {
             logger.error(`Error -${error}`)

@@ -6,6 +6,7 @@ const successMessages = require('../../response/successMessages');
 
 module.exports.generateEmailOtp = async function(req, res){
     try {
+        logger.info(`Start`);
         logger.info(successMessages.GENERATE_EMAIL_OTP_ACTIVATED)
             //user email address
             var useremail = req.body.email;
@@ -53,13 +54,14 @@ module.exports.generateEmailOtp = async function(req, res){
             // Preview only available when sending through an Ethereal account
             // console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
             logger.info(successMessages.EMAIL_OTP_SENT_SUCCESSFULLY)
-            res.send(successMessages.EMAIL_OTP_SENT_SUCCESSFULLY)
+            logger.info(`End`);
+            return res.status(200).json(successMessages.EMAIL_OTP_SENT_SUCCESSFULLY)
         } catch (error) {
             logger.error(`Error - ${error}`)
-            res.json(error);
+            return res.json(error);
         }
     } catch (error) {
         logger.error(errorMessages.GENERATE_EMAIL_OTP_FAILED)
-        res.status(500).json(errorMessages.INTERNAL_ERROR)
+        return res.status(500).json(errorMessages.INTERNAL_ERROR)
     }
 }

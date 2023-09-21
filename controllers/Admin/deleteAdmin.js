@@ -8,11 +8,12 @@ const successMessages = require('../../response/successMessages');
 
 module.exports.deleteAdmin = async function(req, res){
 try {
+    logger.info(`Start`);
     logger.info(successMessages.DELETE_ADMIN_ACTIVATED)
     const {email} = req.body;
     logger.info(`email - ${email}`)
     const token = req.body.token || req.query.token || req.headers["x-access-token"];
-    logger.info(`Token - ${token } `)
+    // logger.info(`Token - ${token } `)
     //check for token provided or not
     if(!token){
         logger.error(errorMessages.TOKEN_NOT_FOUND)
@@ -62,7 +63,8 @@ try {
             })
             
             logger.info(successMessages.DELETED_USER_SUCCESS +' ' + deleteData)
-            return res.status(200).json(successMessages.DELETED_USER_SUCCESS)
+            logger.info(`End`);
+            return res.status().json(successMessages.DELETED_USER_SUCCESS)
         } catch (error) {
             logger.error(`Error -${error}`)
             return res.json(errorMessages.SOMETHING_WENT_WRONG)

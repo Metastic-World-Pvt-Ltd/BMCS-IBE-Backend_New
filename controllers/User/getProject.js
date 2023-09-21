@@ -5,6 +5,7 @@ const logger = require('./logger');
 
 module.exports.getProject = async function(req, res){
 try {
+    logger.info(`Start`);
     logger.info(successMessages.GET_PROJECT_ACTIVATED)
     //project Id input
     const projectId = req.params.projectId;
@@ -19,6 +20,7 @@ try {
     }else{
         //send response as data found
         logger.info(`Output - ${projectData}`)
+        logger.info(`End`);
         return res.status(200).json(projectData);
     }
 } catch (error) {

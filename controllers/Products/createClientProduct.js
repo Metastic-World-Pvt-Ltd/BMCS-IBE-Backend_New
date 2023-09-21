@@ -7,6 +7,7 @@ const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
 module.exports.createClientProduct = async function(req, res){
 try {
+    logger.info(`Start`);
     logger.info(successMessages.AGENT_PROJECT_ACTIVATED)
     //user input
     const {projectName , contact , projectAmount , projectType , projectDescription } = req.body;
@@ -90,6 +91,7 @@ try {
        //if Projectadata 
        if(projectData){
             logger.info(successMessages.PROJECT_CREATED_SUCCESSFULLY)
+            logger.info(`End`);
             return res.status(200).json(successMessages.PROJECT_CREATED_SUCCESSFULLY);
        }
        

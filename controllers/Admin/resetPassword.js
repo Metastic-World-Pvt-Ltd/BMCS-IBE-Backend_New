@@ -7,12 +7,14 @@ const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
 module.exports.resetPassword = async function(req, res){
 try {
+    logger.info(`Start`);
     logger.info(successMessages.RESET_PASSWORD_ACTIVATED)
     //input token from iser
     const token = req.body.token || req.query.token || req.headers["x-access-token"];
-    logger.info(`Input - ${req.body}`)
+    
     //input email and password
     const {email, password} = req.body;
+    logger.info(`Input - ${email}, ${password}`);
     //check for token provided or not
     if(!token){
         return res.status(403).json(errorMessages.TOKEN_NOT_FOUND);
@@ -48,6 +50,7 @@ try {
                 return res.status(404).json(errorMessages.NOT_FOUND)
             }else{
                 logger.info(successMessages.PASSWORD_RESET_SUCCESSFULLY)
+                logger.info(`End`);
                 //response
                 return res.status(200).json(successMessages.PASSWORD_RESET_SUCCESSFULLY)
             }

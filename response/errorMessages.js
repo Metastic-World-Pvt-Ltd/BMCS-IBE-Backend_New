@@ -118,7 +118,7 @@ module.exports = {
 
     CLIENT_PRODUCT_EXIST:'Product Already Exist',
 
-
+    GET_REF_CHILD_FAILED:'Get Ref Child Endpoint Failed',
 
     // Add more error messages as needed...
   };

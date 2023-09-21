@@ -5,6 +5,7 @@ const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
 module.exports.userUpdate = async function(req, res){
     try {
+        logger.info(`Start`);
         logger.info(successMessages.USER_UPDATED_ACTIVATED)
         logger.info(`Input - ${req.body}`)
         //check for Body input
@@ -33,19 +34,20 @@ module.exports.userUpdate = async function(req, res){
             if(updateData){
                 //response 
                 logger.info(`updated output - ${updateData}`)
-                res.status(200).json(updateData);
+                logger.info(`End`);
+                return res.status(200).json(updateData);
             }else{
                 logger.error(errorMessages.USER_DOES_NOT_EXIST)
-                res.status(404).json(errorMessages.USER_DOES_NOT_EXIST)
+                return res.status(404).json(errorMessages.USER_DOES_NOT_EXIST)
             }
         }else{
             logger.error(errorMessages.ACCESS_DENIED)
-            res.status(401).json(errorMessages.ACCESS_DENIED)
+            return res.status(401).json(errorMessages.ACCESS_DENIED)
         }
        
 
     } catch (error) {
         logger.error(errorMessages.USER_UPDATE_FAILED)
-        res.status(500).json(errorMessages.INTERNAL_ERROR)
+        return res.status(500).json(errorMessages.INTERNAL_ERROR)
     }
 }

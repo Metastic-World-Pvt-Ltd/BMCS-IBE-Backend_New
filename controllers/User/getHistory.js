@@ -5,6 +5,7 @@ const successMessages = require('../../response/successMessages');
 
 module.exports.getHistory = async function(req, res){
 try {
+    logger.info(`Start`);
     logger.info(successMessages.GET_HISTORY_ACTIVATED)
     
     const id = req.params.id || req.body.id || req.query.id || req.headers["id"];
@@ -13,6 +14,7 @@ try {
     //console.log(allData);
     if(allData){
         logger.info(`Output - ${allData}`)
+        logger.info(`End`);
         return res.status(200).json(allData)
     }else{
         logger.error(errorMessages.NOT_FOUND)

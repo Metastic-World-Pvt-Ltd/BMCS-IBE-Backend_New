@@ -111,8 +111,7 @@ module.exports = {
 
     EMAIL_SENT_TO_FINANACE:'Email has been send to Finance Team',
 
-
-
+    GET_REF_CHILD_ACTIVATED:'Get Ref Child Endpoint Activated',
 
 
 

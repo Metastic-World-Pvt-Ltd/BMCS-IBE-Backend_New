@@ -4,6 +4,7 @@ const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
 module.exports.filter_Project = async function(req, res){
 try {
+    logger.info(`Start`);
     logger.info(successMessages.FILTER_PROJECT_ACTIVATED)
     //check user input project status to filet accordingly
     const projectStatus = req.body.projectStatus || req.query.projectStatus || req.headers["project-status"]
@@ -16,6 +17,7 @@ try {
         return res.status(404).json(errorMessages.NOT_FOUND)
     }
     logger.info(`Output - ${projectData}`)
+    logger.info(`End`);
     //response
     return res.status(200).json(projectData);
 } catch (error) {

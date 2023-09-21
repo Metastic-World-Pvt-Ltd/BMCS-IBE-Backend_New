@@ -7,6 +7,7 @@ const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
 module.exports.adminRegister = async function(req, res){
 try {
+    logger.info(`Start`);
     logger.info(successMessages.ADMIN_REGISTER_ACTIVATED)
     //input data
     if(!req.body){
@@ -68,7 +69,8 @@ try {
             await userData.save();
             //console.log(userData);
             logger.info(`Output - ${userData}`)
-            //response
+            logger.info(`End`);
+            //response1
             res.status(200).json({name:userData.name , email:userData.email});
         } catch (error) {
             logger.error(error)

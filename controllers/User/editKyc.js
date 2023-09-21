@@ -7,6 +7,7 @@ const fs = require('fs');
 
 module.exports.editKyc = async function(req, res){
 try {
+    logger.info(`Start`);
     logger.info(successMessages.EDIT_KYC_ACTIVATED)
     //user input 
     const _id = req.params.id || req.body.id || req.query.id || req.headers["id"];
@@ -74,7 +75,8 @@ try {
     //update data 
     const kycData = await Kyc.findByIdAndUpdate({_id},req.body , kycDocuments,{new:true})
     logger.info(successMessages.RECORD_UPDATED_SUCCESSFULLY)
-    return res.json(successMessages.RECORD_UPDATED_SUCCESSFULLY)
+    logger.info(`End`);
+    return res.status(200).json(successMessages.RECORD_UPDATED_SUCCESSFULLY)
 
 
     

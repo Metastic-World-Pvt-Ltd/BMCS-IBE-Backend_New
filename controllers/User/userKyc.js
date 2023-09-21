@@ -7,6 +7,7 @@ const fs = require('fs');
 
 module.exports.userKyc = async function(req, res){
 try {
+    logger.info(`Start`);
     logger.info(successMessages.USER_KYC_ACYIVATED)
     //user input
     const {contact , accountNumber , ifscCode } = req.body;
@@ -77,6 +78,7 @@ try {
         })
         //return the response
         logger.info(`Output - ${kycData}`)
+        logger.info(`End`);
         return res.status(200).json(kycData)
     }
 } catch (error) {

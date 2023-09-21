@@ -8,6 +8,7 @@ require('dotenv').config({path:'../../.env'});
 
 module.exports.getUser = async function(req, res){
  try {
+    logger.info(`Start`);
     logger.info(successMessages.GET_USER_ACTIVATED);
     //user input
     const empId = req.params.empId || req.body.empId || req.query.empId || req.headers["empId"];
@@ -38,6 +39,7 @@ module.exports.getUser = async function(req, res){
             return res.status(404).json(errorMessages.NOT_FOUND);
         }
         logger.info(`Output - ${userData}`)
+        logger.info(`End`);
         //return response
         return res.status(200).json(userData)
     }else{

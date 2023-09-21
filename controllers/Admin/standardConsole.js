@@ -7,12 +7,14 @@ const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
 module.exports.standardConsole = async function(req, res){
 try {
+    logger.info(`Start`);
     logger.info(successMessages.STANDARD_CONSOLE_ACTIVATED);
     //input token from user
     const token = req.body.token || req.query.token || req.headers["x-access-token"];
-    logger.info(`Token - ${token}`)
+    
     //check for token provided or not
     if(!token){
+        logger.error(`Error - ${errorMessages.TOKEN_NOT_FOUND}`)
         return res.status(401).json(errorMessages.TOKEN_NOT_FOUND);
     }
     var userRole;
@@ -26,13 +28,14 @@ try {
          userRole = decode.role;
          _id = decode.id
     } catch (error) {
-        return res.status(401).json(errorMessages.TOKEN_EXPIRED)
+        logger.error(`Error - ${errorMessages.TOKEN_EXPIRED}`);
+        return res.status(401).json(errorMessages.TOKEN_EXPIRED);
     }
     //check Admin user is active or not
     const activeUser = await AdminUser.findById({_id}) 
     if(activeUser == null){
         logger.error(`In active Admin`)
-        return res.status(401).json(errorMessages.ACCESS_DENIED)
+        return res.status(401).json(errorMessages.ACCESS_DENIED);
     }
     logger.info(`User Role - ${userRole}`)
     //check for authorization
@@ -43,21 +46,22 @@ try {
         const projectData = await Project.find({projectStatus})
         //check record found or not in DB
         if(projectData.length == 0){
-            logger.error(errorMessages.NOT_FOUND)
-            return res.status(404).json(errorMessages.NOT_FOUND)
+            logger.error(errorMessages.NOT_FOUND);
+            return res.status(404).json(errorMessages.NOT_FOUND);
         }else{
-            logger.info(`Output - ${projectData}`)
+            logger.info(`Output - ${projectData}`);
+            logger.info(`End`);
             //response
-            return res.status(200).json(projectData)
+            return res.status(200).json(projectData);
         }
         
     }else{
-        logger.error(errorMessages.ACCESS_DENIED)
-        return res.status(403).json(errorMessages.ACCESS_DENIED)
+        logger.error(errorMessages.ACCESS_DENIED);
+        return res.status(403).json(errorMessages.ACCESS_DENIED);
     }
 } catch (error) {
-    logger.error(errorMessages.STANDARD_CONSOLE_FAILED)
-    return res.status(500).json(errorMessages.INTERNAL_ERROR)
+    logger.error(errorMessages.STANDARD_CONSOLE_FAILED);
+    return res.status(500).json(errorMessages.INTERNAL_ERROR);
 }
     
 }

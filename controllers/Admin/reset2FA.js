@@ -67,7 +67,7 @@ try {
         }
        
         // console.log('Url inside fn',url);
-         logger.info(`Output - Secret - ${secretKey.base32} ImageURL - ${imageUrl}`)
+         logger.info(`Output - ${imageUrl}`)
          sendMail(imageUrl)
         // return res.status(200).json({ secret: secret.base32, imageUrl });
       });
@@ -105,6 +105,7 @@ try {
             // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
             
             logger.info(successMessages.QR_SUCCESSFULLY_SENT)
+            logger.info(`End`);
             return res.status(200).json(successMessages.QR_SUCCESSFULLY_SENT)
         } catch (error) {
             logger.error(`Error - ${error}`)
