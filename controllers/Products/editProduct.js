@@ -53,12 +53,13 @@ try {
             // console.log(isExist);
             try {
                 const updatedBy = adminEmail;
-                
+                //update records into db
                 const updatedData = await Product.findByIdAndUpdate(_id, 
                     {productName, productSummary, requiredDoc , updatedBy}
                      , {new:true} )
                 logger.info(`Updated Data - ${updatedData}`) 
-                logger.info(`End`);    
+                logger.info(`End`);  
+                //response  
                 return res.status(200).json(updatedData);
             } catch (error) {
                 logger.error(`Error - ${error}`)

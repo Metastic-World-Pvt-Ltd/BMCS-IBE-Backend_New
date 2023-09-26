@@ -1,4 +1,6 @@
 const Project = require('../../models/ClientProduct');
+const Enquiry = require('../../models/Enquiry');
+const TicketHistory =  require('../../models/TicketHistory');
 const fs = require('fs');
 const path = require('path');
 const lc = require('letter-count');
@@ -63,7 +65,8 @@ try {
             logger.error(errorMessages.DISCRIPTION_CHAR_LIMIT)
             return res.status(400).json(errorMessages.DISCRIPTION_CHAR_LIMIT)
         }
-
+        const isExist = await Project.find({projectName});
+        if(isExist.length == 0){           
         //generate project ID
         const part1 = Math.floor(1000 + Math.random() *1E7);
         const randomNumber = part1.toString();
@@ -87,9 +90,30 @@ try {
        logger.info(`Output - ${projectData}`)
        //if Projectadata 
        if(projectData){
+            try {
+                const newStatus = 'Work In Progress';
+                const updateStatus = await Enquiry.findOneAndUpdate({contact:contact},{projectStatus:newStatus},{new:true})
+                logger.info(`Ticket Status updated`);
+                // console.log(updateStatus);
+                const ticketId = updateStatus.ticketId;
+                const status = newStatus;
+                const ticketData = await TicketHistory.create({
+                    contact , ticketId ,status,
+                })
+                // console.log(ticketData);
+                logger.info(`Ticket History Created - ${ticketData}`);
+            } catch (error) {
+                logger.error(error)
+                return res.json(error)
+            }
+
             logger.info(successMessages.PROJECT_CREATED_SUCCESSFULLY)
             logger.info(`End`);
             return res.status(200).json(successMessages.PROJECT_CREATED_SUCCESSFULLY);
+        }    
+       }else{
+        logger.error(errorMessages.PROJECT_ALREADY_EXIST);
+        return res.status(400).json(errorMessages.PROJECT_ALREADY_EXIST);
        }
        
 } catch (error) {

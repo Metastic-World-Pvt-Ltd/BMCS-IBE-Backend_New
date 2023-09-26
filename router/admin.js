@@ -15,6 +15,7 @@ const { register2FA } = require('../controllers/Admin/register2FA');
 const { verify2FA } = require('../controllers/Admin/verify2FA');
 const { reset2FA } = require('../controllers/Admin/reset2FA');
 const { createProduct } = require('../controllers/Products/createProduct');
+const { deleteProduct } = require('../controllers/Products/deleteProduct');
 const { editProduct } = require('../controllers/Products/editProduct');
 const { projectApproval } = require('../controllers/Admin/projectApproval');
 const { completeProject } = require('../controllers/Admin/completeProject');
@@ -73,5 +74,11 @@ router.post('/completewithdraw/:id',verifyUser,updateWithdrawStatus)
 router.get('/allProjects',verifyUser, getAllProjects); 
 //get all verified project for admin approval
 router.get('/filterProjects',verifyUser,filter_Project);
+//create/add product
+router.post('/createproduct', verifyUser , createProduct);
+//delete Product
+router.post('/deleteproject/:id', verifyUser , deleteProduct);
+//edit/update product
+router.patch('/editproduct/:id',editProduct);
 
 module.exports = router;

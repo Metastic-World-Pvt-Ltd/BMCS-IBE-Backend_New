@@ -86,9 +86,13 @@ router.post('/editProject', verifyUser,upload.fields([
     { name: 'cAdhar' },
     { name: 'cPan' },
   ]),editProduct);
-
+  
+//client Product
 router.post('/clientproduct',upload.array('files'),createClientProduct);  
 //Get All Child Referral
 router.get('/getrefchild',verifyUser,getRefChild);
+//allWithdrawRequest
+router.get('/allWithdrawRequest',allWithdrawRequest);
+
 
 module.exports = router;

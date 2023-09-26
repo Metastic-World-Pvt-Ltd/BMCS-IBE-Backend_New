@@ -7,7 +7,7 @@ const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
 require('dotenv').config({path:'../../.env'});
 
-module.exports.deleteProject = async function(req , res){
+module.exports.deleteProduct = async function(req , res){
 try {
     logger.info(successMessages.DELETE_PRODUCT_ACTIVATED)
     //token input

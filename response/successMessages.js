@@ -113,7 +113,17 @@ module.exports = {
 
     GET_REF_CHILD_ACTIVATED:'Get Ref Child Endpoint Activated',
 
+    CREATE_TICKET_ACTIVATED:'Create Ticket Endpoint Activated',
 
+    START:'Start',
+
+    END:'End',
+
+    QUERY_CREATED:'Query Created Successfully',
+
+    GET_ALL_TICKETS_ACTIVATED:'Get All Tickets Endpoint Activated',
+
+    GET_TICKET_BY_ID_ACTIVATED:'Get Ticket By Id Endpoint Activated',
 
     // Add more error messages as needed...
   };

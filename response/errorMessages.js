@@ -120,6 +120,12 @@ module.exports = {
 
     GET_REF_CHILD_FAILED:'Get Ref Child Endpoint Failed',
 
+    PROJECT_NAME_EXIST:'Project Name Already Exist',
+
+    CREATE_TICKET_FAILED:'Create Ticket Endpoint Failed',
+
+    PROJECT_ALREADY_EXIST:'Project Already Exist',
+
     // Add more error messages as needed...
   };
   
