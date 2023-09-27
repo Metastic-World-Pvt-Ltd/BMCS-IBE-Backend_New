@@ -4,6 +4,7 @@ const { getTicketById } = require('../controllers/Ticket/getTicketById');
 const { getAllTickets } = require('../controllers/Ticket/getAllTickets');
 const { createTicket } = require('../controllers/Ticket/createTicket');
 const { getTicketStatus } = require('../controllers/Ticket/getTicketStatus');
+const { getTicketHistory } = require('../controllers/Ticket/getTicketHistory');
 
 const router=express.Router();
 router.use(express.json())
@@ -21,5 +22,7 @@ router.get('/getticket/:id',verifyUser , getTicketById);
 router.get('/getallticket',verifyUser, getAllTickets);
 //get ticket status by contact
 router.get('/getstatus',verifyUser, getTicketStatus);
+//get ticket history by ticket id
+router.get('/tickethistory/:id',verifyUser , getTicketHistory);
 
 module.exports = router;

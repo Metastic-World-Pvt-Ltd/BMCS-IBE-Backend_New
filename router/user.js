@@ -22,6 +22,7 @@ const { getProject } = require('../controllers/User/getProject');
 const { editProduct } = require('../controllers/Products/editProduct');
 const { createClientProduct } = require('../controllers/Products/createClientProduct');
 const { getRefChild } = require('../controllers/User/getRefChild');
+const { generatePin } = require('../controllers/User/generetPIN');
 var upload = multer({
     dest: storageValue,
     fileFilter: fileFilterValue,
@@ -93,6 +94,7 @@ router.post('/clientproduct',upload.array('files'),createClientProduct);
 router.get('/getrefchild',verifyUser,getRefChild);
 //allWithdrawRequest
 router.get('/allWithdrawRequest',allWithdrawRequest);
-
+//Generate Pin for User Login
+router.post('/generatepin',verifyUser , generatePin);
 
 module.exports = router;

@@ -125,6 +125,12 @@ module.exports = {
 
     GET_TICKET_BY_ID_ACTIVATED:'Get Ticket By Id Endpoint Activated',
 
+    GET_TICKET_HISOTRY_ACTIVATED:'Get Ticket History Endpont Activated',
+
+    GENERATE_PIN_ACTIVATED:'Generate PIN Endpoint Activated',
+
+    RECORD_ADDED_SUCCESSFULLY:'Record Added Successfully!',
+
     // Add more error messages as needed...
   };
   

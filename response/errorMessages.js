@@ -126,6 +126,12 @@ module.exports = {
 
     PROJECT_ALREADY_EXIST:'Project Already Exist',
 
+    TIKCET_ID_REQUIRED:'Ticket Id is Required',
+
+    GET_TICKET_HISTORY_FAILED:'Get Ticket History Endpoint Failed',
+
+    CONTACT_ALREADY_EXIST:'Contact Already Exist',
+
     // Add more error messages as needed...
   };
   

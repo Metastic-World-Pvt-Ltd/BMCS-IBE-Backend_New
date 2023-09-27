@@ -2,6 +2,8 @@ const Project = require('../../models/ClientProduct');
 const logger = require('../User/logger');
 const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
+const Enquiry = require('../../models/Enquiry');
+const TicketHistory = require('../../models/TicketHistory');
 module.exports.verifyProject = async function(req, res){
 try {
     logger.info(successMessages.VERIFY_PROJECT_ACTIVATED)
@@ -40,6 +42,14 @@ try {
             //updste the data into DB
             const projectData = await Project.findByIdAndUpdate({_id},{comment},{new:true})
             logger.info(`Output - ${projectData}`)
+            const contact = projectData.contact;
+            const status = 'Pending Document';
+            const ticketData = await Enquiry.findOneAndUpdate({contact},{projectStatus:status},{new:true})
+            logger.info(`Updated Status - ${ticketData}`);
+            const ticketId = ticketData.ticketId;
+
+            const tktHistData =  await TicketHistory.findOneAndUpdate({ticketId},{status:status},{new:true});
+            logger.info(`Ticket History Generated - ${tktHistData}`);
             //reponse
             res.status(200).json(projectData);
         }
