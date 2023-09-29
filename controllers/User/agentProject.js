@@ -1,5 +1,5 @@
-const Project = require('../../models/ClientProduct');
-const Enquiry = require('../../models/Enquiry');
+const Project = require('../../models/Project');
+const Ticket = require('../../models/Ticket');
 const TicketHistory =  require('../../models/TicketHistory');
 const fs = require('fs');
 const path = require('path');
@@ -92,7 +92,7 @@ try {
        if(projectData){
             try {
                 const newStatus = 'Work In Progress';
-                const updateStatus = await Enquiry.findOneAndUpdate({contact:contact},{projectStatus:newStatus},{new:true})
+                const updateStatus = await Ticket.findOneAndUpdate({contact:contact},{projectStatus:newStatus},{new:true})
                 logger.info(`Ticket Status updated`);
                 // console.log(updateStatus);
                 const ticketId = updateStatus.ticketId;

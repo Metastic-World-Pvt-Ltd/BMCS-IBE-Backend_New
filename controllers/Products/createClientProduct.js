@@ -1,4 +1,4 @@
-const ClientProduct = require('../../models/ClientProduct');
+const ClientProduct = require('../../models/Project');
 const fs = require('fs');
 const path = require('path');
 const lc = require('letter-count');

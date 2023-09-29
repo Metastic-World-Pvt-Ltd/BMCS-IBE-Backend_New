@@ -1,8 +1,8 @@
-const Project = require('../../models/ClientProduct');
+const Project = require('../../models/Project');
 const logger = require('../User/logger');
 const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
-const Enquiry = require('../../models/Enquiry');
+const Ticket = require('../../models/Ticket');
 const TicketHistory = require('../../models/TicketHistory');
 module.exports.verifyProject = async function(req, res){
 try {
@@ -12,7 +12,7 @@ try {
     logger.info(`Id - ${_id}`)
     //project status and comment
     const {projectStatus,comment} = req.body;
-    logger.info(`Input - ${req.body}`)
+    logger.info(`Input - ${projectStatus} , ${comment}`)
     //console.log(_id, projectStatus);
     //check for project id and status
     if(!_id || !projectStatus ){
@@ -21,6 +21,10 @@ try {
     }
     const checkStatus = await Project.findById({_id})
     console.log(checkStatus);
+    if(!checkStatus){
+        logger.error(`Error - ${errorMessages.NOT_FOUND}`)
+        return res.status(404).json(errorMessages.NOT_FOUND);
+    }
     if(checkStatus.projectStatus == "Verified"){
         logger.error(`Error - ${errorMessages.PROJECT_ALREADY_VERIFIED}`);
         return res.status(400).json(errorMessages.PROJECT_ALREADY_VERIFIED);
@@ -30,10 +34,18 @@ try {
         //update data
         const projectData = await Project.findByIdAndUpdate({_id},{projectStatus},{new:true})
         logger.info(`Output - ${projectData}`)
+        const contact = projectData.contact;
+        const status = 'Work in Progress';
+        const ticketData = await Ticket.findOneAndUpdate({contact},{projectStatus:status},{new:true})
+        logger.info(`Updated Status - ${ticketData}`);
+        const ticketId = ticketData.ticketId;
+
+        const tktHistData =  await TicketHistory.findOneAndUpdate({ticketId},{status:status},{new:true});
+        logger.info(`Ticket History Generated - ${tktHistData}`);
         //response
          res.status(200).json(projectData);
          //check status update comment data and return response
-    }else if(projectStatus == "Re_Verified" || projectStatus == "re_verified"){
+    }else if(projectStatus == "Re_Verify" || projectStatus == "re_verify"){
         //check if comment provided or not
         if(!comment){
             logger.error(errorMessages.COMMENT_REQUIRED)
@@ -44,7 +56,7 @@ try {
             logger.info(`Output - ${projectData}`)
             const contact = projectData.contact;
             const status = 'Pending Document';
-            const ticketData = await Enquiry.findOneAndUpdate({contact},{projectStatus:status},{new:true})
+            const ticketData = await Ticket.findOneAndUpdate({contact},{projectStatus:status},{new:true})
             logger.info(`Updated Status - ${ticketData}`);
             const ticketId = ticketData.ticketId;
 

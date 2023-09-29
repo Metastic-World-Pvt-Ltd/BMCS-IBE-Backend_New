@@ -1,4 +1,4 @@
-const Enquiry = require('../../models/Enquiry');
+const Ticket = require('../../models/Ticket');
 const User = require('../../models/User');
 const TicketHistory =  require('../../models/TicketHistory');
 const errorMessages = require('../../response/errorMessages');
@@ -15,7 +15,7 @@ try {
         logger.error(errorMessages.ALL_FIELDS_REQUIRED);
         return res.status(400).json(errorMessages.ALL_FIELDS_REQUIRED);
     }
-    const isExist = await Enquiry.findOne({projectName});
+    const isExist = await Ticket.findOne({projectName});
     
     if(isExist){
         logger.error(errorMessages.PROJECT_NAME_EXIST);
@@ -28,7 +28,7 @@ try {
             return res.status(404).json(errorMessages.NOT_FOUND)
         }
         
-        const data =  await Enquiry.countDocuments();
+        const data =  await Ticket.countDocuments();
         let formattedNumber;
         counter = data + 1;
         if (counter < 10) {
@@ -51,7 +51,7 @@ try {
         if(!projectDiscription){
             projectDiscription = '';
         }
-        const enquiryData = await Enquiry.create({
+        const enquiryData = await Ticket.create({
             userId , ticketId ,userName, contact , email ,  projectName, projectDiscription , projectAmount, projectStatus , refBy
         })
         const ticketData = await TicketHistory.create({

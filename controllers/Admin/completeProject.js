@@ -1,11 +1,13 @@
-const Project = require('../../models/ClientProduct');
+const Project = require('../../models/Project');
 const History = require('../../models/History');
 const Wallet = require('../../models/Wallet');
+const Ticket = require('../../models/Ticket');
+const TicketHistory = require('../../models/TicketHistory');
 const logger = require('../User/logger');
 const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
 module.exports.completeProject = async function(req , res){
-try {
+// try {
     logger.info(`Start`);
     logger.info(successMessages.COMPLETE_PROJECT_ACTIVATED)
     //Input project ID
@@ -13,7 +15,7 @@ try {
     logger.info(`Id - ${_id}`)
     //input of status from body
     const {projectStatus} = req.body;
-    logger.info(`Input - ${req.body}`)
+    logger.info(`Input - ${projectStatus}`)
     //check if ID provided or not
     if(!_id){
         logger.error(errorMessages.PROJECT_ID)
@@ -34,10 +36,13 @@ try {
             logger.error(errorMessages.NOT_FOUND)
             return res.status(404).json(errorMessages.NOT_FOUND);
         }
+        //console.log(projectData.projectStatus);
+        
         //check if Data in DB status is approved or not
         if(projectData.projectStatus == "Approved" || projectData.projectStatus == "approved"){
             //find and update data in DB
             const completeData = await Project.findByIdAndUpdate({_id},{projectStatus},{new:true})
+            // console.log(completeData.contact);
             const contact = projectData.contact;
             //console.log(completeData);
             //withdraw amount
@@ -76,6 +81,15 @@ try {
             }) 
             logger.info(`Output - ${userHistory}`)
             //console.log("hist",userHistory);
+            const projectData2 = await Project.findByIdAndUpdate({_id},{projectStatus},{new:true})
+            logger.info(`Output - ${projectData2}`)
+            //update Ticket status
+            const newStatus = 'Closed';
+            const ticketData = await Ticket.findOneAndUpdate({contact},{projectStatus:newStatus},{new:true})
+            logger.info(`Updated Status - ${ticketData}`);
+            const ticketId = ticketData.ticketId;
+            const tktHistData =  await TicketHistory.findOneAndUpdate({ticketId},{status:newStatus},{new:true});
+            logger.info(`Ticket History Generated - ${tktHistData}`);
             
         }else{
             logger.error(errorMessages.ACCESS_DENIED)
@@ -88,10 +102,10 @@ try {
         logger.error(errorMessages.UNABLE_TO_PERFORM)
         return res.status(401).json(errorMessages.UNABLE_TO_PERFORM)
     }
-} catch (error) {
-    logger.error(errorMessages.COMPLETE_PROJECT_FAILED)
-    return res.status(500).json(errorMessages.INTERNAL_ERROR);
-}
+// } catch (error) {
+//     logger.error(errorMessages.COMPLETE_PROJECT_FAILED)
+//     return res.status(500).json(errorMessages.INTERNAL_ERROR);
+// }
 
 }
 

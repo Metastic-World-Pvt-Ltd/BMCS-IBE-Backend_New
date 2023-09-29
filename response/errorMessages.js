@@ -132,6 +132,8 @@ module.exports = {
 
     CONTACT_ALREADY_EXIST:'Contact Already Exist',
 
+    VERIFY_PIN_FAILED:'Verify PIN Endpoint Failed',
+
     // Add more error messages as needed...
   };
   

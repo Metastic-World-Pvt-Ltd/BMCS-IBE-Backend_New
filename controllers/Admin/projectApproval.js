@@ -1,19 +1,20 @@
-const Project = require('../../models/ClientProduct');
+const Project = require('../../models/Project');
 const History = require('../../models/History');
 const Wallet = require('../../models/Wallet');
 const logger = require('../User/logger');
 const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
 module.exports.projectApproval = async function(req, res){
-try {
+// try {
     logger.info(`Start`);
     logger.info(successMessages.PROJECT_APPROVAL_ACTIVATED)
     //input project ID
     const _id =  req.params.id || req.body.id || req.query.id || req.headers["id"];
     logger.info(`Id - ${_id}`)
-    logger.info(`Input - ${req.body}`)
+    
     //input for sactioned amount
     const {sanctionedAmount , projectStatus} = req.body;
+    logger.info(`Input - ${sanctionedAmount} , ${projectStatus}`)
     //check projects exist or not in DB
     const projectData = await Project.findById({_id});
     //console.log(projectData);
@@ -23,7 +24,7 @@ try {
         return res.status(404).json(errorMessages.NOT_FOUND)
     }
     //check for project status to approve
-    if(projectData.projectStatus == "Completed" || projectData.projectStatus == "Rejected" || projectData.projectStatus == "Approved"){
+    if(projectData.projectStatus == "Completed" || projectData.projectStatus == "Rejected" ){
         logger.error(errorMessages.ACCESS_DENIED)
         return res.status(403).json(errorMessages.ACCESS_DENIED);
     }
@@ -100,9 +101,9 @@ try {
             return res.status(401).json(`Unable to perform action as status is ${projectData.projectStatus}`);
         }
     }
-} catch (error) {
-    logger.error(errorMessages.PROJECT_APPROVAL_FAILED)
-    return res.status(500).json(errorMessages.INTERNAL_ERROR)
-}
+// } catch (error) {
+//     logger.error(errorMessages.PROJECT_APPROVAL_FAILED)
+//     return res.status(500).json(errorMessages.INTERNAL_ERROR)
+// }
     
 }

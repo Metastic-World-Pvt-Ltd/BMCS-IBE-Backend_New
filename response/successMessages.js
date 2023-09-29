@@ -131,6 +131,16 @@ module.exports = {
 
     RECORD_ADDED_SUCCESSFULLY:'Record Added Successfully!',
 
+    VERIFY_PIN_ACTIVATED:'Verify PIN Endpoint Activated',
+
+    VERIFIED_PIN_SUCCESSFULLY:'PIN Verified Successfully',
+
+    GET_TICKET_STATUS_ACTIVATED:'Get Ticket Status Endpoint Activated',
+
+    GET_DIRECT_TICKET:'Get Direct Ticket Endpoint',
+
+    
+
     // Add more error messages as needed...
   };
   

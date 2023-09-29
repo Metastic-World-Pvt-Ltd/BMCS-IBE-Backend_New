@@ -61,13 +61,13 @@ router.post('/verify-2fa', loginRateLimiter,verifyUser,verify2FA);
 //Reset 2FA 
 router.post('/reset-2fa',reset2FA); ///completed till here
 //create Product
-// router.post('/createproduct',createProduct);
-// //edit product
-// router.patch('/editproduct/:id',editProduct);
-// //project appoval from Admin
-// router.post('/approval/:id',verifyUser,projectApproval);
-// //mark project as complete
-// router.post('/complete/:id',verifyUser,completeProject);
+router.post('/createproduct', verifyUser,createProduct);
+//edit product
+router.patch('/editproduct/:id', verifyUser,editProduct);
+//project appoval from Admin
+router.post('/approval/:id',verifyUser,projectApproval);
+//mark project as complete
+router.post('/complete/:id',verifyUser,completeProject);
 //update withdraw status as complete
 router.post('/completewithdraw/:id',verifyUser,updateWithdrawStatus)
 //get all projects

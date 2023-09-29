@@ -1,4 +1,4 @@
-const Project = require('../../models/ClientProduct');
+const Project = require('../../models/Project');
 const logger = require('../User/logger');
 const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');

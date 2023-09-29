@@ -44,4 +44,4 @@ const projectData =  new mongoose.Schema({
     timestamps:true
 })
 
-module.exports = mongoose.model('ClientProduct', projectData);
+module.exports = mongoose.model('Project', projectData);

@@ -5,6 +5,7 @@ const { getAllTickets } = require('../controllers/Ticket/getAllTickets');
 const { createTicket } = require('../controllers/Ticket/createTicket');
 const { getTicketStatus } = require('../controllers/Ticket/getTicketStatus');
 const { getTicketHistory } = require('../controllers/Ticket/getTicketHistory');
+const { getDirectTickets } = require('../controllers/Ticket/getDirectTickets');
 
 const router=express.Router();
 router.use(express.json())
@@ -24,5 +25,7 @@ router.get('/getallticket',verifyUser, getAllTickets);
 router.get('/getstatus',verifyUser, getTicketStatus);
 //get ticket history by ticket id
 router.get('/tickethistory/:id',verifyUser , getTicketHistory);
+//Get direct ticket without referral
+router.get('/directticket',verifyUser , getDirectTickets);
 
 module.exports = router;

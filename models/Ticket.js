@@ -44,4 +44,4 @@ const enquiryData =  new mongoose.Schema({
     timestamps:true
 })
 
-module.exports = mongoose.model('Enquiry', enquiryData);
+module.exports = mongoose.model('Ticket', enquiryData);
