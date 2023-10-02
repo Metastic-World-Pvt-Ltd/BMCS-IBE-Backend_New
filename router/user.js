@@ -24,6 +24,7 @@ const { createClientProduct } = require('../controllers/Products/createClientPro
 const { getRefChild } = require('../controllers/User/getRefChild');
 const { generatePin } = require('../controllers/User/generetPIN');
 const { verifyPIN } = require('../controllers/User/verifyPIN');
+const { updateUserPin } = require('../controllers/User/updateUserPin');
 
 var upload = multer({
     dest: storageValue,
@@ -100,6 +101,8 @@ router.get('/allWithdrawRequest',allWithdrawRequest);
 router.post('/generatepin',verifyUser , generatePin);
 //Verfy Uer PIN
 router.post('/verifypin',verifyUser , verifyPIN);
+//Update User PIN 
+router.patch('/updatepin',verifyUser,updateUserPin);
 
 
 module.exports = router;

@@ -134,6 +134,10 @@ module.exports = {
 
     VERIFY_PIN_FAILED:'Verify PIN Endpoint Failed',
 
+    ALL_LEVEL_COMPLETED:'All Level has been completed',
+
+    RECORD_ALREADY_EXIST:'Record Already Exist',
+
     // Add more error messages as needed...
   };
   

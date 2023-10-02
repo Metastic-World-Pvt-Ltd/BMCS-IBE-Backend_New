@@ -139,6 +139,8 @@ module.exports = {
 
     GET_DIRECT_TICKET:'Get Direct Ticket Endpoint',
 
+    UPDATE_USER_PIN_ACTIVATED:'Update User PIN Activated',
+
     
 
     // Add more error messages as needed...

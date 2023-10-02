@@ -110,8 +110,8 @@ module.exports.userSignup = async function(req, res){
                     })
                        // res.status(200).json(userDoc);
                 }else{
-                    logger.error(errorMessages.SOMETHING_WENT_WRONG)
-                    return res.status(400).json(errorMessages.SOMETHING_WENT_WRONG)
+                    logger.error(errorMessages.ALL_LEVEL_COMPLETED)
+                    return res.status(400).json(errorMessages.ALL_LEVEL_COMPLETED)
                 }
             }else{
                 logger.error(errorMessages.REFID_DOSE_NOT_EXIST)

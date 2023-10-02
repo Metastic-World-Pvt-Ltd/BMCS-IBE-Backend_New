@@ -177,6 +177,26 @@ like - productName , productSummary , requiredDoc and updatedBy
 To Delete a product we again required product Id as per Database
 Before Deleting we are copying product details to another new collection that is called DeletedProject and we are also inserting deletedBy field
 
+### CREATE TICKT ###
+To create ticket user need to fil , Project Name , Project Amount , Project Discription
+Required Fields - userId , projectName , projectAmount , refBy , projectDescription
+
+### GET ALL TICKETS ###
+To Get all the tickets we can call the endpoint it will return all the avaible  tickets
+
+### GET DIRECT TICKETS ###
+Get All the tickets created by user without referral
+
+### GET TICKET BY ID ### 
+To get specific ticket we can call the endpoint by providing ticket id
+
+### GET TICKET HISTORY ###
+We can Get all the ticket status history 
+
+### GET TICKET STATUS ###
+To get current status of ticket we can call the endpoint t returns the current status of ticket
+
+
 ### TO RUN SERVER ###
 npm start
 
