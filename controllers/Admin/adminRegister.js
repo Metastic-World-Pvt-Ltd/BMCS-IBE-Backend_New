@@ -1,6 +1,7 @@
 const AdminUser = require('../../models/AdminUser');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const nodemailer = require("nodemailer");
 require('dotenv').config({path:'../../.env'});
 const logger = require('../User/logger');
 const errorMessages = require('../../response/errorMessages');
@@ -25,7 +26,7 @@ try {
         //decode token signature
         const secret = process.env.SECRET_KEY;
         const decode = jwt.verify(token , secret);
-        console.log(decode);
+        
     //check for user role as per token
          userRole = decode.role;
     } catch (error) {
@@ -35,10 +36,12 @@ try {
     //check condition user specific role
     if(userRole == "Super_Admin" || userRole == "super_admin"){
         createUser(name , email, password , role);
+        sendEmail(name , role , email, password );
     }else if(userRole == "Admin" || userRole == "admin"){
         //admin can only create standard user
         if(role == "Standard" || role == "standard"){
             createUser(name , email, password , role);
+            sendEmail(name , role , email, password );
         }else{
             logger.error(errorMessages.ACCESS_DENIED)
             return res.status(403).json(errorMessages.ACCESS_DENIED)
@@ -83,3 +86,59 @@ try {
 }
 }
 
+async function sendEmail(username , role  , email , password){
+    let testAccount = await nodemailer.createTestAccount();
+            const url = 'http://localhost:4000/admin';
+            //sender email
+            var senderEmail = process.env.EMAIL;
+            //sender email password
+            var userPassword = process.env.EMAIL_PASSWORD;
+
+            let transporter = nodemailer.createTransport({
+                host:process.env.EMAIL_HOST,
+                port: 465,
+                secure: true, // true for 465, false for other ports
+                auth: {
+                    user: senderEmail,
+                    pass: userPassword
+                },
+            })
+      
+        try {
+            let info = await transporter.sendMail({
+                from: `no-reply@bmcsindia.in <${senderEmail}>`, // sender address
+                to: email, // list of receivers
+                subject: "User Creation BMCS India", // Subject line
+                text: `Hi ${username} ,
+                we have created your account with ${role} access 
+                Please find the details below
+                URL - ${url}
+                Username - ${email}
+                Password - ${password}
+                
+                Thanks
+                Support Team`, // plain text body
+                html: `Hi <b>${username}</b> ,<br><br> we have created your account with <b>${role}</b> access <br><br>
+                Please find the details below <br><br>
+                <b>URL</b> - ${url} <br>
+                <b>Username</b > - ${email} <br>
+                <b>Password</b> - ${password} <br>
+                <br><br><br><br>
+                Thanks <br> <b>Support Team</b>` // html body
+            });
+            logger.info(`Email info - ${info.response , info.envelope , info.accepted , info.rejected, info.messageId}`)
+            //console.log(info);
+            // console.log("Message sent: %s", info.messageId);
+            // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+            
+            // Preview only available when sending through an Ethereal account
+            // console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+            logger.info(successMessages.EMAIL_OTP_SENT_SUCCESSFULLY)
+            logger.info(`End`);
+            //return res.status(200).json(successMessages.EMAIL_OTP_SENT_SUCCESSFULLY)
+        } catch (error) {
+            logger.error(`Error - ${error}`)
+            //return res.json(error);
+        }
+
+}

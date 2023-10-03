@@ -141,6 +141,10 @@ module.exports = {
 
     UPDATE_USER_PIN_ACTIVATED:'Update User PIN Activated',
 
+    CREATE_SUPPORT_TICKET_ACTIVATED:'Create Support Ticket Endpoit Activated',
+
+    TICKET_CREATED_SUCCESSFULLY:'Ticket Created Successfully!',
+
     
 
     // Add more error messages as needed...

@@ -11,6 +11,7 @@ router.get('/', function(req, res){
 router.use('/user', require('./user'));
 router.use('/admin',require('./admin'))
 router.use('/ticket',require('./ticket'));
+router.use('/support', require('./support'));
 
 // for any further routes, access from here
 // router.use('/routerName', require('./routerfile));y
