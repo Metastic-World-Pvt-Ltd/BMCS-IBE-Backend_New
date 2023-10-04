@@ -138,6 +138,8 @@ module.exports = {
 
     RECORD_ALREADY_EXIST:'Record Already Exist',
 
+    GET_ALL_SUPPORT_TICKET_FAILED:'Get All Support Tiket Failed',
+
     // Add more error messages as needed...
   };
   

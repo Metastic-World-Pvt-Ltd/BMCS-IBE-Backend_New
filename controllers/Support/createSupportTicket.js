@@ -48,13 +48,13 @@ try {
         const userName = userData.firstName + ' ' + userData.lastName;
         const contact = userData.contact;
         const email = userData.email;
-        const ticketStatus = 'Opened';
-
+        const status = 'New';
+        const assignedTo = 'empty';
         const enquiryData = await SupportTicket.create({
-             ticketId ,userName, contact , email ,  issue, description , category, priority 
+             ticketId ,userName, contact , email ,  issue, description , category, priority , assignedTo, status , 
         })
         const ticketData = await TicketHistory.create({
-            contact , ticketId ,status:ticketStatus
+            contact , ticketId ,status
         })
         logger.info(`Ticket History Created - ${ticketData}`);
         logger.info(successMessages.TICKET_CREATED_SUCCESSFULLY)

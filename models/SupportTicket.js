@@ -23,6 +23,7 @@ const supportData =  new mongoose.Schema({
     },
     description:{
         type:String,
+        required:true,
     },
     category:{
         type:String,
@@ -31,6 +32,25 @@ const supportData =  new mongoose.Schema({
     priority:{
         type:String,
         required:true,
+    },
+    assignedTo:{
+        type:String,
+    },
+    prevAssignee:{
+        type:[String],
+
+    },
+    comments:{
+        type:String,
+        
+    },
+    status:{
+        type:String,
+        required:true,
+    },
+    closedBy:{
+        type:String,
+    
     },
 
 },{

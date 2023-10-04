@@ -145,6 +145,8 @@ module.exports = {
 
     TICKET_CREATED_SUCCESSFULLY:'Ticket Created Successfully!',
 
+    GET_ALL_SUPPORT_TICKET:'Get All Support Ticket Endpoint Ticket',
+
     
 
     // Add more error messages as needed...

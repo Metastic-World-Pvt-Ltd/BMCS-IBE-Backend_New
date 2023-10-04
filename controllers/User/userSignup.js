@@ -84,10 +84,16 @@ module.exports.userSignup = async function(req, res){
             //referral check
             logger.info(`Referral Id - ${refId}`)
             const refExist = await User.findOne({refId:refId});
-           // console.log(refExist);
+            console.log(refExist);
             if(refExist){
-                if(refExist.refCount < maxLevel){
-                    var level = parseInt(refExist.refCount) +1;
+                
+                    var level ;
+            console.log(refExist);
+                    if(refExist.refBy == 'Admin'){
+                        level = 1;
+                    }else{
+                        level = parseInt(refExist.level) + 1;
+                    }
                     const refId = contact;
                     const refCount = 0;
                     //update ref count for user
@@ -108,11 +114,7 @@ module.exports.userSignup = async function(req, res){
                         logger.info(`End`);
                         return res.status(200).json({token , userDoc})
                     })
-                       // res.status(200).json(userDoc);
-                }else{
-                    logger.error(errorMessages.ALL_LEVEL_COMPLETED)
-                    return res.status(400).json(errorMessages.ALL_LEVEL_COMPLETED)
-                }
+
             }else{
                 logger.error(errorMessages.REFID_DOSE_NOT_EXIST)
                 return res.status(404).json(errorMessages.REFID_DOSE_NOT_EXIST);
