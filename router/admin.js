@@ -23,6 +23,7 @@ const { updateWithdrawStatus } = require('../controllers/User/updateWithdrawStat
 const { verifyProject } = require('../controllers/Admin/verifyProject');
 const { getAllProjects } = require('../controllers/Admin/getAllProjects');
 const { filter_Project } = require('../controllers/Admin/filter_Project');
+const { updateAdminPassword } = require('../controllers/Admin/updateAdminPassword');
 
 const router=express.Router();
 router.use(express.json())
@@ -40,6 +41,8 @@ router.post('/adminLogin',loginRateLimiter, adminLogin);
 router.post('/deleteadmin',deleteAdmin);
 //Delete User
 router.post('/deleteuser',deleteUser);
+//update admin password by user itself
+router.post('/updatepassword',verifyUser, updateAdminPassword);
 //reset admin password
 router.post('/reset',verifyUser,resetPassword);
 //Super Admin console view page

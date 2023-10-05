@@ -147,7 +147,7 @@ module.exports = {
 
     GET_ALL_SUPPORT_TICKET:'Get All Support Ticket Endpoint Ticket',
 
-    
+    UPDATE_ADMIN_PASSWORD_ACTIVATED:'Update Admin Password Endpoint Activated',
 
     // Add more error messages as needed...
   };

@@ -3,6 +3,8 @@ const { verifyUser } = require('../middleware/verifyUser');
 const { createSupportTicket } = require('../controllers/Support/createSupportTicket');
 const { assignToMe } = require('../controllers/Support/assignToMe');
 const { closeTicket } = require('../controllers/Support/closeTicket');
+const { getAllSupportTicket } = require('../controllers/Support/getAllSupportTicket');
+const { filterSupportTicket } = require('../controllers/Support/filterSupportTicket');
 
 
 const router=express.Router();
@@ -19,5 +21,9 @@ router.post('/createticket', verifyUser , createSupportTicket);
 router.post('/assigntome', verifyUser , assignToMe);
 //close ticket
 router.post('/closeticket',verifyUser , closeTicket);
+//get all support ticket
+router.get('/alltickets',verifyUser , getAllSupportTicket);
+//get support filter ticket
+router.get('/filtersupportticket',verifyUser, filterSupportTicket); 
 
 module.exports = router;

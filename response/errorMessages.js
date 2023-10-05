@@ -140,6 +140,8 @@ module.exports = {
 
     GET_ALL_SUPPORT_TICKET_FAILED:'Get All Support Tiket Failed',
 
+    OLD_PASSWORD_IS_INCORRECT:'Old Password is incorrect',
+
     // Add more error messages as needed...
   };
   
