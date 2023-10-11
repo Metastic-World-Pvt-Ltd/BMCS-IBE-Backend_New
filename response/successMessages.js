@@ -149,6 +149,8 @@ module.exports = {
 
     UPDATE_ADMIN_PASSWORD_ACTIVATED:'Update Admin Password Endpoint Activated',
 
+    GENERATE_SECRET_API_KEY_ACTIVATED:'Generate Secret API Key Endpoint Activated',
+
     // Add more error messages as needed...
   };
   

@@ -25,6 +25,7 @@ const { getAllProjects } = require('../controllers/Admin/getAllProjects');
 const { filter_Project } = require('../controllers/Admin/filter_Project');
 const { updateAdminPassword } = require('../controllers/Admin/updateAdminPassword');
 const { generateSecretAPIKey } = require('../controllers/Admin/generateSecretAPIKey');
+const { getSecretKey } = require('../controllers/Admin/getSecretKey');
 
 const router=express.Router();
 router.use(express.json())
@@ -84,7 +85,9 @@ router.post('/createproduct', verifyUser , createProduct);
 router.post('/deleteproject/:id', verifyUser , deleteProduct);
 //edit/update product
 router.patch('/editproduct/:id',editProduct);
-//Generate Seceret API Key for ecternal or client access
+//Generate Seceret API Key for external or client access
 router.post('/generatesecret',verifyUser , generateSecretAPIKey);
+//Get Seceret API Key
+router.get('/getapikey',verifyUser , getSecretKey);
 
 module.exports = router;

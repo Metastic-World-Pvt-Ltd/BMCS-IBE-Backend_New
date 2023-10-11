@@ -144,6 +144,8 @@ module.exports = {
 
     SECRETE_KEY_REQUIRED:'Secret Key is Required',
 
+    GENERATE_SECRET_API_KEY_FAILED:'Generate Secret API Key Failed',
+
     // Add more error messages as needed...
   };
   
