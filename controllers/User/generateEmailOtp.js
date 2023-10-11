@@ -1,8 +1,9 @@
 const nodemailer = require("nodemailer");
-const logger = require("./logger");
 require('dotenv').config({path:'../../.env'});
 const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
+const OTP = require('../../models/OTP');
+const logger = require("./logger");
 
 module.exports.generateEmailOtp = async function(req, res){
     try {
@@ -10,16 +11,30 @@ module.exports.generateEmailOtp = async function(req, res){
         logger.info(successMessages.GENERATE_EMAIL_OTP_ACTIVATED)
             //user email address
             var useremail = req.body.email;
-            logger.info(`Input - ${req.body}`)
+            logger.info(`Input - ${useremail}`)
 
             const data = Math.floor(Math.random() * 9000) + 1000;
             var otp = data.toString();
             //set otp expiry time
             const expiration= Date.now() + 120000;
             logger.info(`OTP - ${otp}`)    
-            module.exports.expiration = expiration;
-        // console.log(otp)
-            module.exports.otp = otp;
+        //     module.exports.expiration = expiration;
+        // // console.log(otp)
+        //     module.exports.otp = otp;
+        try {
+            const isExist =  await OTP.findOne({email:useremail});
+        
+            if(isExist){
+                const otpData = await OTP.findOneAndUpdate({email:useremail},{otp , expiration},{new:true})
+            }else{
+                const otpData = await OTP.create({
+                    email:useremail , otp , expiration 
+                })
+            }
+        } catch (error) {
+            logger.error(`Error - ${error}`)
+            return res.json(errorMessages.SOMETHING_WENT_WRONG);
+        }
 
             let testAccount = await nodemailer.createTestAccount();
 

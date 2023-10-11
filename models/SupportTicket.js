@@ -1,4 +1,19 @@
-const mongoose =  require('mongoose');
+ const mongoose =  require('mongoose');
+
+const commentSchema = new mongoose.Schema({
+    commentBy: {
+        type: String, // or ObjectId, depending on your user schema
+        required: true,
+      },
+      commentValue: {
+        type: String,
+        required: true,
+      },
+      userRole: {
+        type: String,
+        required: true,
+      },
+});
 
 const supportData =  new mongoose.Schema({
     ticketId:{
@@ -40,10 +55,8 @@ const supportData =  new mongoose.Schema({
         type:[String],
 
     },
-    comments:{
-        type:String,
-        
-    },
+    comments:[commentSchema]
+    ,
     status:{
         type:String,
         required:true,

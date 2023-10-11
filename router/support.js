@@ -5,6 +5,7 @@ const { assignToMe } = require('../controllers/Support/assignToMe');
 const { closeTicket } = require('../controllers/Support/closeTicket');
 const { getAllSupportTicket } = require('../controllers/Support/getAllSupportTicket');
 const { filterSupportTicket } = require('../controllers/Support/filterSupportTicket');
+const { ticketComment } = require('../controllers/Support/ticketComment');
 
 
 const router=express.Router();
@@ -25,5 +26,7 @@ router.post('/closeticket',verifyUser , closeTicket);
 router.get('/alltickets',verifyUser , getAllSupportTicket);
 //get support filter ticket
 router.get('/filtersupportticket',verifyUser, filterSupportTicket); 
+//update comment in support ticket
+router.post('/updatecomment', verifyUser , ticketComment)
 
 module.exports = router;

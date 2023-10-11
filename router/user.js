@@ -25,6 +25,8 @@ const { getRefChild } = require('../controllers/User/getRefChild');
 const { generatePin } = require('../controllers/User/generetPIN');
 const { verifyPIN } = require('../controllers/User/verifyPIN');
 const { updateUserPin } = require('../controllers/User/updateUserPin');
+const { checkAPIKey } = require('../middleware/checkAPIKey');
+const { verifyEmailOtp } = require('../controllers/User/verifyEmailOtp');
 
 var upload = multer({
     dest: storageValue,
@@ -56,12 +58,14 @@ router.get('/gethistory/:id',verifyUser, getHistory)
 router.post('/totalEarning',verifyUser,totalEarning);
 
 //Generate Mobile Otp
-router.post('/generateOtp', generateOtp);
+router.post('/generateOtp', checkAPIKey, generateOtp);
 //Generate Email Otp
 router.post('/generateEmailOtp',generateEmailOtp);
 //verify otp
 //loginRateLimiter middleware to restrict number of retry limits
 router.post('/verifyOtp',loginRateLimiter, verifyOtp);
+//Verify Email OTP
+router.post('/verifyemailotp', loginRateLimiter ,verifyEmailOtp);
 //user details from signup page
 router.post('/signup',upload.single('avatar'),userSignup);
 //sign in auth

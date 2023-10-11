@@ -142,6 +142,8 @@ module.exports = {
 
     OLD_PASSWORD_IS_INCORRECT:'Old Password is incorrect',
 
+    SECRETE_KEY_REQUIRED:'Secret Key is Required',
+
     // Add more error messages as needed...
   };
   

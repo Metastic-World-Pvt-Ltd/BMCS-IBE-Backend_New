@@ -12,6 +12,7 @@ try {
     logger.info(`Input - ${contact}`)
     const userDoc = await User.findOne({contact:contact});
     if(userDoc){
+        console.log(userDoc);
        //generate token for user
        logger.info(`User found in DB`)
        const firstName = userDoc.firstName;
