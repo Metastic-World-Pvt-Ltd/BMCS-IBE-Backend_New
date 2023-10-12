@@ -196,6 +196,9 @@ We can Get all the ticket status history
 ### GET TICKET STATUS ###
 To get current status of ticket we can call the endpoint t returns the current status of ticket
 
+### CREATE SUPPORT TICKET ###
+To create a support ticket we can call the endpoint 
+Required Fields - userId , userName , email , issue , description , category , priority , assignTo , prevAssignee , comments , status , closed , 
 
 ### TO RUN SERVER ###
 npm start

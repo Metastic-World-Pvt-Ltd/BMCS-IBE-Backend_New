@@ -49,10 +49,7 @@ const userData =  new mongoose.Schema({
     refBy:{
         type:String,
         required:true
-    }, 
-    avatar:{
-        type:String,
-    }
+    },
 
 },{
     timestamps:true

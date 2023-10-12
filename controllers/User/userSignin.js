@@ -15,9 +15,9 @@ try {
         console.log(userDoc);
        //generate token for user
        logger.info(`User found in DB`)
-       const firstName = userDoc.firstName;
+       
        const secret = process.env.SECRET_KEY;
-        jwt.sign({contact,firstName} , secret , { algorithm: 'HS512' } , (err,token)=>{
+        jwt.sign({contact,id:userDoc._id } , secret , { algorithm: 'HS512' } , (err,token)=>{
           if(err) throw new err;
             logger.info(`UserDoc - ${userDoc}`)
             logger.info(`End`);

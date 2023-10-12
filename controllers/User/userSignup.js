@@ -34,24 +34,25 @@ module.exports.userSignup = async function(req, res){
         }
         const empId = str+lastTwoDigits+formattedNumber
         //user input
-        logger.info(`Input - ${req.body}`)
+       
         const {contact , firstName , lastName , gender , email , userRole , role , refId } = req.body;
+        logger.info(`Input - ${contact} , ${firstName} , ${lastName} , ${gender} , ${email} , ${userRole} , ${role} , ${refId}`)
        // console.log(req.body);
         if(!contact ,!firstName ,!lastName ,!gender ,!email ,!userRole ,!role ,!refId){
             logger.error(errorMessages.ALL_FIELDS_REQUIRED)
             return res.status(400).json(errorMessages.ALL_FIELDS_REQUIRED)
         }
-        var newPath;
+        //var newPath;
         const maxLevel = 15;
-        //check for file
-        if(req.file){
-            const{originalname ,path} = req.file;
-            const parts = originalname.split('.')
-            const ext = parts[1];
-            newPath = fs.renameSync(path, path+'.'+ext)
-        }else{
-            newPath = 'uploads\\e373b76922d49610025f2e4135af8caf.avif'
-        }
+        // //check for file
+        // if(req.file){
+        //     const{originalname ,path} = req.file;
+        //     const parts = originalname.split('.')
+        //     const ext = parts[1];
+        //     newPath = fs.renameSync(path, path+'.'+ext)
+        // }else{
+        //     newPath = 'uploads\\e373b76922d49610025f2e4135af8caf.avif'
+        // }
         //check for contact exist or not
         const isContact = await User.findOne({contact});
         //check for email exist or not
@@ -69,7 +70,7 @@ module.exports.userSignup = async function(req, res){
             const level = 'Admin';
             const refBy = 'Admin';
             const userDoc = await User.create({
-                contact ,empId, firstName , lastName,gender , email , userRole , role  , level , refId , refCount, refBy, avatar:newPath
+                contact ,empId, firstName , lastName,gender , email , userRole , role  , level , refId , refCount, refBy,
             })
             logger.info(`Output - ${userDoc}`)
             //generate token for user
@@ -104,7 +105,7 @@ module.exports.userSignup = async function(req, res){
                    const refBy = refExist.refId;
                     //create user
                     const userDoc = await User.create({
-                    contact ,empId, firstName , lastName , gender, email , userRole , role  , level , refId , refCount, refBy , avatar:newPath
+                    contact ,empId, firstName , lastName , gender, email , userRole , role  , level , refId , refCount, refBy ,
                 })
                 logger.info(`Output - ${userDoc}`)
                 //generate token for user
