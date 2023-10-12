@@ -151,6 +151,10 @@ module.exports = {
 
     GENERATE_SECRET_API_KEY_ACTIVATED:'Generate Secret API Key Endpoint Activated',
 
+    GET_SECERET_KEY_ACTIVATED:'Get Secret Key Endpoint Activated',
+
+    CHECK_API_MIDDLEWARE_ACTIVATED:'Check API Middleware Activated',
+
     // Add more error messages as needed...
   };
   

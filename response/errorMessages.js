@@ -146,6 +146,10 @@ module.exports = {
 
     GENERATE_SECRET_API_KEY_FAILED:'Generate Secret API Key Failed',
 
+    GET_SECRET_KEY_FAILED:'Get Secret Key Endpoint Failed',
+
+    CHECK_API_MIDDLEWARE_FAILED:'Check API Middleware Failed',
+
     // Add more error messages as needed...
   };
   
