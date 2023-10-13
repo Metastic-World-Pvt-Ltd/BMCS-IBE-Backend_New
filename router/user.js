@@ -27,6 +27,7 @@ const { verifyPIN } = require('../controllers/User/verifyPIN');
 const { updateUserPin } = require('../controllers/User/updateUserPin');
 const { checkAPIKey } = require('../middleware/checkAPIKey');
 const { verifyEmailOtp } = require('../controllers/User/verifyEmailOtp');
+const { signUpCheck } = require('../controllers/User/signUpCheck');
 
 var upload = multer({
     dest: storageValue,
@@ -66,6 +67,8 @@ router.post('/generateEmailOtp',generateEmailOtp);
 router.post('/verifyOtp',loginRateLimiter, verifyOtp);
 //Verify Email OTP
 router.post('/verifyemailotp', loginRateLimiter ,verifyEmailOtp);
+//Generate OTP for Sign Up
+router.post('/checkusersignup',checkAPIKey , signUpCheck);
 //user details from signup page
 router.post('/signup',upload.single('avatar'),userSignup);
 //sign in auth

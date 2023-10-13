@@ -34,7 +34,6 @@ module.exports.userSignup = async function(req, res){
         }
         const empId = str+lastTwoDigits+formattedNumber
         //user input
-       
         const {contact , firstName , lastName , gender , email , userRole , role , refId } = req.body;
         logger.info(`Input - ${contact} , ${firstName} , ${lastName} , ${gender} , ${email} , ${userRole} , ${role} , ${refId}`)
        // console.log(req.body);
@@ -63,6 +62,14 @@ module.exports.userSignup = async function(req, res){
             logger.error(errorMessages.EMAIL_AND_CONTACT_EXIST)
             return res.status(422).json(errorMessages.EMAIL_AND_CONTACT_EXIST)
         }else{
+            const cleanedNumber = contact.replace(/\D/g, '');
+            var number ;
+            // If the number starts with the country code (e.g., +91), remove it
+            if (cleanedNumber.startsWith('91')) {
+                number =  cleanedNumber.slice(2);
+                // console.log(number);
+              //return number
+            }
                     //check userRole
         if(userRole == 'Admin'){
             const refId = contact;
@@ -70,7 +77,7 @@ module.exports.userSignup = async function(req, res){
             const level = 'Admin';
             const refBy = 'Admin';
             const userDoc = await User.create({
-                contact ,empId, firstName , lastName,gender , email , userRole , role  , level , refId , refCount, refBy,
+                contact:number ,empId, firstName , lastName,gender , email , userRole , role  , level , refId:number , refCount, refBy,
             })
             logger.info(`Output - ${userDoc}`)
             //generate token for user
@@ -105,7 +112,7 @@ module.exports.userSignup = async function(req, res){
                    const refBy = refExist.refId;
                     //create user
                     const userDoc = await User.create({
-                    contact ,empId, firstName , lastName , gender, email , userRole , role  , level , refId , refCount, refBy ,
+                    contact:number ,empId, firstName , lastName , gender, email , userRole , role  , level , refId:number , refCount, refBy ,
                 })
                 logger.info(`Output - ${userDoc}`)
                 //generate token for user

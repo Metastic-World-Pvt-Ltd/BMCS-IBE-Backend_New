@@ -4,9 +4,10 @@ const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
 const OTP = require('../../models/OTP');
 const logger = require('./logger');
+const { error } = require('winston');
 
 
-module.exports.generateOtp = async function(req, res){
+module.exports.signUpCheck = async function(req, res){
 try {
     logger.info(`Start`);
     logger.info(successMessages.GENERATE_OTP_ACTIVATED);
@@ -17,6 +18,22 @@ try {
     if(!contact){
         return res.status(400).json(errorMessages.CONTACT_IS_REQUIRED)
     }
+    const cleanedNumber = contact.replace(/\D/g, '');
+    var number ;
+    // If the number starts with the country code (e.g., +91), remove it
+    if (cleanedNumber.startsWith('91')) {
+        number =  cleanedNumber.slice(2);
+        console.log(number);
+      //return number
+    }
+
+    const userExist =  await User.findOne({contact:number})
+    console.log("userExist",userExist);
+
+    if(userExist){
+        console.log("User Exist");
+        return res.status(422).json(errorMessages.CONTACT_ALREADY_EXIST);
+    }     
 
         const otpInt = Math.floor(1000 + Math.random() *9000);
         const otp = otpInt.toString();
@@ -49,12 +66,18 @@ try {
                 from: '+12292672362',
                 to: contact,
             })
-            // .then(message => console.log(message.sid))
+            //  .then(message => console.log(message.sid))
             //  .catch((error) => {
             //     console.log(error);
-            //     return res.status(400).json(error);
+                //return res.status(411).json(error);
             //   });
-            //console.log("checkStatus",checkStatus);
+              //console.log("checkStatus",checkStatus);
+            //   if(error){
+            //     return res.json({'Error' :error.status})
+            //   }else{
+            //     return res.status(200).json(successMessages.OTP_SENT_SUCCESSFULLY); 
+            //   }
+            
 
         // } catch (error) {
         //     return res.status(400).json(error)
@@ -62,9 +85,9 @@ try {
 
             logger.info(successMessages.OTP_SENT_SUCCESSFULLY)
             logger.info(`End`);
+            return res.status(200).json(successMessages.OTP_SENT_SUCCESSFULLY);
             
-            
-            return res.status(200).json(successMessages.OTP_SENT_SUCCESSFULLY);    
+               
 
 
 } catch (error) {
