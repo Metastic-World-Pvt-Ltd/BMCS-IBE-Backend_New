@@ -28,6 +28,7 @@ const { updateUserPin } = require('../controllers/User/updateUserPin');
 const { checkAPIKey } = require('../middleware/checkAPIKey');
 const { verifyEmailOtp } = require('../controllers/User/verifyEmailOtp');
 const { signUpCheck } = require('../controllers/User/signUpCheck');
+const { signUpEmailCheck } = require('../controllers/User/signUpEmailCheck');
 
 var upload = multer({
     dest: storageValue,
@@ -67,12 +68,14 @@ router.post('/generateEmailOtp',generateEmailOtp);
 router.post('/verifyOtp',loginRateLimiter, verifyOtp);
 //Verify Email OTP
 router.post('/verifyemailotp', loginRateLimiter ,verifyEmailOtp);
-//Generate OTP for Sign Up
+//Generate Mobile OTP for Sign Up
 router.post('/checkusersignup',checkAPIKey , signUpCheck);
+//Generate Email OTP for Sign Up
+router.post('checkemailsignup', checkAPIKey , signUpEmailCheck);
 //user details from signup page
-router.post('/signup',upload.single('avatar'),userSignup);
+router.post('/signup' , checkAPIKey ,userSignup);
 //sign in auth
-router.post('/signin', userSignin);
+router.post('/signin' , checkAPIKey, userSignin);
 //update user details
 router.patch('/userUpdate/:id',verifyUser, userUpdate);
 //create referral and distribute earning

@@ -6,7 +6,7 @@ const OTP = require('../../models/OTP');
 const logger = require("./logger");
 const User = require("../../models/User");
 
-module.exports.generateEmailOtp = async function(req, res){
+module.exports.signUpEmailCheck = async function(req, res){
     try {
         logger.info(`Start`);
         logger.info(successMessages.GENERATE_EMAIL_OTP_ACTIVATED)
