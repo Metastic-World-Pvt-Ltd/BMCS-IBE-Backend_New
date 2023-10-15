@@ -71,7 +71,7 @@ router.post('/verifyemailotp', loginRateLimiter ,verifyEmailOtp);
 //Generate Mobile OTP for Sign Up
 router.post('/checkusersignup',checkAPIKey , signUpCheck);
 //Generate Email OTP for Sign Up
-router.post('checkemailsignup', checkAPIKey , signUpEmailCheck);
+router.post('/checkemailsignup', checkAPIKey , signUpEmailCheck);
 //user details from signup page
 router.post('/signup' , checkAPIKey ,userSignup);
 //sign in auth
