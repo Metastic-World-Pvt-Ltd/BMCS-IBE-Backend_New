@@ -29,6 +29,7 @@ const { checkAPIKey } = require('../middleware/checkAPIKey');
 const { verifyEmailOtp } = require('../controllers/User/verifyEmailOtp');
 const { signUpCheck } = require('../controllers/User/signUpCheck');
 const { signUpEmailCheck } = require('../controllers/User/signUpEmailCheck');
+const { signIn } = require('../controllers/User/signIn');
 
 var upload = multer({
     dest: storageValue,
@@ -113,6 +114,8 @@ router.post('/generatepin',verifyUser , generatePin);
 router.post('/verifypin',verifyUser , verifyPIN);
 //Update User PIN 
 router.patch('/updatepin',verifyUser,updateUserPin);
+//Sign in with Single API
+router.post('/usersignin', signIn);
 
 
 module.exports = router;
