@@ -75,8 +75,6 @@ router.post('/checkusersignup',checkAPIKey , signUpCheck);
 router.post('/checkemailsignup', checkAPIKey , signUpEmailCheck);
 //user details from signup page
 router.post('/signup' , checkAPIKey ,userSignup);
-//sign in auth
-router.post('/signin' , checkAPIKey, userSignin);
 //update user details
 router.patch('/userUpdate/:id',verifyUser, userUpdate);
 //create referral and distribute earning
