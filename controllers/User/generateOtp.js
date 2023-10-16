@@ -18,6 +18,20 @@ try {
         return res.status(400).json(errorMessages.CONTACT_IS_REQUIRED)
     }
 
+    const cleanedNumber = contact.replace(/\D/g, '');
+    var number ;
+    // If the number starts with the country code (e.g., +91), remove it
+    if (cleanedNumber.startsWith('91')) {
+        number =  cleanedNumber.slice(2);
+      //return number
+    }
+
+    const userExist =  await User.findOne({contact:number})
+    console.log(userExist);
+    if(!userExist){
+        return res.status(422).json(errorMessages.USER_DOES_NOT_EXIST);
+    } 
+
         const otpInt = Math.floor(1000 + Math.random() *9000);
         const otp = otpInt.toString();
         console.log(otp);

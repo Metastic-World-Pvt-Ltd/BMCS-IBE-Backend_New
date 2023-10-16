@@ -4,14 +4,21 @@ const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
 const OTP = require('../../models/OTP');
 const logger = require("./logger");
+const User = require("../../models/User");
 
 module.exports.generateEmailOtp = async function(req, res){
-    try {
+    // try {
         logger.info(`Start`);
         logger.info(successMessages.GENERATE_EMAIL_OTP_ACTIVATED)
             //user email address
             var useremail = req.body.email;
             logger.info(`Input - ${useremail}`)
+
+            const userExist =  await User.findOne({email:useremail})
+            
+            if(!userExist){
+                return res.status(422).json(errorMessages.USER_DOES_NOT_EXIST);
+            } 
 
             const data = Math.floor(Math.random() * 9000) + 1000;
             var otp = data.toString();
@@ -75,8 +82,8 @@ module.exports.generateEmailOtp = async function(req, res){
             logger.error(`Error - ${error}`)
             return res.json(error);
         }
-    } catch (error) {
-        logger.error(errorMessages.GENERATE_EMAIL_OTP_FAILED)
-        return res.status(500).json(errorMessages.INTERNAL_ERROR)
-    }
+    // } catch (error) {
+    //     logger.error(errorMessages.GENERATE_EMAIL_OTP_FAILED)
+    //     return res.status(500).json(errorMessages.INTERNAL_ERROR)
+   // }
 }
