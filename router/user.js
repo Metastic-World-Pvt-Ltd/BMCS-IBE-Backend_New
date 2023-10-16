@@ -13,7 +13,6 @@ const { generateEmailOtp } = require('../controllers/User/generateEmailOtp');
 const { verifyOtp } = require('../controllers/User/verifyOtp');
 const { loginRateLimiter } = require('../middleware/loginRateLimiter');
 const { userSignup } = require('../controllers/User/userSignup');
-const { userSignin } = require('../controllers/User/userSignin');
 const { userUpdate } = require('../controllers/User/userUpdate');
 const { userReferral } = require('../controllers/User/userReferral');
 const { userHistory } = require('../controllers/User/userHistory');
