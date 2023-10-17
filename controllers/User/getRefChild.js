@@ -36,7 +36,7 @@ try {
         logger.info(`Output - [${stack}]`) 
         logger.info(`End`);
         //success response 
-        return res.status(200).json(stack)
+        return res.status(200).json({count:i})
     } catch (error) {
         //error handeled here
         logger.error(`Error - ${errorMessages.SOMETHING_WENT_WRONG}`);

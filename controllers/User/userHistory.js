@@ -12,8 +12,8 @@ try {
     logger.info(`Input - ${contact}`)
     //check for contact is provided or not
     if(!contact){
-        logger.error(errorMessages.COMMENT_REQUIRED)
-        res.status(400).json(errorMessages.COMMENT_REQUIRED)
+        logger.error(errorMessages.CONTACT_IS_REQUIRED)
+        res.status(400).json(errorMessages.CONTACT_IS_REQUIRED)
     }else{
         //check history by contact in DB
         const userHist = await History.find({contact});

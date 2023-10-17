@@ -45,7 +45,7 @@ module.exports.projectApproval = async function(req, res){
                         // console.log(transactionAmount);
                         //required fields for DB
                         const type = 'credit';
-                        const origin = 'projectEarning';
+                        const origin = 'Project';
                         const contact = projectData.contact
                        //create history
                        const transactionId = 'PRO' + Date.now();

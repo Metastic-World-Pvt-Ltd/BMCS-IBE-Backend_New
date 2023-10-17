@@ -67,7 +67,7 @@ module.exports.completeProject = async function(req , res){
             //console.log("pending amount ",pendingAmount);
             //define all required data field
             const type = 'credit';
-            const origin = 'projectEarning';
+            const origin = 'Project';
             const status = 'completed'
             //generate history for user transaction
             const transactionId = 'PRO' + Date.now();

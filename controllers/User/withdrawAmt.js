@@ -118,7 +118,7 @@ try {
                 transactionAmount:amount,
                 type:'Debit',
                 status:'Pending',
-                origin:'withdraw',
+                origin:'Withdraw',
                 transactionId,
 
             }) 
