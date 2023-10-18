@@ -1,4 +1,5 @@
 const express=require('express');
+const multer = require('multer');
 const { adminRegister } = require('../controllers/Admin/adminRegister');
 const { loginRateLimiter } = require('../middleware/loginRateLimiter');
 const { adminLogin } = require('../controllers/Admin/adminLogin');
@@ -26,10 +27,17 @@ const { filter_Project } = require('../controllers/Admin/filter_Project');
 const { updateAdminPassword } = require('../controllers/Admin/updateAdminPassword');
 const { generateSecretAPIKey } = require('../controllers/Admin/generateSecretAPIKey');
 const { getSecretKey } = require('../controllers/Admin/getSecretKey');
+const { bannerHome } = require('../controllers/Admin/bannerHome');
+const { storageValue, fileFilterValue } = require('../controllers/User/storage');
+const { hideHomeBanner } = require('../controllers/Admin/hideHomeBanner');
 
 const router=express.Router();
 router.use(express.json())
 router.use(express.urlencoded({extended:false}))
+var upload = multer({
+    dest: storageValue,
+    fileFilter: fileFilterValue,
+  });
 
 router.get('/',function(req, res){
     res.send('Admin Home')
@@ -89,5 +97,10 @@ router.patch('/editproduct/:id',editProduct);
 router.post('/generatesecret',verifyUser , generateSecretAPIKey);
 //Get Seceret API Key
 router.get('/getapikey',verifyUser , getSecretKey);
-
+//Add Banner
+router.post('/banner1',upload.fields([
+    { name: 'Banner' },
+  ]) , bannerHome);
+//Hide Banner
+router.patch('/hidebanner/:id',hideHomeBanner);
 module.exports = router;
