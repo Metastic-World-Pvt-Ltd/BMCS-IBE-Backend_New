@@ -29,6 +29,7 @@ const { verifyEmailOtp } = require('../controllers/User/verifyEmailOtp');
 const { signUpCheck } = require('../controllers/User/signUpCheck');
 const { signUpEmailCheck } = require('../controllers/User/signUpEmailCheck');
 const { signIn } = require('../controllers/User/signIn');
+const { totalRef } = require('../controllers/User/totalRef');
 
 var upload = multer({
     dest: storageValue,
@@ -113,6 +114,7 @@ router.post('/verifypin',verifyUser , verifyPIN);
 router.patch('/updatepin',verifyUser,updateUserPin);
 //Sign in with Single API
 router.post('/usersignin', signIn);
-
+//Totle ref count
+router.get('/totalref',verifyUser, totalRef);
 
 module.exports = router;

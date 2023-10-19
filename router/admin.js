@@ -30,6 +30,7 @@ const { getSecretKey } = require('../controllers/Admin/getSecretKey');
 const { bannerHome } = require('../controllers/Admin/bannerHome');
 const { storageValue, fileFilterValue } = require('../controllers/User/storage');
 const { hideHomeBanner } = require('../controllers/Admin/hideHomeBanner');
+const { deleteBanner } = require('../controllers/Admin/deleteBanner');
 
 const router=express.Router();
 router.use(express.json())
@@ -103,4 +104,6 @@ router.post('/banner1',upload.fields([
   ]) , bannerHome);
 //Hide Banner
 router.patch('/hidebanner/:id',hideHomeBanner);
+//delete banner
+router.post('/deletebanner/:id', deleteBanner)
 module.exports = router;

@@ -7,7 +7,7 @@ const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
 module.exports.userSignup = async function(req, res){
     
-    try {
+    // try {
         logger.info(`Start`);
         logger.info(successMessages.USER_SIGN_UP_ACTIVATED)
         //secret key
@@ -34,7 +34,7 @@ module.exports.userSignup = async function(req, res){
         }
         const empId = str+lastTwoDigits+formattedNumber
         //user input
-        const {contact , firstName , lastName , gender , email , userRole , role , refId } = req.body;
+        var {contact , firstName , lastName , gender , email , userRole , role , refId } = req.body;
         logger.info(`Input - ${contact} , ${firstName} , ${lastName} , ${gender} , ${email} , ${userRole} , ${role} , ${refId}`)
        // console.log(req.body);
         if(!contact ,!firstName ,!lastName ,!gender ,!email ,!userRole ,!role ,!refId){
@@ -63,10 +63,10 @@ module.exports.userSignup = async function(req, res){
             return res.status(422).json(errorMessages.EMAIL_AND_CONTACT_EXIST)
         }else{
             const cleanedNumber = contact.replace(/\D/g, '');
-            var number ;
+            // var number ;
             // If the number starts with the country code (e.g., +91), remove it
             if (cleanedNumber.startsWith('91')) {
-                number =  cleanedNumber.slice(2);
+                contact =  cleanedNumber.slice(2);
                 // console.log(number);
               //return number
             }
@@ -77,7 +77,7 @@ module.exports.userSignup = async function(req, res){
             const level = 'Admin';
             const refBy = 'Admin';
             const userDoc = await User.create({
-                contact:number ,empId, firstName , lastName,gender , email , userRole , role  , level , refId:number , refCount, refBy,
+                contact ,empId, firstName , lastName,gender , email , userRole , role  , level , refId , refCount, refBy,
             })
             logger.info(`Output - ${userDoc}`)
             //generate token for user
@@ -99,8 +99,11 @@ module.exports.userSignup = async function(req, res){
             console.log(refExist);
                     if(refExist.refBy == 'Admin'){
                         level = 1;
+                        console.log("level",level);
                     }else{
+                        
                         level = parseInt(refExist.level) + 1;
+                        console.log("level2",level);
                     }
                     const refId = contact;
                     const refCount = 0;
@@ -110,9 +113,10 @@ module.exports.userSignup = async function(req, res){
                    const updateRef =  await User.findByIdAndUpdate(_id, {refCount:refExitCount})
                    //console.log("update ref",updateRef);
                    const refBy = refExist.refId;
+                   console.log("refby",refBy);
                     //create user
                     const userDoc = await User.create({
-                    contact:number ,empId, firstName , lastName , gender, email , userRole , role  , level , refId:number , refCount, refBy ,
+                    contact ,empId, firstName , lastName , gender, email , userRole , role  , level , refId , refCount, refBy ,
                 })
                 logger.info(`Output - ${userDoc}`)
                 //generate token for user
@@ -130,9 +134,9 @@ module.exports.userSignup = async function(req, res){
         }
         }
 
-    } catch (error) {
-        logger.error(errorMessages.USER_SIGNUP_FAILED)
-        return res.status(500).json(errorMessages.INTERNAL_ERROR)
-    }
+    // } catch (error) {
+    //     logger.error(errorMessages.USER_SIGNUP_FAILED)
+    //     return res.status(500).json(errorMessages.INTERNAL_ERROR)
+    // }
 
 }
