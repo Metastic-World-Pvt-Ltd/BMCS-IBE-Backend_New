@@ -30,6 +30,8 @@ const { signUpCheck } = require('../controllers/User/signUpCheck');
 const { signUpEmailCheck } = require('../controllers/User/signUpEmailCheck');
 const { signIn } = require('../controllers/User/signIn');
 const { totalRef } = require('../controllers/User/totalRef');
+const { getUserEnquiery } = require('../controllers/User/getUserEnquiery');
+const { getAllProjectByContact } = require('../controllers/User/getAllProjectByContact');
 
 var upload = multer({
     dest: storageValue,
@@ -116,5 +118,8 @@ router.patch('/updatepin',verifyUser,updateUserPin);
 router.post('/usersignin', signIn);
 //Totle ref count
 router.get('/totalref',verifyUser, totalRef);
-
+//get all enqueiry by user
+router.get('/userenquiry', getUserEnquiery );
+//Get all project by contact
+router.get('/myproject',getAllProjectByContact);
 module.exports = router;

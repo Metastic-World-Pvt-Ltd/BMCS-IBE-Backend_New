@@ -31,6 +31,8 @@ const { bannerHome } = require('../controllers/Admin/bannerHome');
 const { storageValue, fileFilterValue } = require('../controllers/User/storage');
 const { hideHomeBanner } = require('../controllers/Admin/hideHomeBanner');
 const { deleteBanner } = require('../controllers/Admin/deleteBanner');
+const { addProductList } = require('../controllers/Admin/addProductList');
+const { getProductList } = require('../controllers/Admin/getProductList');
 
 const router=express.Router();
 router.use(express.json())
@@ -106,4 +108,9 @@ router.post('/banner1',upload.fields([
 router.patch('/hidebanner/:id',hideHomeBanner);
 //delete banner
 router.post('/deletebanner/:id', deleteBanner)
+//Add products into list
+router.post('/addproductlist',addProductList);
+//Get Product list
+router.get('/productlist', getProductList);
+
 module.exports = router;
