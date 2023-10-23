@@ -9,9 +9,9 @@ module.exports.getRefChild = async function(req, res){
     logger.info(successMessages.GET_REF_CHILD_ACTIVATED);
     //define array to store referral
     const stack = [];
-    const levelCount1 = [];
-    const levelCount2 = [];
-    const levelCount3 = [];
+    var levelCount = [] ;
+    var referral;
+   
     //user Input
     const contact = req.headers['contact'];
     logger.info(`Input - ${contact}`);
@@ -23,7 +23,19 @@ module.exports.getRefChild = async function(req, res){
     //find the record in DB
     const item = await User.find({refBy:contact});
     //check record found or not
-    console.log(item);
+    console.log(item.length);
+    levelCount.push(item.length) ;
+
+    var length = item.length ;
+    for(let i=0;i <length ; i++){
+        const refConact = item[i].contact;
+         referral = await User.find({refBy:refConact})
+         if(item.length == i){
+            length = referral.length;
+         }
+        levelCount.push(referral.length);
+       // console.log("referral Data",referral);
+    }
     
     if(item.length == 0){
         logger.error(`Error - ${errorMessages.NOT_FOUND}`);
@@ -37,14 +49,14 @@ module.exports.getRefChild = async function(req, res){
         while(i < item.length){
             stack.push(item[i].contact)
     
-            if(item[i].level == '1'){
-                levelCount1.push(item[i].level)
-            }else if(item[i].level == '2'){
-                levelCount2.push(item[i].level)
-            }
-            else if(item[i].level == '3'){
-                levelCount3.push(item[i].level)
-            }
+            // if(item[i].level == '1'){
+            //     levelCount1.push(item[i].level)
+            // }else if(item[i].level == '2'){
+            //     levelCount2.push(item[i].level)
+            // }
+            // else if(item[i].level == '3'){
+            //     levelCount3.push(item[i].level)
+            // }
             
             i++;
 
@@ -52,20 +64,20 @@ module.exports.getRefChild = async function(req, res){
             // const child = item[i].contact;
             
             for(let i=0;i<item.length;i++){
-                console.log(`Chil data here 1`);
-                console.log("Next child",item[i].contact );
+                // console.log(`Chil data here 1`);
+                // console.log("Next child",item[i].contact );
                 const child = item[i].contact;
                 const data = await User.find({refBy:child});
-                console.log(data);
-                console.log(`Chil data here 2`);
+                // console.log(data);
+                // console.log(`Chil data here 2`);
             }
 
-        const lngth = levelCount2.length;
-        console.log(lngth);
+            
+        // console.log(lngth);
         logger.info(`Output - [${stack}]`) 
         logger.info(`End`);
         //success response 
-        return res.status(200).json({stack,levelCount1,levelCount2,levelCount3})
+        return res.status(200).json({stack, levelCount:levelCount })
     // } catch (error) {
     //     //error handeled here
     //     logger.error(`Error - ${errorMessages.SOMETHING_WENT_WRONG}`);
