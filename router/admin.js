@@ -33,6 +33,7 @@ const { hideHomeBanner } = require('../controllers/Admin/hideHomeBanner');
 const { deleteBanner } = require('../controllers/Admin/deleteBanner');
 const { addProductList } = require('../controllers/Admin/addProductList');
 const { getProductList } = require('../controllers/Admin/getProdcutList');
+const { getAllAdminUser } = require('../controllers/Admin/getAllAdminUser');
 
 const router=express.Router();
 router.use(express.json())
@@ -113,5 +114,8 @@ router.post('/addproductlist',addProductList);
 
 //Get product list
 router.get('/getproductlist',getProductList);
+
+//Get All Admin user List
+router.get('/allusers',getAllAdminUser);
 
 module.exports = router;

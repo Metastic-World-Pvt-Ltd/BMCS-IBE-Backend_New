@@ -5,6 +5,7 @@ const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
 const OTP = require('../../models/OTP');
 require('dotenv').config({path:'../../.env'});
+var CryptoJS = require("crypto-js");
 module.exports.signIn =  async function(req, res){
 try {
 
@@ -32,9 +33,11 @@ try {
                const secret = process.env.SECRET_KEY;
                 jwt.sign({contact,id:userDoc._id } , secret , { algorithm: 'HS512' } , (err,token)=>{
                   if(err) throw new err;
-                    logger.info(`UserDoc - ${userDoc}`)
-                    logger.info(`End`);
-                    return res.status(200).json({token , userDoc})
+                  logger.info(`UserDoc - ${userDoc}`)
+                  logger.info(`End`);
+                  var newToken =  encToken(token);
+                 
+                  return res.status(200).json({newToken , userDoc})
                    })
                // res.status(200).json('user verified')
             }else{
@@ -69,7 +72,9 @@ try {
                   if(err) throw new err;
                     logger.info(`UserDoc - ${userDoc}`)
                     logger.info(`End`);
-                    return res.status(200).json({token , userDoc})
+                    var newToken =  encToken(token);
+                   
+                    return res.status(200).json({newToken , userDoc})
                    })
                // res.status(200).json('user verified')
             }else{
@@ -151,4 +156,12 @@ try {
     logger.error(errorMessages.USER_SIGN_IN_FAILED)
     return res.status(500).json(errorMessages.INTERNAL_ERROR)
 }
+}
+
+
+ function encToken(token){
+    const secret = process.env.SECRET_KEY;
+    var token =  CryptoJS.AES.encrypt(token, secret).toString();
+    console.log(token);
+    return token;
 }
