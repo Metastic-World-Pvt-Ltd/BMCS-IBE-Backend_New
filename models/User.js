@@ -50,6 +50,9 @@ const userData =  new mongoose.Schema({
         type:String,
         required:true
     },
+    setPin:{
+        type:Boolean,
+    },
 
 },{
     timestamps:true

@@ -69,7 +69,7 @@ try {
          
             //create user in DB
             const userData = new  AdminUser({
-                name , email , password , role , createdBy , 
+                name , email , password , role , createdBy , set2FA:false
             })
             await userData.save();
             //console.log(userData);

@@ -23,7 +23,10 @@ const userSchema = new mongoose.Schema({
     },
     deletedBy:{
         type:String,
-    }
+    },
+    set2FA:{
+        type:Boolean,
+    },
 },{
     timestamps:true
 }
