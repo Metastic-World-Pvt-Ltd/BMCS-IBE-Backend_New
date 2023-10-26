@@ -26,7 +26,7 @@ module.exports.generateEmailOtp = async function(req, res){
             const expiration= Date.now() + 120000;
             logger.info(`OTP - ${otp}`)    
         //     module.exports.expiration = expiration;
-        // // console.log(otp)
+         console.log(otp)
         //     module.exports.otp = otp;
         try {
             const isExist =  await OTP.findOne({email:useremail});
@@ -80,7 +80,7 @@ module.exports.generateEmailOtp = async function(req, res){
             return res.status(200).json(successMessages.EMAIL_OTP_SENT_SUCCESSFULLY)
         } catch (error) {
             logger.error(`Error - ${error}`)
-            return res.json(error);
+            return res.status(400).json(error);
         }
     // } catch (error) {
     //     logger.error(errorMessages.GENERATE_EMAIL_OTP_FAILED)

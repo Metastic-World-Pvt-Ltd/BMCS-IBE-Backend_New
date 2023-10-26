@@ -14,11 +14,11 @@ module.exports.verifyUser = async function(req, res, next){
       }
 
     const secret = process.env.SECRET_KEY;
-
-    try {
-        // // Decrypt
+        // Decrypt
         var bytes  = CryptoJS.AES.decrypt(token, secret);
         token = bytes.toString(CryptoJS.enc.Utf8);
+    try {
+
         const data = jwt.verify(token , secret)
         req.user = data;
         module.exports.data = data;

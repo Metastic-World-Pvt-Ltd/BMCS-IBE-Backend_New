@@ -46,6 +46,7 @@ try {
                     id:userLogin._id,
                     name:userLogin.name,
                     role:userLogin.role,
+                    "2FA":userLogin.set2FA,
                     newToken,
                     
                 })

@@ -8,7 +8,9 @@ try {
     logger.info(`Start`);
     logger.info(successMessages.GET_PROJECT_ACTIVATED)
     //project Id input
-    const projectId = req.params.projectId;
+    // const projectId = req.params.projectId;
+    var projectId = req.body.projectId || req.query.projectId || req.headers["id"];
+   
     logger.info(`Project Id - ${projectId}`)
     //check for projectID exist or not in DB
     const projectData = await Project.findOne({projectId});

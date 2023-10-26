@@ -95,7 +95,7 @@ router.post('/createProject',upload.fields([
 
 
 //get project details
-router.get('/getProject/:projectId',verifyUser,getProject); 
+router.get('/getProject',verifyUser,getProject); 
 //edit/update project details
 router.post('/editProject', verifyUser,upload.fields([
     { name: 'Adhar' },

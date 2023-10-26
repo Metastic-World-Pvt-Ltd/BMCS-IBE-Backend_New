@@ -32,6 +32,7 @@ try {
         console.log(decode);
     //check for user role as per token
          userRole = decode.role;
+         var deletedBy = decode.email;
     } catch (error) {
         logger.error(errorMessages.TOKEN_EXPIRED);
         return res.status(401).json(errorMessages.TOKEN_EXPIRED)

@@ -17,6 +17,30 @@ const productData =  new mongoose.Schema({
         type:String,
         required:true,
     },
+    marketPrice:{
+        type:Number,
+        required:true
+    },
+    offerPrice:{
+        type:Number,
+        required:true,
+    },
+    discount:{
+        type:Number,
+        required:true,
+    },
+    imageURL:{
+        type:String,
+        required:true,
+    },
+    category:{
+        type:String,
+        required:true,
+    },
+    subCategory:{
+        type:String,
+        required:true,
+    },
     costomerCount:{
         type:Number,
     },

@@ -5,16 +5,16 @@ const logger = require('../User/logger');
 const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
 require('dotenv').config({path:'../../.env'});
-
+var CryptoJS = require("crypto-js");
 module.exports.createProduct = async function(req , res){
 try {
     logger.info(`Start`);
     logger.info(successMessages.CREATE_PRODUCT_ACTIVATED)
     //user input
-    const {productName, productSummary, requiredDoc} = req.body;
+    const {productName, productSummary, requiredDoc ,marketPrice , offerPrice ,discount , imageURL ,category , subCategory} = req.body;
     //token input
     logger.info(`${productName}, ${productSummary}, ${requiredDoc}`)
-    const token = req.body.token || req.query.token || req.headers["x-access-token"];
+    var token = req.body.token || req.query.token || req.headers["x-access-token"];
     //check for valid response
     if(!token){
         logger.error(errorMessages.TOKEN_NOT_FOUND)
@@ -22,15 +22,18 @@ try {
     }
     var decode;
     var userRole;
-    try {
+    // try {
         //decode token signature
         const secret = process.env.SECRET_KEY;
+        // Decrypt
+        var bytes  = CryptoJS.AES.decrypt(token, secret);
+        token = bytes.toString(CryptoJS.enc.Utf8);
          decode = jwt.verify(token , secret);
     //check for user role as per token
          userRole = decode.role;
-    } catch (error) {
-        return res.status(401).json(errorMessages.TOKEN_EXPIRED)
-    }
+    // } catch (error) {
+    //     return res.status(401).json(errorMessages.TOKEN_EXPIRED)
+    // }
     const _id = decode.id;
     const adminEmail = decode.email;
     //user role decoded from token
@@ -46,6 +49,7 @@ try {
     if(userRole == "Super_Admin" || userRole == "super_admin" || userRole == "Admin" || userRole == "admin"){
 
         const isExist = await Product.findOne({productName});
+        
         //check product exist or not
         if(!isExist){
             //split product name first 3 char
@@ -58,7 +62,7 @@ try {
             const createdBy = adminEmail;
             //create product and Store into DB
             const productData = await Product.create({
-                productId, productName, productSummary, requiredDoc, costomerCount:0 , createdBy ,
+                productId, productName, productSummary, requiredDoc, costomerCount:0 , createdBy , marketPrice , offerPrice ,discount , imageURL ,category , subCategory
             })
             logger.info(`Product Created - ${productData}`)
             logger.info(`End`);

@@ -34,7 +34,7 @@ try {
                 jwt.sign({contact,id:userDoc._id } , secret , { algorithm: 'HS512' } , (err,token)=>{
                   if(err) throw new err;
                   logger.info(`UserDoc - ${userDoc}`)
-                  logger.info(`End`);
+                  logger.info(`End`);   
                   var newToken =  encToken(token);
                  
                   return res.status(200).json({newToken , userDoc})
