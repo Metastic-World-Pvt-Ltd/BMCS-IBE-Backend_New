@@ -17,6 +17,12 @@ const userSchema = new mongoose.Schema({
     role:{
         type: String,
         required:true
+    },
+    createdBy:{
+        type:String,
+    },
+    deletedBy:{
+        type:String,
     }
 },{
     timestamps:true

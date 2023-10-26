@@ -2,18 +2,23 @@ const jwt = require('jsonwebtoken');
 const logger = require('../controllers/User/logger');
 require('dotenv').config({path:'../.env'});
 const errorMessages = require('../response/errorMessages');
+var CryptoJS = require("crypto-js");
 
 module.exports.verifyUser = async function(req, res, next){
 
 // try {
-    const token = req.body.token || req.query.token || req.headers["x-access-token"];
+    var token = req.body.token || req.query.token || req.headers["x-access-token"];
     if (!token) {
         logger.error(errorMessages.TOKEN_NOT_FOUND)
         return res.status(400).send(errorMessages.TOKEN_NOT_FOUND);
       }
 
     const secret = process.env.SECRET_KEY;
+
     try {
+        // // Decrypt
+        var bytes  = CryptoJS.AES.decrypt(token, secret);
+        token = bytes.toString(CryptoJS.enc.Utf8);
         const data = jwt.verify(token , secret)
         req.user = data;
         module.exports.data = data;

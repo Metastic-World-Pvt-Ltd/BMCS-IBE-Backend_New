@@ -34,6 +34,7 @@ const { deleteBanner } = require('../controllers/Admin/deleteBanner');
 const { addProductList } = require('../controllers/Admin/addProductList');
 const { getProductList } = require('../controllers/Admin/getProdcutList');
 const { getAllAdminUser } = require('../controllers/Admin/getAllAdminUser');
+const { getAdminUserFilter } = require('../controllers/Admin/getAdminUserFilter');
 
 const router=express.Router();
 router.use(express.json())
@@ -117,5 +118,7 @@ router.get('/getproductlist',getProductList);
 
 //Get All Admin user List
 router.get('/allusers',getAllAdminUser);
+//Get Admin Users by 
+router.get('/filterusers',getAdminUserFilter);
 
 module.exports = router;

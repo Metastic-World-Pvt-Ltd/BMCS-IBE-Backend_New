@@ -4,12 +4,13 @@ require('dotenv').config({path:'../../.env'});
 const logger = require('../User/logger');
 const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
+var CryptoJS = require("crypto-js");
 module.exports.getLogs = async function(req, res){
 try {
     logger.info(`Start`);
     logger.info(successMessages.GET_LOGS_ACTIVATED);
     //check for token and start and end date to get logs
-    const token = req.body.token || req.query.token || req.headers["x-access-token"];
+    var token = req.body.token || req.query.token || req.headers["x-access-token"];
     const startdate = req.body.startdate || req.query.startdate || req.headers["startdate"];
     const enddate = req.body.enddate || req.query.enddate || req.headers["enddate"];
     logger.info(`Input - Start Date ${startdate} || End Date ${enddate}`)
@@ -23,6 +24,9 @@ try {
     try {
         //decode token signature
         const secret = process.env.SECRET_KEY;
+        // Decrypt
+        var bytes  = CryptoJS.AES.decrypt(token, secret);
+        token = bytes.toString(CryptoJS.enc.Utf8);
         const decode = jwt.verify(token , secret);
         console.log(decode);
     //check for user role as per token

@@ -5,6 +5,7 @@ require('dotenv').config({path:'../../.env'});
 const logger = require('../User/logger');
 const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
+var CryptoJS = require("crypto-js");
 module.exports.adminLogin = async function(req, res){
 try {
     logger.info(`Start`);
@@ -37,11 +38,15 @@ try {
                 }
                 //response
                 logger.info(successMessages.ADMIN_LOGIN_SUCCESS)
-                return res.status(200).cookie('token',token).json({
+                //function to encypt Token                        
+                const newToken =  encToken(token);                        
+                logger.info(`End`);
+                                        
+                return res.status(200).cookie('token',newToken).json({
                     id:userLogin._id,
                     name:userLogin.name,
                     role:userLogin.role,
-                    token,
+                    newToken,
                     
                 })
             })
@@ -53,3 +58,9 @@ try {
 }
 }
 
+function encToken(token){
+    const secret = process.env.SECRET_KEY;
+    var token =  CryptoJS.AES.encrypt(token, secret).toString();
+    console.log(token);
+    return token;
+}

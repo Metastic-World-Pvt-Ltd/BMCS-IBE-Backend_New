@@ -29,18 +29,20 @@ try {
         
     //check for user role as per token
          userRole = decode.role;
+         var createdBy = decode.email;
     } catch (error) {
         return res.status(401).json(errorMessages.TOKEN_EXPIRED)
     }
     logger.info(`User Role - ${userRole}`)
     //check condition user specific role
+    
     if(userRole == "Super_Admin" || userRole == "super_admin"){
-        createUser(name , email, password , role);
-        sendEmail(name , role , email, password );
+        createUser(name , email, password , role , createdBy);
+        sendEmail(name , role , email, password ,);
     }else if(userRole == "Admin" || userRole == "admin"){
         //admin can only create standard user
         if(role == "Standard" || role == "standard"){
-            createUser(name , email, password , role);
+            createUser(name , email, password , role , createdBy);
             sendEmail(name , role , email, password );
         }else{
             logger.error(errorMessages.ACCESS_DENIED)
@@ -67,7 +69,7 @@ try {
          
             //create user in DB
             const userData = new  AdminUser({
-                name , email , password , role
+                name , email , password , role , createdBy , 
             })
             await userData.save();
             //console.log(userData);
