@@ -6,12 +6,13 @@ const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
 require('dotenv').config({path:'../../.env'});
 var CryptoJS = require("crypto-js");
+const fs =  require('fs')
 module.exports.createProduct = async function(req , res){
 try {
     logger.info(`Start`);
     logger.info(successMessages.CREATE_PRODUCT_ACTIVATED)
     //user input
-    const {productName, productSummary, requiredDoc ,marketPrice , offerPrice ,discount , imageURL ,category , subCategory} = req.body;
+    const {productName, productSummary, requiredDoc ,marketPrice , offerPrice ,discount  ,category , subCategory} = req.body;
     //token input
     logger.info(`${productName}, ${productSummary}, ${requiredDoc}`)
     var token = req.body.token || req.query.token || req.headers["x-access-token"];
@@ -22,7 +23,7 @@ try {
     }
     var decode;
     var userRole;
-    // try {
+    try {
         //decode token signature
         const secret = process.env.SECRET_KEY;
         // Decrypt
@@ -31,9 +32,9 @@ try {
          decode = jwt.verify(token , secret);
     //check for user role as per token
          userRole = decode.role;
-    // } catch (error) {
-    //     return res.status(401).json(errorMessages.TOKEN_EXPIRED)
-    // }
+    } catch (error) {
+        return res.status(401).json(errorMessages.TOKEN_EXPIRED)
+    }
     const _id = decode.id;
     const adminEmail = decode.email;
     //user role decoded from token
@@ -60,6 +61,48 @@ try {
             const productId = upperCase + Date.now();
             //get admin id from decoded token
             const createdBy = adminEmail;
+
+            //upload files
+            if(req.files){
+                const data = req.files;
+                //store file path
+                 const mim = data.Banner[0];
+                //split file extention name   
+                const parts = mim.mimetype.split('/')
+                const ext = parts[1];
+                //define allowed file types
+                const allowedTypes = ['image/jpeg', 'image/jpg','image/png'];
+                    if (allowedTypes.includes(mim.mimetype)) {
+                        //check file size
+                        if(mim.size < 1000000){
+                        //file name
+                            const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+                            const filename = `${mim.fieldname}-${uniqueSuffix}.${mim.originalname.split('.').pop()}`;
+                            //file path
+                            var filePath = 'D:/Product/'+ filename;
+                            //write file in dir
+                            fs.writeFileSync(filePath, mim.buffer);
+                            //push file into array
+                            console.log("filePath",filePath);
+                            var imageURL = filePath;
+
+                        }else{
+                            logger.error(errorMessages.MAX_ALLOWED_SIZE)
+                            return res.status(400).json(errorMessages.MAX_ALLOWED_SIZE);
+                        
+                        }
+
+                    } else {
+                    logger.error(errorMessages.INVALID_FILE) 
+                    return res.status(400).json(errorMessages.INVALID_FILE);
+                    }
+            
+            //     }
+            
+            }else{
+                return res.status(400).json(errorMessages.ALL_FIELDS_REQUIRED)
+            }
+
             //create product and Store into DB
             const productData = await Product.create({
                 productId, productName, productSummary, requiredDoc, costomerCount:0 , createdBy , marketPrice , offerPrice ,discount , imageURL ,category , subCategory
