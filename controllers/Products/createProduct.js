@@ -8,7 +8,7 @@ require('dotenv').config({path:'../../.env'});
 var CryptoJS = require("crypto-js");
 const fs =  require('fs')
 module.exports.createProduct = async function(req , res){
-try {
+// try {
     logger.info(`Start`);
     logger.info(successMessages.CREATE_PRODUCT_ACTIVATED)
     //user input
@@ -17,6 +17,7 @@ try {
     logger.info(`${productName}, ${productSummary}, ${requiredDoc}`)
     var token = req.body.token || req.query.token || req.headers["x-access-token"];
     //check for valid response
+    token = `U2FsdGVkX184BkJqRxX+MF+AiCQ/jbbcWOFBzNTbqymgU93gt83WETunBO5mjkBQKmZ9FodpJu6NrPaVFl8R5kpn0tLkM8p1qufKae+dgkH+zBdm9SQSJ1tkgPeR8q5uaDqgLGK69zu49UxRz1GSQ/Ucdtm6K126BVjhCGAzSlzGy6Rl3Ed6CwdBSu2XA3i+GqYoDqex0keMbnUTRmQ/IDz8g3R57AJ/JD0VvNgeV0SgiR+DLHXXwdYTrxmJw15cvy8FpxXdTCwWU4qRdxxSiYUiVUVLKFSgxjXAI2TQJScTDjimm3/7Z8lY4Tc0TjeGDfLRrOtFAv/2CxeoXp3fihx1C0PAr3mg6kiFYNjGZyyfxZN2njLGNopIY5Ke7Kh/ozZuCy23vrZ7wpeMMMpndA==`;
     if(!token){
         logger.error(errorMessages.TOKEN_NOT_FOUND)
         return res.status(401).json(errorMessages.TOKEN_NOT_FOUND);
@@ -66,7 +67,7 @@ try {
             if(req.files){
                 const data = req.files;
                 //store file path
-                 const mim = data.Banner[0];
+                 const mim = data.imageURL[0];
                 //split file extention name   
                 const parts = mim.mimetype.split('/')
                 const ext = parts[1];
@@ -119,8 +120,8 @@ try {
         logger.error(errorMessages.ACCESS_DENIED)
         return res.status(403).json(errorMessages.ACCESS_DENIED)
     }
-} catch (error) {
-    logger.error(errorMessages.CREATE_PRODUCT_FAILED)
-    return res.status(500).json(errorMessages.INTERNAL_ERROR)
-}
+// } catch (error) {
+//     logger.error(errorMessages.CREATE_PRODUCT_FAILED)
+//     return res.status(500).json(errorMessages.INTERNAL_ERROR)
+// }
 }

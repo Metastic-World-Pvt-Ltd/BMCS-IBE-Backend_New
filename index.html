@@ -77,7 +77,7 @@
             <button type="submit">Submit</button>
 
     </form> -->
-        <div >
+        <!-- <div >
 
           
             <div style="text-align: center;">
@@ -122,6 +122,22 @@
                 </div>
               
             </div>
-    </div> 
+    </div>  -->
+
+        <form action="http://localhost:4000/admin/createproduct" method="POST" enctype="multipart/form-data">
+        <input type="text" name="productName" placeholder="productName"> <br>
+        <input type="text" name="productSummary" placeholder="productSummary" ><br>
+        <input type="text" name="requiredDoc" placeholder="requiredDoc"><br>
+        <input type="number" name="marketPrice" placeholder="marketPrice"><br>
+        <input type="number" name="offerPrice" placeholder="offerPrice"><br>
+        <input type="number" name="discount" placeholder="discount"><br>
+        <input type="text" name="category" placeholder="category"><br>
+        <input type="text" name="subCategory" placeholder="subCategory"><br>
+        <input type="file" name="imageURL" accept="image/*"  required> <br>
+
+        <button type="submit">Submit</button>
+
+    </form>
+
 </body>
 </html>

@@ -79,7 +79,7 @@ router.post('/verify-2fa', loginRateLimiter,verifyUser,verify2FA);
 //Reset 2FA 
 router.post('/reset-2fa',reset2FA); ///completed till here
 //create Product
-router.post('/createproduct', verifyUser,createProduct);
+// router.post('/createproduct', verifyUser,createProduct);
 //edit product
 router.patch('/editproduct/:id', verifyUser,editProduct);
 //project appoval from Admin
@@ -93,7 +93,9 @@ router.get('/allProjects',verifyUser, getAllProjects);
 //get all verified project for admin approval
 router.get('/filterProjects',verifyUser,filter_Project);
 //create/add product
-router.post('/createproduct', verifyUser , createProduct);
+router.post('/createproduct' ,upload.fields([
+  { name: 'imageURL' },
+]), createProduct);
 //delete Product
 router.post('/deleteproject/:id', verifyUser , deleteProduct);
 //edit/update product

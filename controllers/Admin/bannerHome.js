@@ -9,7 +9,7 @@ module.exports.bannerHome = async function(req , res){
         return res.status(400).json('Title is required')
     }
     var projectDocuments ;
-        //upload files
+    //upload files
     if(req.files){
 
         const data = req.files;
