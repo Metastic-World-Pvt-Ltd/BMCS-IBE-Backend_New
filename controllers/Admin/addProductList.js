@@ -10,8 +10,10 @@ module.exports.addProductList = async function(req, res){
     }else if(!subCategory){
       subCategory = null;
     }
-    const isExist = await ProductList.find(productName);
-    if(isExist){
+    console.log(productName);
+    const isExist = await ProductList.find({productName});
+    console.log(isExist);
+    if(isExist.length != 0){
       return res.status(422).json(`Product Name Already Exist`);
     }
 const data = req.body;

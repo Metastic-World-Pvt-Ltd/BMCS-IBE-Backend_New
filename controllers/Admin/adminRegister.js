@@ -1,13 +1,14 @@
 const AdminUser = require('../../models/AdminUser');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+var CryptoJS = require("crypto-js");
 const nodemailer = require("nodemailer");
 require('dotenv').config({path:'../../.env'});
 const logger = require('../User/logger');
 const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
 module.exports.adminRegister = async function(req, res){
-try {
+// try {
     logger.info(`Start`);
     logger.info(successMessages.ADMIN_REGISTER_ACTIVATED)
     //input data
@@ -16,23 +17,26 @@ try {
     }
     const {name , email , password, role}  = req.body;
     logger.info(`Input - ${name} , ${email} , ${password}, ${role}}`)
-    const token = req.body.token || req.query.token || req.headers["x-access-token"];
+    var token = req.body.token || req.query.token || req.headers["x-access-token"];
     //check for token provided or not
     if(!token){
         return res.status(401).json(errorMessages.TOKEN_NOT_FOUND);
     }
     var userRole;
-    try {
+    // try {
         //decode token signature
         const secret = process.env.SECRET_KEY;
+         // Decrypt
+         var bytes  = CryptoJS.AES.decrypt(token, secret);
+         token = bytes.toString(CryptoJS.enc.Utf8);
         const decode = jwt.verify(token , secret);
         
     //check for user role as per token
          userRole = decode.role;
          var createdBy = decode.email;
-    } catch (error) {
-        return res.status(401).json(errorMessages.TOKEN_EXPIRED)
-    }
+    // } catch (error) {
+    //     return res.status(401).json(errorMessages.TOKEN_EXPIRED)
+    // }
     logger.info(`User Role - ${userRole}`)
     //check condition user specific role
     
@@ -82,10 +86,10 @@ try {
             return res.json(error);   
         }
     }
-} catch (error) {
-    logger.error(errorMessages.ADMIN_REGISTER_FAILED)
-    return res.status(500).json(errorMessages.INTERNAL_ERROR)
-}
+// } catch (error) {
+//     logger.error(errorMessages.ADMIN_REGISTER_FAILED)
+//     return res.status(500).json(errorMessages.INTERNAL_ERROR)
+// }
 }
 
 async function sendEmail(username , role  , email , password){
