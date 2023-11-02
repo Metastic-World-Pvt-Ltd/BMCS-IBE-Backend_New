@@ -6,17 +6,21 @@ var CryptoJS = require("crypto-js");
 
 module.exports.verifyUser = async function(req, res, next){
 
-try {
+// try {
     var token = req.body.token || req.query.token || req.headers["x-access-token"];
     if (!token) {
         logger.error(errorMessages.TOKEN_NOT_FOUND)
         return res.status(400).send(errorMessages.TOKEN_NOT_FOUND);
       }
 
-    const secret = process.env.SECRET_KEY;
+    try {
+        var secret = process.env.SECRET_KEY;
         // Decrypt
         var bytes  = CryptoJS.AES.decrypt(token, secret);
         token = bytes.toString(CryptoJS.enc.Utf8);
+    } catch (error) {
+        return res.json(errorMessages.TOKEN_INVALID)
+    }
     try {
 
         const data = jwt.verify(token , secret)
@@ -37,10 +41,10 @@ try {
         
     }
     return next();
-} catch (error) {
-    logger.error(`Verify user middleware Failed`)
-    return res.status(500).json('Something went wrong in user verification')
-}
+// } catch (error) {
+//     logger.error(`Verify user middleware Failed`)
+//     return res.status(500).json('Something went wrong in user verification')
+// }
 
     
 }

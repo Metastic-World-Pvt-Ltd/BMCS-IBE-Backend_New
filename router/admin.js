@@ -36,6 +36,8 @@ const { getProductList } = require('../controllers/Admin/getProdcutList');
 const { getAllAdminUser } = require('../controllers/Admin/getAllAdminUser');
 const { getAdminUserFilter } = require('../controllers/Admin/getAdminUserFilter');
 const { getCategoryList } = require('../controllers/Admin/getCategoryList');
+const { getAllProducts } = require('../controllers/Admin/getAllProducts');
+
 
 const router=express.Router();
 router.use(express.json())
@@ -62,11 +64,11 @@ router.post('/updatepassword',verifyUser, updateAdminPassword);
 //reset admin password
 router.post('/reset',verifyUser,resetPassword);
 //Super Admin console view page
-router.post('/superAdmin',verifyUser,superAdminConsole);
+router.post('/superAdmin',superAdminConsole);
 //admin console view page
-router.post('/admin',verifyUser,adminConsole);
+router.post('/admin',adminConsole);
 //Standard console view page
-router.post('/standard',verifyUser,standardConsole);
+router.post('/standard',standardConsole);
 //verify project
 router.post('/verify/:id',verifyUser, verifyProject);
 //get logs provide start date (2023-08-23) and end date (2023-08-24)
@@ -107,7 +109,7 @@ router.post('/generatesecret',verifyUser , generateSecretAPIKey);
 router.get('/getapikey',verifyUser , getSecretKey);
 //Add Banner
 router.post('/banner1',upload.fields([
-    { name: 'Banner' },
+    { name: 'imageURL' },
   ]) , bannerHome);
 //Hide Banner
 router.patch('/hidebanner/:id',hideHomeBanner);
@@ -125,5 +127,7 @@ router.get('/allusers',getAllAdminUser);
 router.get('/filterusers',getAdminUserFilter);
 //Get Category of Product List
 router.get('/getcategory',getCategoryList);
+//Get All Product List
+router.get('/allproducts',getAllProducts);
 
 module.exports = router;

@@ -155,6 +155,26 @@ module.exports = {
 
     CHECK_API_MIDDLEWARE_ACTIVATED:'Check API Middleware Activated',
 
+    ACTIVATED_ADD_PRODUCT_LIST:'Add Product List Endpoint Activated',
+
+    BANNER_HOME_ACTIVATED:'Banner Home Endpoint Activated',
+
+    STATUS_HAS_UPDATED_SUCCESSFULLY:'Status Has Been Updated Successfully',
+
+    GET_ALL_ADMIN_USER:'Get All User Admin Endpoint ACtivated',
+
+    GET_ALL_ADMIN_USER_FILTER:'Get Admin User By Role Endpoint Activated',
+
+    GET_ALL_PRODUCT_ACTIVATED:'Get All Product Endpoint Activated',
+
+    DATA_SEND_SUCCESSFULLY:'Data Send SuccessFully!',
+
+    ACTIVATED_GET_CATEGORY_LIST:'Get Category List Endpoint Actiavted',
+
+    ACTIVATED_GET_PRODUCT_LIST:'Get Product List Activated',
+
+
+
     // Add more error messages as needed...
   };
   

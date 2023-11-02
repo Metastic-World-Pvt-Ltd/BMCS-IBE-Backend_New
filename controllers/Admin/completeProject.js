@@ -7,7 +7,7 @@ const logger = require('../User/logger');
 const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
 module.exports.completeProject = async function(req , res){
-// try {
+try {
     logger.info(`Start`);
     logger.info(successMessages.COMPLETE_PROJECT_ACTIVATED)
     //Input project ID
@@ -82,14 +82,14 @@ module.exports.completeProject = async function(req , res){
             logger.info(`Output - ${userHistory}`)
             //console.log("hist",userHistory);
             const projectData2 = await Project.findByIdAndUpdate({_id},{projectStatus},{new:true})
-            logger.info(`Output - ${projectData2}`)
+            logger.info(`Output - ${successMessages.STATUS_HAS_UPDATED_SUCCESSFULLY}`)
             //update Ticket status
             const newStatus = 'Closed';
             const ticketData = await Ticket.findOneAndUpdate({contact},{projectStatus:newStatus},{new:true})
-            logger.info(`Updated Status - ${ticketData}`);
+            logger.info(`Updated Status -${successMessages.STATUS_HAS_UPDATED_SUCCESSFULLY}`);
             const ticketId = ticketData.ticketId;
             const tktHistData =  await TicketHistory.findOneAndUpdate({ticketId},{status:newStatus},{new:true});
-            logger.info(`Ticket History Generated - ${tktHistData}`);
+            logger.info(`Ticket History Generated - ${successMessages.STATUS_HAS_UPDATED_SUCCESSFULLY}`);
             
         }else{
             logger.error(errorMessages.ACCESS_DENIED)
@@ -102,10 +102,10 @@ module.exports.completeProject = async function(req , res){
         logger.error(errorMessages.UNABLE_TO_PERFORM)
         return res.status(401).json(errorMessages.UNABLE_TO_PERFORM)
     }
-// } catch (error) {
-//     logger.error(errorMessages.COMPLETE_PROJECT_FAILED)
-//     return res.status(500).json(errorMessages.INTERNAL_ERROR);
-// }
+} catch (error) {
+    logger.error(errorMessages.COMPLETE_PROJECT_FAILED)
+    return res.status(500).json(errorMessages.INTERNAL_ERROR);
+}
 
 }
 

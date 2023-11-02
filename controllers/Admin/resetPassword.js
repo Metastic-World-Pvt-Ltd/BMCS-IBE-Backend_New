@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs');
 const logger = require('../User/logger');
 const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
+var CryptoJS = require("crypto-js");
 module.exports.resetPassword = async function(req, res){
 try {
     logger.info(`Start`);
@@ -23,6 +24,9 @@ try {
     try {
         //decode token signature
         const secret = process.env.SECRET_KEY;
+          // Decrypt
+          var bytes  = CryptoJS.AES.decrypt(token, secret);
+          token = bytes.toString(CryptoJS.enc.Utf8);
         const decode = jwt.verify(token , secret);
         console.log(decode);
     //check for user role as per token

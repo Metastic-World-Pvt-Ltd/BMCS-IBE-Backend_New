@@ -5,12 +5,13 @@ const logger = require('../User/logger');
 const AdminUser = require('../../models/AdminUser');
 const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
+var CryptoJS = require("crypto-js");
 module.exports.standardConsole = async function(req, res){
 try {
     logger.info(`Start`);
     logger.info(successMessages.STANDARD_CONSOLE_ACTIVATED);
     //input token from user
-    const token = req.body.token || req.query.token || req.headers["x-access-token"];
+    var token = req.body.token || req.query.token || req.headers["x-access-token"];
     
     //check for token provided or not
     if(!token){
@@ -22,6 +23,9 @@ try {
     try {
         //decode token signature
         const secret = process.env.SECRET_KEY;
+         // Decrypt
+         var bytes  = CryptoJS.AES.decrypt(token, secret);
+         token = bytes.toString(CryptoJS.enc.Utf8);
         const decode = jwt.verify(token , secret);
         console.log(decode);
     //check for user role as per token

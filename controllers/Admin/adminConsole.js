@@ -5,12 +5,13 @@ const AdminUser = require('../../models/AdminUser');
 const logger = require('../User/logger');
 const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
+var CryptoJS = require("crypto-js");
 module.exports.adminConsole = async function(req, res){
 try {
     logger.info(`Start`);
     logger.info(successMessages.ADMIN_CONSOLE_ACTIVATED);
     //user input
-    const token = req.body.token || req.query.token || req.headers["x-access-token"];
+    var token = req.body.token || req.query.token || req.headers["x-access-token"];
     //check for valid response
     if(!token){
         return res.status(401).json(errorMessages.TOKEN_NOT_FOUND);
@@ -19,20 +20,30 @@ try {
     try {
         //decode token signature
         const secret = process.env.SECRET_KEY;
+         // Decrypt
+         var bytes  = CryptoJS.AES.decrypt(token, secret);
+         token = bytes.toString(CryptoJS.enc.Utf8);
         const decode = jwt.verify(token , secret);
-        console.log(decode);
+        
     //check for user role as per token
          userRole = decode.role;
-         var _id =decode._id
+         var id =decode.id
     } catch (error) {
         return res.status(401).json(errorMessages.TOKEN_EXPIRED)
     }
         //check Admin user is active or not
-        const activeUser = await AdminUser.findById({_id}) 
-        if(activeUser == null){
+    try {
+        var activeUser = await AdminUser.findById(id) 
+         if(activeUser == null){
             logger.error(`In active Admin`)
             return res.status(401).json(errorMessages.ACCESS_DENIED)
         }
+    } catch (error) {
+        logger.error(errorMessages.SOMETHING_WENT_WRONG)
+        return res.status(502).json(errorMessages.SOMETHING_WENT_WRONG)
+    }
+    
+       
     logger.info(`User Role - ${userRole}`)
     //condition to check role specific rights
     if(userRole == "Admin" || userRole == "admin"){

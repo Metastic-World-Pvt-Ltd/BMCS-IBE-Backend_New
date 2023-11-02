@@ -13,8 +13,8 @@ module.exports.getAllProjects = async function(req, res){
             logger.error(errorMessages.NOT_FOUND)
             return res.status(404).json(errorMessages.NOT_FOUND);
         }else{
-            logger.info(`Output - ${projectData}`)
-            logger.info(`End`);
+            logger.info(`Output - ${successMessages.DATA_SEND_SUCCESSFULLY}`)
+            logger.info(successMessages.END);
             //reponse
             return res.status(200).json(projectData);
         }

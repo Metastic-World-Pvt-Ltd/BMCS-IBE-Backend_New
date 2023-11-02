@@ -5,15 +5,15 @@ const jwt = require('jsonwebtoken');
 const DeletedUser =  require(`../../models/DeletedUser`);
 const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
-
+var CryptoJS = require("crypto-js");
 module.exports.deleteAdmin = async function(req, res){
 try {
     logger.info(`Start`);
     logger.info(successMessages.DELETE_ADMIN_ACTIVATED)
     const {email} = req.body;
     logger.info(`email - ${email}`)
-    const token = req.body.token || req.query.token || req.headers["x-access-token"];
-    // logger.info(`Token - ${token } `)
+    var token = req.body.token || req.query.token || req.headers["x-access-token"];
+
     //check for token provided or not
     if(!token){
         logger.error(errorMessages.TOKEN_NOT_FOUND)
@@ -28,11 +28,13 @@ try {
     try {
         //decode token signature
         const secret = process.env.SECRET_KEY;
+         // Decrypt
+         var bytes  = CryptoJS.AES.decrypt(token, secret);
+         token = bytes.toString(CryptoJS.enc.Utf8);
          decode = jwt.verify(token , secret);
-        console.log(decode);
     //check for user role as per token
          userRole = decode.role;
-         var deletedBy = decode.email;
+
     } catch (error) {
         logger.error(errorMessages.TOKEN_EXPIRED);
         return res.status(401).json(errorMessages.TOKEN_EXPIRED)
@@ -55,20 +57,21 @@ try {
             return res.status(404).json(errorMessages.NOT_FOUND)
         }
         try {
-            const deleteData = await AdminUser.findOneAndDelete({email});
             const DeletedHist = await DeletedUser.create({
                 name:isExist.name,
                 email:isExist.email,
                 role:isExist.role,
                 deletedBy:adminEmail,
             })
+            logger.info(successMessages.CREATED_USER_HISTORY)
+            const deleteData = await AdminUser.findOneAndDelete({email});
             
-            logger.info(successMessages.DELETED_USER_SUCCESS +' ' + deleteData)
+            logger.info(successMessages.DELETED_USER_SUCCESS)
             logger.info(`End`);
-            return res.status().json(successMessages.DELETED_USER_SUCCESS)
+            return res.status(200).json(successMessages.DELETED_USER_SUCCESS)
         } catch (error) {
             logger.error(`Error -${error}`)
-            return res.json(errorMessages.SOMETHING_WENT_WRONG)
+            return res.status(502).json(errorMessages.BAD_GATEWAY)
         }
 
     }else{

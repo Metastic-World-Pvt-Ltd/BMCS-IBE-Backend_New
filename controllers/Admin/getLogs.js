@@ -14,7 +14,7 @@ try {
     const startdate = req.body.startdate || req.query.startdate || req.headers["startdate"];
     const enddate = req.body.enddate || req.query.enddate || req.headers["enddate"];
     logger.info(`Input - Start Date ${startdate} || End Date ${enddate}`)
-    logger.info(`Token - ${token}`)
+
     //token provided or not
     if(!token){
         logger.error(errorMessages.TOKEN_NOT_FOUND)
@@ -28,7 +28,7 @@ try {
         var bytes  = CryptoJS.AES.decrypt(token, secret);
         token = bytes.toString(CryptoJS.enc.Utf8);
         const decode = jwt.verify(token , secret);
-        console.log(decode);
+       
     //check for user role as per token
          userRole = decode.role;
     } catch (error) {
@@ -57,16 +57,15 @@ try {
               };
     
         const data = await Log.find(dateFilter);
-        //console.log(data);
         //check for record found or not
         if(data.length == 0){
             logger.error(errorMessages.NOT_FOUND)
             return res.status(404).json(errorMessages.NOT_FOUND)
         }else{
-            logger.info(`Output - ${data}`)
+            logger.info(`Output - ${successMessages.DATA_SEND_SUCCESSFULLY}`)
             logger.info(`End`);
             //response
-            res.status(200).json(data);
+            return res.status(200).json(data);
         }
     }else{
         logger.error(errorMessages.ACCESS_DENIED)

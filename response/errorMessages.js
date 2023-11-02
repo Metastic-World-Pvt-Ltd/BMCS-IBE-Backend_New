@@ -150,6 +150,28 @@ module.exports = {
 
     CHECK_API_MIDDLEWARE_FAILED:'Check API Middleware Failed',
 
+    ADD_PRODUCT_LIST_FAILED:'Add Product List Endpoint Failed',
+
+    BAD_GATEWAY:'Bad Gateway',
+
+    TITLE_IS_REQUIRED:'Title is required',
+
+    BANNER_NAME_EXIST:`Banner name already exist`,
+
+    BANNER_HOME_FAILED:'Banner Home Endpoint Failed',
+
+    DELETE_BANNER_FAILED:'Delete Banner Endpoint Failed',
+
+    GET_ALL_ADMIN_USER_FAILED:'Get All Admin User Endpoint Failed',
+
+    GET_ALL_ADMIN_USER_FILTER_FAILED:'Get All Admin User by Role Failed',
+
+    GET_CATEGORY_LIST_FAILED:'Get Category List Endpoint Failed',
+
+    GET_PRODUCT_LIST_FAILED:'Get Product List Endpoint Failed',
+
+
+
     // Add more error messages as needed...
   };
   

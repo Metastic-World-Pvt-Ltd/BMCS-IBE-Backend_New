@@ -5,7 +5,7 @@ const successMessages = require('../../response/successMessages');
 const logger = require('../User/logger');
 
 module.exports.updateAdminPassword = async function(req , res){
-try {
+// try {
     logger.info(successMessages.UPDATE_ADMIN_PASSWORD_ACTIVATED);
     logger.info(successMessages.START);
     const {email , newPassword , oldPassword} = req.body;
@@ -38,9 +38,9 @@ try {
         logger.error(errorMessages.OLD_PASSWORD_IS_INCORRECT);
         return res.status(404).json(errorMessages.OLD_PASSWORD_IS_INCORRECT);
     }
-} catch (error) {
-    logger.error(errorMessages.INTERNAL_ERROR);
-    return res.status(500).json(errorMessages.INTERNAL_ERROR)
-}
+// } catch (error) {
+//     logger.error(errorMessages.INTERNAL_ERROR);
+//     return res.status(500).json(errorMessages.INTERNAL_ERROR)
+// }
 
 }

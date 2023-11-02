@@ -5,7 +5,9 @@ const successMessages = require('../../response/successMessages');
 const logger = require('../User/logger');
 const jwt = require('jsonwebtoken');
 require('dotenv').config({path:'../../.env'});
+var CryptoJS = require("crypto-js");
 module.exports.hideHomeBanner = async function(req , res){
+try {
     const  hidden = req.body.hidden;
 
     if(!hidden){
@@ -27,6 +29,9 @@ module.exports.hideHomeBanner = async function(req , res){
    try {
         //decode token signature
         const secret = process.env.SECRET_KEY;
+        // Decrypt
+        var bytes  = CryptoJS.AES.decrypt(token, secret);
+        token = bytes.toString(CryptoJS.enc.Utf8);
          decode = jwt.verify(token , secret);
         console.log(decode);
     //check for user role as per token
@@ -72,5 +77,8 @@ module.exports.hideHomeBanner = async function(req , res){
         logger.error(errorMessages.ACCESS_DENIED)
         return res.status(403).json(errorMessages.ACCESS_DENIED)
     }
+} catch (error) {
+    return res.status(500).json(errorMessages.INTERNAL_ERROR)
+}
 
 }

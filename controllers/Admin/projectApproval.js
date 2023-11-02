@@ -85,7 +85,7 @@ module.exports.projectApproval = async function(req, res){
                             {pendingAmount:amount}
                           ]
                      })
-                     logger.info(`Output - ${data}`)
+                     logger.info(`Output - ${successMessages.data}`)
                      //console.log(data.projectEarning);
                      }
                      logger.info(`End`);

@@ -5,12 +5,13 @@ const logger = require('../User/logger');
 const AdminUser = require('../../models/AdminUser');
 const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
+var CryptoJS = require("crypto-js");
 module.exports.superAdminConsole = async function(req, res){
 try {
     logger.info(`Start`);
     logger.info(successMessages.SUPER_ADMIN_CONSOLE_ACTIVATED)
     //input token from user
-    const token = req.body.token || req.query.token || req.headers["x-access-token"];
+    var token = req.body.token || req.query.token || req.headers["x-access-token"];
     
     //check for token provided or not
     if(!token){
@@ -22,15 +23,19 @@ try {
     try {
         //decode token signature
         const secret = process.env.SECRET_KEY;
+         // Decrypt
+         var bytes  = CryptoJS.AES.decrypt(token, secret);
+         token = bytes.toString(CryptoJS.enc.Utf8);
          decode = jwt.verify(token , secret);
         console.log(decode);
     //check for user role as per token
          userRole = decode.role;
+         var _id = decode.id;
     } catch (error) {
         logger.error(`Error - ${errorMessages.TOKEN_EXPIRED}`)
         return res.status(401).json(errorMessages.TOKEN_EXPIRED)
     }
-    const _id = decode.id;
+    
     //check Admin user is active or not
     const activeUser = await AdminUser.findById({_id}) 
     if(activeUser == null){
