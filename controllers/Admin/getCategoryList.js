@@ -17,13 +17,14 @@ try {
 
     try {
         const getData = await ProductList.find({category});
-
-        if(getData){
-            logger.info(`Output - ${successMessages.DATA_SEND_SUCCESSFULLY}`)
-            return res.status(200).json(getData);
-        }else{
+        
+        if(getData.length == 0){
             logger.error(errorMessages.NOT_FOUND)
             return res.status(404).json(errorMessages.NOT_FOUND)
+            
+        }else{
+            logger.info(`Output - ${successMessages.DATA_SEND_SUCCESSFULLY}`)
+            return res.status(200).json(getData);
         }
     } catch (error) {
         logger.error(error);
