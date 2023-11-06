@@ -41,8 +41,8 @@ try {
                     //aws opertaion
                         //Configure AWS SDK with your credentials
                         AWS.config.update({
-                            accessKeyId: 'AKIAQILXVEU2MFEXA2W3',
-                            secretAccessKey: 'z7I4+5ROFCBea0bLRHAqpEqei6OgC51o5A55TPfk',
+                            accessKeyId: process.env.ACCESS_KEY,
+                            secretAccessKey: process.env.SECERET_KEY,
                             region: 'ap-south-1',
                         });
                         // Create an S3 object
