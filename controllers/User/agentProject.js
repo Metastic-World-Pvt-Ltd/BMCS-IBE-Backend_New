@@ -7,9 +7,11 @@ const lc = require('letter-count');
 const logger = require("./logger");
 const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
-const AWS = require('aws-sdk');
+//const AWS = require('aws-sdk');
+const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 module.exports.agentProject = async function(req, res){
-try {
+// try {
+    
     logger.info(`Start`);
     logger.info(successMessages.AGENT_PROJECT_ACTIVATED)
     //user input
@@ -35,47 +37,49 @@ try {
                 if(uploadedFile.size < 1000000){
                    //file name
                     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-                    const filename = `${uploadedFile.fieldname}-${uniqueSuffix}.${uploadedFile.originalname.split('.').pop()}`;
+                    var filename = `${uploadedFile.fieldname}-${uniqueSuffix}.${uploadedFile.originalname.split('.').pop()}`;
                     //file path
-                    var filePath ;
+                    var filePath = 'https://bmcsfileserver.s3.amazonaws.com/'+filename;
+                    projectDocuments.push(filePath);
                     //aws opertaion
-                        //Configure AWS SDK with your credentials
-                        AWS.config.update({
+
+                        const credentials = {
                             accessKeyId: process.env.ACCESS_KEY,
-                            secretAccessKey: process.env.SECERET_KEY,
-                            region: 'ap-south-1',
-                        });
-                        // Create an S3 object
-                        const s3 = new AWS.S3();
-
-                        // Specify the S3 bucket and file details
-                        const bucketName = 'bmcsfileserver';
-                        const fileName = filename;
-                        const fileContentBuffer = Buffer.from(uploadedFile.buffer);
-
-                        const params = {
-                            Bucket: bucketName,
-                            Key: fileName,
-                            ContentType: 'image/png',
-                            Body: fileContentBuffer, // Pass the buffer directly as the Body
+                            secretAccessKey: process.env.SECERET_KEY
                           };
-
-                          s3.upload(params, (err, data) => {
-                            if (err) {
-                              console.error('Error uploading to S3:', err);
-                            } else {
-                              console.log('File uploaded successfully. S3 Location:', data.Location);
-                              filePath =  data.Location;
-                              projectDocuments.push(filePath);
-                              //console.log("projectDocuments",projectDocuments);
-                            }
-                          });
                           
+                          const region = process.env.BUCKET_REGION;                                               
+                                                 
+                          const bucketName = process.env.BUCKET_NAME;
+                          const fileName = filename;
+                          const fileContent = Buffer.from(uploadedFile.buffer);;
+                          
+                          const s3 = new S3Client({ region, credentials });
+                          
+                          async function uploadFileAndSaveToDatabase() {
+                                                     
+                            // Set the S3 parameters
+                            const params = {
+                              Bucket: bucketName,
+                              Key: fileName,
+                              ContentType: 'image/png',
+                              Body: fileContent,
+                            };
+                          
+                            try {
+                              // Upload the file to S3
+                              const uploadResponse = await s3.send(new PutObjectCommand(params));
+                               
+                            } catch (err) {
+                              console.error('Error uploading to S3 or saving to MongoDB:', err);
+                              return res.json(errorMessages.SOMETHING_WENT_WRONG);
+                            } 
+                          }
+                          
+                          // Call the function to upload the file and save the S3 URL to the database
+                          uploadFileAndSaveToDatabase();
+
                         //end of Aws
-                    //write file in dir
-                    //  fs.writeFileSync(filePath, uploadedFile.buffer);
-                    //  //push file into array
-                    //  projectDocuments.push(filePath);
 
                 }else{
                     logger.error(errorMessages.MAX_ALLOWED_SIZE)
@@ -123,7 +127,7 @@ try {
         projectStatus:status,
         acceptedBy:'',
        })
-
+       console.log(projectData);
        await projectData.save();
        logger.info(`Output - ${projectData}`)
        //if Projectadata 
@@ -158,10 +162,10 @@ try {
         return res.status(400).json(errorMessages.PROJECT_ALREADY_EXIST);
        }
        
-} catch (error) {
-    logger.error(errorMessages.CREATE_PROEJCT_FAILED)
-    return res.status(500).json(errorMessages.INTERNAL_ERROR)
-}
+// } catch (error) {
+//     logger.error(errorMessages.CREATE_PROEJCT_FAILED)
+//     return res.status(500).json(errorMessages.INTERNAL_ERROR)
+// }
 
 
 }

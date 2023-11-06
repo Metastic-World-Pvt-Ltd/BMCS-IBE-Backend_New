@@ -7,6 +7,7 @@ const successMessages = require('../../response/successMessages');
 require('dotenv').config({path:'../../.env'});
 var CryptoJS = require("crypto-js");
 const fs =  require('fs')
+const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 module.exports.createProduct = async function(req , res){
 try {
     logger.info(`Start`);
@@ -82,25 +83,67 @@ try {
                             //file name
                                 const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
                                 const filename = `${mim.fieldname}-${uniqueSuffix}.${mim.originalname.split('.').pop()}`;
-                                //file path
-                                var filePath = 'D:/Product/'+ filename;
+                            
                                 //write file in dir
                                 var mybuffer = new Buffer(mim.buffer.length)
                               for(var i=0;i<mim.buffer.length;i++){
                                 mybuffer[i]=mim.buffer[i];
                               }
-                              fs.writeFile(filePath,mybuffer,function(err){
-                                if(err){
-                                    console.log(err);
+                            //   fs.writeFile(filePath,mybuffer,function(err){
+                            //     if(err){
+                            //         console.log(err);
 
-                                }
-                                else{
-                                    console.log("saved");
-                                }
-                              });
-                                //file path
-                                console.log("filePath",filePath);
-                                var imageURL = filePath;
+                            //     }
+                            //     else{
+                            //         console.log("saved");
+                            //     }
+                            //   });
+                            //     //file path
+                            //     console.log("filePath",filePath);
+                            //     var imageURL = filePath;
+
+                            //Store filepath
+                            var filePath = 'https://bmcsfileserver.s3.amazonaws.com/'+filename;
+                            projectDocuments.push(filePath);
+                            //aws opertaion
+        
+                                const credentials = {
+                                    accessKeyId: process.env.ACCESS_KEY,
+                                    secretAccessKey: process.env.SECERET_KEY
+                                  };
+                                  
+                                  const region = process.env.BUCKET_REGION;                                               
+                                                         
+                                  const bucketName = process.env.BUCKET_NAME;
+                                  const fileName = filename;
+                                  const fileContent = Buffer.from(mybuffer);;
+                                  
+                                  const s3 = new S3Client({ region, credentials });
+                                  
+                                  async function uploadFileAndSaveToDatabase() {
+                                                             
+                                    // Set the S3 parameters
+                                    const params = {
+                                      Bucket: bucketName,
+                                      Key: fileName,
+                                      ContentType: 'image/png',
+                                      Body: fileContent,
+                                    };
+                                  
+                                    try {
+                                      // Upload the file to S3
+                                      const uploadResponse = await s3.send(new PutObjectCommand(params));
+                                       
+                                    } catch (err) {
+                                      console.error('Error uploading to S3 or saving to MongoDB:', err);
+                                      return res.json(errorMessages.SOMETHING_WENT_WRONG);
+                                    } 
+                                  }
+                                  
+                                  // Call the function to upload the file and save the S3 URL to the database
+                                  uploadFileAndSaveToDatabase();
+        
+                                //end of Aws
     
                             }else{
                                 logger.error(errorMessages.MAX_ALLOWED_SIZE)
@@ -124,7 +167,7 @@ try {
 
             //create product and Store into DB
             const productData = await Product.create({
-                productId, productName, productSummary, requiredDoc, costomerCount:0 , createdBy , marketPrice , offerPrice ,discount , imageURL ,category , subCategory
+                productId, productName, productSummary, requiredDoc, costomerCount:0 , createdBy , marketPrice , offerPrice ,discount , imageURL:filePath ,category , subCategory
             })
             logger.info(`Product Created - ${productData}`)
             logger.info(`End`);
