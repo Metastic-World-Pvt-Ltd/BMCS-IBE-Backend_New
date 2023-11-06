@@ -73,7 +73,7 @@ router.post('/admin',adminConsole);
 //Standard console view page
 router.post('/standard',standardConsole);
 //verify project
-router.post('/verify/:id',verifyUser, verifyProject);
+router.post('/verify',verifyUser, verifyProject);
 //Update Project Status by Accept
 router.post('/acceptproject',acceptProject)
 //get logs provide start date (2023-08-23) and end date (2023-08-24)

@@ -8,8 +8,8 @@ module.exports.verifyProject = async function(req, res){
 try {
     logger.info(successMessages.VERIFY_PROJECT_ACTIVATED)
     //input projectID
-    const _id = req.params.id || req.body.id || req.query.id || req.headers["id"];
-    logger.info(`Id - ${_id}`)
+    const projectId = req.params.id || req.body.id || req.query.id || req.headers["id"];
+    logger.info(`Id - ${projectId}`)
     //project status and comment
     const {projectStatus,comment} = req.body;
     logger.info(`Input - ${projectStatus} , ${comment}`)
@@ -19,7 +19,7 @@ try {
         logger.error(errorMessages.PROJECT_ID_AND_STATUS_REQUIRED);
         return res.status(400).json(errorMessages.PROJECT_ID_AND_STATUS_REQUIRED);
     }
-    const checkStatus = await Project.findById({_id})
+    const checkStatus = await Project.findOne({projectId})
     console.log(checkStatus);
     if(!checkStatus){
         logger.error(`Error - ${errorMessages.NOT_FOUND}`)
@@ -32,7 +32,7 @@ try {
     //check for status and update data as per status
     if(projectStatus == "Verified" || projectStatus == "verified"){
         //update data
-        const projectData = await Project.findByIdAndUpdate({_id},{projectStatus},{new:true})
+        const projectData = await Project.findOneAndUpdate({projectId},{projectStatus},{new:true})
         logger.info(`Output - ${projectData}`)
         const contact = projectData.contact;
         const status = 'Work in Progress';
@@ -52,7 +52,7 @@ try {
             res.status(400).json(errorMessages.COMMENT_REQUIRED)
         }else{
             //updste the data into DB
-            const projectData = await Project.findByIdAndUpdate({_id},{comment},{new:true})
+            const projectData = await Project.findOneAndUpdate({projectId},{comment},{new:true})
             logger.info(`Output - ${projectData}`)
             const contact = projectData.contact;
             const status = 'Pending Document';
