@@ -21,7 +21,7 @@ try {
     if(!userLogin){
         // console.log('Invalid username or password');
         logger.error(errorMessages.INVALID_USER_PASSWORD)
-        return res.status(400).json({message:errorMessages.INVALID_USER_PASSWORD})
+        return res.status(401).json({message:errorMessages.INVALID_USER_PASSWORD})
     }else{
         // console.log(password);
         const isMatch = bcrypt.compareSync(password, userLogin.password); ;
