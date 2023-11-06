@@ -60,12 +60,12 @@ try {
                             Body: fileContentBuffer, // Pass the buffer directly as the Body
                           };
 
-                         await s3.upload(params, async(err, data) => {
+                          s3.upload(params, (err, data) => {
                             if (err) {
                               console.error('Error uploading to S3:', err);
                             } else {
                               console.log('File uploaded successfully. S3 Location:', data.Location);
-                              filePath = await data.Location;
+                              filePath =  data.Location;
                               projectDocuments.push(filePath);
                               //console.log("projectDocuments",projectDocuments);
                             }
@@ -110,7 +110,7 @@ try {
        const upperCase = typeChar.toUpperCase();
        const projectId =  upperCase + randomNumber ;
         //create project and push data to DB
-        const status = "New";
+       const status = "New";
         
        const projectData = new Project({
         projectId,

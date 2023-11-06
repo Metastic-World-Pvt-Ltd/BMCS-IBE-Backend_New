@@ -5,17 +5,17 @@ const successMessages = require('../../response/successMessages');
 const Ticket = require('../../models/Ticket');
 const TicketHistory = require('../../models/TicketHistory');
 module.exports.verifyProject = async function(req, res){
-try {
+// try {
     logger.info(successMessages.VERIFY_PROJECT_ACTIVATED)
     //input projectID
-    const projectId = req.params.id || req.body.id || req.query.id || req.headers["id"];
-    logger.info(`Id - ${projectId}`)
+    //const projectId = req.params.id || req.body.id || req.query.id || req.headers["id"];
+   // logger.info(`Id - ${projectId}`)
     //project status and comment
-    const {projectStatus,comment} = req.body;
+    const {projectId , projectStatus,comment} = req.body;
     logger.info(`Input - ${projectStatus} , ${comment}`)
     //console.log(_id, projectStatus);
     //check for project id and status
-    if(!_id || !projectStatus ){
+    if(!projectId || !projectStatus ){
         logger.error(errorMessages.PROJECT_ID_AND_STATUS_REQUIRED);
         return res.status(400).json(errorMessages.PROJECT_ID_AND_STATUS_REQUIRED);
     }
@@ -70,9 +70,9 @@ try {
         logger.error(errorMessages.INVALID_INPUT);
         return res.status(400).json(errorMessages.INVALID_INPUT);
     }
-} catch (error) {
-    logger.error(errorMessages.VERIFY_PROJECT_FAILED);
-    return res.status(500).json(errorMessages.INTERNAL_ERROR);
-}
+// } catch (error) {
+//     logger.error(errorMessages.VERIFY_PROJECT_FAILED);
+//     return res.status(500).json(errorMessages.INTERNAL_ERROR);
+// }
 
 }
