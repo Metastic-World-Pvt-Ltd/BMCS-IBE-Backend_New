@@ -7,6 +7,7 @@ const lc = require('letter-count');
 const logger = require("./logger");
 const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
+const AWS = require('aws-sdk');
 module.exports.agentProject = async function(req, res){
 try {
     logger.info(`Start`);
@@ -36,11 +37,45 @@ try {
                     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
                     const filename = `${uploadedFile.fieldname}-${uniqueSuffix}.${uploadedFile.originalname.split('.').pop()}`;
                     //file path
-                    var filePath = 'D:/uploads/'+ filename;
+                    var filePath ;
+                    //aws opertaion
+                        //Configure AWS SDK with your credentials
+                        AWS.config.update({
+                            accessKeyId: 'AKIAQILXVEU2MFEXA2W3',
+                            secretAccessKey: 'z7I4+5ROFCBea0bLRHAqpEqei6OgC51o5A55TPfk',
+                            region: 'ap-south-1',
+                        });
+                        // Create an S3 object
+                        const s3 = new AWS.S3();
+
+                        // Specify the S3 bucket and file details
+                        const bucketName = 'bmcsfileserver';
+                        const fileName = filename;
+                        const fileContentBuffer = Buffer.from(uploadedFile.buffer);
+
+                        const params = {
+                            Bucket: bucketName,
+                            Key: fileName,
+                            ContentType: 'image/png',
+                            Body: fileContentBuffer, // Pass the buffer directly as the Body
+                          };
+
+                         await s3.upload(params, async(err, data) => {
+                            if (err) {
+                              console.error('Error uploading to S3:', err);
+                            } else {
+                              console.log('File uploaded successfully. S3 Location:', data.Location);
+                              filePath = await data.Location;
+                              projectDocuments.push(filePath);
+                              //console.log("projectDocuments",projectDocuments);
+                            }
+                          });
+                          
+                        //end of Aws
                     //write file in dir
-                     fs.writeFileSync(filePath, uploadedFile.buffer);
-                     //push file into array
-                     projectDocuments.push(filePath);
+                    //  fs.writeFileSync(filePath, uploadedFile.buffer);
+                    //  //push file into array
+                    //  projectDocuments.push(filePath);
 
                 }else{
                     logger.error(errorMessages.MAX_ALLOWED_SIZE)
@@ -75,9 +110,9 @@ try {
        const upperCase = typeChar.toUpperCase();
        const projectId =  upperCase + randomNumber ;
         //create project and push data to DB
-        const status = "Inprogress";
+        const status = "New";
         
-       const projectData = await Project.create({
+       const projectData = new Project({
         projectId,
         projectName,
         contact,
@@ -85,28 +120,35 @@ try {
         projectType,
         projectDescription, 
         projectDocuments:projectDocuments,
-        projectStatus:status
+        projectStatus:status,
+        acceptedBy:'',
        })
+
+       await projectData.save();
        logger.info(`Output - ${projectData}`)
        //if Projectadata 
        if(projectData){
-            try {
-                const newStatus = 'Work In Progress';
-                const updateStatus = await Ticket.findOneAndUpdate({contact:contact},{projectStatus:newStatus},{new:true})
-                logger.info(`Ticket Status updated`);
-                // console.log(updateStatus);
-                const ticketId = updateStatus.ticketId;
-                const status = newStatus;
-                const ticketData = await TicketHistory.create({
-                    contact , ticketId ,status,
-                })
-                // console.log(ticketData);
-                logger.info(`Ticket History Created - ${ticketData}`);
-            } catch (error) {
-                logger.error(error)
-                return res.json(error)
-            }
 
+            const isExist = await Ticket.findOne({contact});
+            console.log(isExist);
+            if(isExist != null){
+                try {
+                    const newStatus = 'Work In Progress';
+                    const updateStatus = await Ticket.findOneAndUpdate({contact:contact},{projectStatus:newStatus},{new:true})
+                    logger.info(`Ticket Status updated`);
+                    console.log(updateStatus);
+                    const ticketId = updateStatus.ticketId;
+                    const status = newStatus;
+                    const ticketData = await TicketHistory.create({
+                        contact , ticketId ,status,
+                    })
+                    // console.log(ticketData);
+                    logger.info(`Ticket History Created - ${ticketData}`);
+                } catch (error) {
+                    logger.error(error)
+                    return res.json(error)
+                }
+            }        
             logger.info(successMessages.PROJECT_CREATED_SUCCESSFULLY)
             logger.info(`End`);
             return res.status(200).json(successMessages.PROJECT_CREATED_SUCCESSFULLY);

@@ -39,6 +39,9 @@ const projectData =  new mongoose.Schema({
     sanctionedAmount:{
         type:Number,
     },
+    acceptedBy:{
+        type:String,
+    },
 
 },{
     timestamps:true

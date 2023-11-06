@@ -37,6 +37,9 @@ const { getAllAdminUser } = require('../controllers/Admin/getAllAdminUser');
 const { getAdminUserFilter } = require('../controllers/Admin/getAdminUserFilter');
 const { getCategoryList } = require('../controllers/Admin/getCategoryList');
 const { getAllProducts } = require('../controllers/Admin/getAllProducts');
+const { getInpKyc } = require('../controllers/Admin/getInpKyc');
+const { projectByContact } = require('../controllers/Admin/projectByContact');
+const { acceptProject } = require('../controllers/Admin/acceptProject');
 
 
 const router=express.Router();
@@ -71,6 +74,8 @@ router.post('/admin',adminConsole);
 router.post('/standard',standardConsole);
 //verify project
 router.post('/verify/:id',verifyUser, verifyProject);
+//Update Project Status by Accept
+router.post('/acceptproject',acceptProject)
 //get logs provide start date (2023-08-23) and end date (2023-08-24)
 router.get('/logs',verifyUser,getLogs);
 //get user details by employee ID
@@ -95,6 +100,8 @@ router.post('/completewithdraw/:id',verifyUser,updateWithdrawStatus)
 router.get('/allProjects',verifyUser, getAllProjects); 
 //get all verified project for admin approval
 router.get('/filterProjects',verifyUser,filter_Project);
+//Get project by contact
+router.get('/projectbycontact',projectByContact);
 //create/add product
 router.post('/createproduct' ,upload.fields([
   { name: 'imageURL' },
@@ -129,5 +136,7 @@ router.get('/filterusers',getAdminUserFilter);
 router.get('/getcategory',getCategoryList);
 //Get All Product List
 router.get('/allproducts',getAllProducts);
+//Get Inprogress Kyc Data
+router.get('/getkyc',getInpKyc)
 
 module.exports = router;

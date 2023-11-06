@@ -17,7 +17,7 @@ try {
     
     try {
         const data = await ProductList.find(reqestData);
-        
+        console.log(data);
         if(data.length == 0){
             logger.error(errorMessages.NOT_FOUND);
             return res.status(404).json(errorMessages.NOT_FOUND)
