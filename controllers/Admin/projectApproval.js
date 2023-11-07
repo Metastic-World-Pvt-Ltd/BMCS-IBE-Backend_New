@@ -13,12 +13,12 @@ try {
     
     //input for sactioned amount
     const {projectId , sanctionedAmount , projectStatus} = req.body;
-    logger.info(`Input - ${sanctionedAmount} , ${projectStatus}`)
+    logger.info(`Input -${projectId} ,${sanctionedAmount} , ${projectStatus}`)
     if(!projectId || !sanctionedAmount || !projectStatus){
         return res.status(400).json(errorMessages.ALL_FIELDS_REQUIRED);
     }
     //check projects exist or not in DB
-    const projectData = await Project.findById({projectId});
+    const projectData = await Project.findOne({projectId});
     //console.log(projectData);
     //check for record in DB
     if(projectData == null){
@@ -43,7 +43,7 @@ try {
                 return res.status(400).json(errorMessages.SANCTIONED_AMOUNT_REQUIRED);
             }
             //update the data in DB
-            const approvedData = await Project.findByIdAndUpdate({projectId},{projectStatus,sanctionedAmount},{new:true})
+            const approvedData = await Project.findOneAndUpdate({projectId},{projectStatus,sanctionedAmount},{new:true})
                         // console.log(transactionAmount);
                         //required fields for DB
                         const type = 'credit';
@@ -94,7 +94,7 @@ try {
                      //response
             return res.status(200).json(approvedData);
         }else if(projectStatus == "Rejected"){
-            const rejectedData = await Project.findByIdAndUpdate({projectId},{projectStatus},{new:true})
+            const rejectedData = await Project.findOneAndUpdate({projectId},{projectStatus},{new:true})
             logger.info(`Output - ${rejectedData}`)
             logger.info(`End`);
             return res.status(200).json(rejectedData);

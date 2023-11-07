@@ -13,7 +13,7 @@ try {
 
     //input of status from body
     const {productId ,projectStatus} = req.body;
-    logger.info(`Input - ${projectStatus}`)
+    logger.info(`Input -${productId}, ${projectStatus}`)
     //check if ID provided or not
     if(!productId){
         logger.error(errorMessages.PROJECT_ID)
@@ -27,7 +27,7 @@ try {
     //check for project status by admin
     if(projectStatus == "Completed" || projectStatus == "completed"){
         //check projec exist in DB or not
-        const projectData = await Project.findById({projectId});
+        const projectData = await Project.findOne({projectId});
         //console.log(projectData);
         //if no record found
         if(projectData ==  null){
@@ -39,7 +39,7 @@ try {
         //check if Data in DB status is approved or not
         if(projectData.projectStatus == "Approved" || projectData.projectStatus == "approved"){
             //find and update data in DB
-            const completeData = await Project.findByIdAndUpdate({projectId},{projectStatus},{new:true})
+            const completeData = await Project.findOneAndUpdate({projectId},{projectStatus},{new:true})
             // console.log(completeData.contact);
             const contact = projectData.contact;
             //console.log(completeData);
@@ -79,7 +79,7 @@ try {
             }) 
             logger.info(`Output - ${userHistory}`)
             //console.log("hist",userHistory);
-            const projectData2 = await Project.findByIdAndUpdate({projectId},{projectStatus},{new:true})
+            const projectData2 = await Project.findOneAndUpdate({projectId},{projectStatus},{new:true})
             logger.info(`Output - ${successMessages.STATUS_HAS_UPDATED_SUCCESSFULLY}`)
             //update Ticket status
             const newStatus = 'Closed';

@@ -12,7 +12,6 @@ try {
     logger.info(successMessages.ADMIN_LOGIN_ACTIVATED)
     const {email , password} = req.body;
     logger.info(`Input - ${email}`)
-    logger.info(`Input - ${password}`)
     const secret = process.env.SECRET_KEY;
     
     const userLogin = await AdminUser.findOne({email: email});
