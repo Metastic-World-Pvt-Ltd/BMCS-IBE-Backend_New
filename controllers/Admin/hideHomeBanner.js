@@ -17,7 +17,10 @@ try {
     const token = req.body.token || req.query.token || req.headers["x-access-token"];
 
     const id = req.params.id || req.body.id || req.query.id || req.headers["id"];
-
+    if(!id){
+        logger.info(errorMessages.ALL_FIELDS_REQUIRED)
+        return res.status(400).json(errorMessages.ALL_FIELDS_REQUIRED)
+    }
     //check for token provided or not
     if(!token){
         logger.error(errorMessages.TOKEN_NOT_FOUND)
@@ -63,9 +66,12 @@ try {
             const hiddenData = await HomeBanner.findByIdAndUpdate({_id:id},{hidden},{new:true})
 
             if(hiddenData){
+                logger.info(successMessages.RECORD_UPDATED_SUCCESSFULLY);
+                logger.info(successMessages.END)
                 return res.status(200).json(successMessages.RECORD_UPDATED_SUCCESSFULLY);
             }else{
-                return res.json(errorMessages.SOMETHING_WENT_WRONG);
+                logger.error(errorMessages.NOT_FOUND)
+                return res.json(errorMessages.NOT_FOUND);
             }
             
         } catch (error) {

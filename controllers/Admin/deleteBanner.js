@@ -9,10 +9,15 @@ var CryptoJS = require("crypto-js");
 module.exports.deleteBanner = async function(req , res){
     
 try {
+    logger.info(successMessages.START);
+    logger.info(successMessages.DELETE_BANNER_ACTIVATED)
     var token = req.body.token || req.query.token || req.headers["x-access-token"];
 
     const id = req.params.id || req.body.id || req.query.id || req.headers["id"];
-
+    if(!id){
+        logger.error(errorMessages.ALL_FIELDS_REQUIRED);
+        return res.status(400).json(errorMessages.ALL_FIELDS_REQUIRED)
+    }
     //check for token provided or not
     if(!token){
         logger.error(errorMessages.TOKEN_NOT_FOUND)

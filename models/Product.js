@@ -15,19 +15,15 @@ const productData =  new mongoose.Schema({
     },
     requiredDoc:{
         type:String,
-        required:true,
     },
     marketPrice:{
         type:Number,
-        required:true
     },
     offerPrice:{
         type:Number,
-        required:true,
     },
     discount:{
         type:Number,
-        required:true,
     },
     imageURL:{
         type:String,

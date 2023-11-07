@@ -7,7 +7,7 @@ const successMessages = require('../../response/successMessages');
 var CryptoJS = require("crypto-js");
 module.exports.getLogs = async function(req, res){
 try {
-    logger.info(`Start`);
+    logger.info(successMessages.START);
     logger.info(successMessages.GET_LOGS_ACTIVATED);
     //check for token and start and end date to get logs
     var token = req.body.token || req.query.token || req.headers["x-access-token"];
@@ -48,24 +48,29 @@ try {
             toDate.setSeconds(59);
     
     
-            // Define the date range filter
-            const dateFilter = {
-                timestamp: {
-                  $gte: fromDate,
-                  $lt: toDate,
-                },
-              };
-    
-        const data = await Log.find(dateFilter);
-        //check for record found or not
-        if(data.length == 0){
-            logger.error(errorMessages.NOT_FOUND)
-            return res.status(404).json(errorMessages.NOT_FOUND)
-        }else{
-            logger.info(`Output - ${successMessages.DATA_SEND_SUCCESSFULLY}`)
-            logger.info(`End`);
-            //response
-            return res.status(200).json(data);
+        try {
+                      // Define the date range filter
+                      const dateFilter = {
+                        timestamp: {
+                          $gte: fromDate,
+                          $lt: toDate,
+                        },
+                      };
+            
+                const data = await Log.find(dateFilter);
+                //check for record found or not
+                if(data.length == 0){
+                    logger.error(errorMessages.NOT_FOUND)
+                    return res.status(404).json(errorMessages.NOT_FOUND)
+                }else{
+                    logger.info(`Output - ${successMessages.DATA_SEND_SUCCESSFULLY}`)
+                    logger.info(`End`);
+                    //response
+                    return res.status(200).json(data);
+                }
+        } catch (error) {
+            logger.error(error);
+            return res.status(502).json(errorMessages.INTERNAL_ERROR)
         }
     }else{
         logger.error(errorMessages.ACCESS_DENIED)

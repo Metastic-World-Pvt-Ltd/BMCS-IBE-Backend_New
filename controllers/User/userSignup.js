@@ -75,7 +75,7 @@ module.exports.userSignup = async function(req, res){
             logger.info(`Output - ${userDoc}`)
 
             //generate token for user
-            jwt.sign({contact,firstName} , secret , { algorithm: 'HS512' } , (err,token)=>{
+            jwt.sign({contact,firstName} , secret , { algorithm: 'HS512', expiresIn: '90d' } , (err,token)=>{
                 if(err) throw new err;
                 //logger.info(`Token - ${token}`)
                 
@@ -119,7 +119,7 @@ module.exports.userSignup = async function(req, res){
                 logger.info(`Output - ${userDoc}`)
                 //generate token for user
                 sendEmail(userDoc.email , userDoc.firstName)
-                    jwt.sign({contact,firstName} , secret , { algorithm: 'HS512' } , (err,token)=>{
+                    jwt.sign({contact,firstName} , secret , { algorithm: 'HS512', expiresIn: '90d' } , (err,token)=>{
                         if(err) throw new err;
                         //function to encypt Token
                         
@@ -173,17 +173,17 @@ try {
         from: `no-reply@bmcsindia.in <${senderEmail}>`, // sender address
         to: useremail, // list of receivers
         subject: "Welcome to BMCS", // Subject line
-        text: `Dear ${name},
+        // text: `Dear ${name},
 
-        Welcome to BMCS
-        We're delighted to have you on board.
+        // Welcome to BMCS
+        // We're delighted to have you on board.
         
-        Thank you for choosing us, and we look forward to serving you.
+        // Thank you for choosing us, and we look forward to serving you.
         
-        Best Regards,
-        [Team BMCS]
-        [https://bmcsindia.in/]
-         `, // plain text body
+        // Best Regards,
+        // [Team BMCS]
+        // [https://bmcsindia.in/]
+        //  `, // plain text body
         html: `  
         <div >
 

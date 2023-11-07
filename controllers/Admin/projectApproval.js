@@ -5,18 +5,20 @@ const logger = require('../User/logger');
 const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
 module.exports.projectApproval = async function(req, res){
-// try {
+try {
     logger.info(`Start`);
     logger.info(successMessages.PROJECT_APPROVAL_ACTIVATED)
     //input project ID
-    const _id =  req.params.id || req.body.id || req.query.id || req.headers["id"];
-    logger.info(`Id - ${_id}`)
+
     
     //input for sactioned amount
-    const {sanctionedAmount , projectStatus} = req.body;
+    const {projectId , sanctionedAmount , projectStatus} = req.body;
     logger.info(`Input - ${sanctionedAmount} , ${projectStatus}`)
+    if(!projectId || !sanctionedAmount || !projectStatus){
+        return res.status(400).json(errorMessages.ALL_FIELDS_REQUIRED);
+    }
     //check projects exist or not in DB
-    const projectData = await Project.findById({_id});
+    const projectData = await Project.findById({projectId});
     //console.log(projectData);
     //check for record in DB
     if(projectData == null){
@@ -41,7 +43,7 @@ module.exports.projectApproval = async function(req, res){
                 return res.status(400).json(errorMessages.SANCTIONED_AMOUNT_REQUIRED);
             }
             //update the data in DB
-            const approvedData = await Project.findByIdAndUpdate({_id},{projectStatus,sanctionedAmount},{new:true})
+            const approvedData = await Project.findByIdAndUpdate({projectId},{projectStatus,sanctionedAmount},{new:true})
                         // console.log(transactionAmount);
                         //required fields for DB
                         const type = 'credit';
@@ -92,7 +94,7 @@ module.exports.projectApproval = async function(req, res){
                      //response
             return res.status(200).json(approvedData);
         }else if(projectStatus == "Rejected"){
-            const rejectedData = await Project.findByIdAndUpdate({_id},{projectStatus},{new:true})
+            const rejectedData = await Project.findByIdAndUpdate({projectId},{projectStatus},{new:true})
             logger.info(`Output - ${rejectedData}`)
             logger.info(`End`);
             return res.status(200).json(rejectedData);
@@ -101,9 +103,9 @@ module.exports.projectApproval = async function(req, res){
             return res.status(401).json(`Unable to perform action as status is ${projectData.projectStatus}`);
         }
     }
-// } catch (error) {
-//     logger.error(errorMessages.PROJECT_APPROVAL_FAILED)
-//     return res.status(500).json(errorMessages.INTERNAL_ERROR)
-// }
+} catch (error) {
+    logger.error(errorMessages.PROJECT_APPROVAL_FAILED)
+    return res.status(500).json(errorMessages.INTERNAL_ERROR)
+}
     
 }

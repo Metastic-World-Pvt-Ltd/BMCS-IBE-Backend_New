@@ -6,6 +6,7 @@ const logger = require('../User/logger');
 const successMessages = require("../../response/successMessages");
 module.exports.generateSecretAPIKey =  async function(req, res){
 try {
+    logger.info(successMessages.START)
     logger.info(successMessages.GENERATE_SECRET_API_KEY_ACTIVATED)
     const Key = process.env.API_SECRET_KEY;
     
@@ -35,10 +36,11 @@ try {
         })
         await secretData.save();
         logger.info(successMessages.RECORD_ADDED_SUCCESSFULLY)
+        logger.info(successMessages.END)
         return res.status(200).json(successMessages.RECORD_ADDED_SUCCESSFULLY)
     } catch (error) {
-        logger.error(`Error - ${errorMessages.SOMETHING_WENT_WRONG}`)
-        return res.json(errorMessages.SOMETHING_WENT_WRONG)
+        logger.error(`Error - ${error}`)
+        return res.json(errorMessages.BAD_GATEWAY)
     }
 
 } catch (error) {

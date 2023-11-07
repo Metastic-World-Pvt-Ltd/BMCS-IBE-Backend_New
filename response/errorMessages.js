@@ -170,7 +170,11 @@ module.exports = {
 
     GET_PRODUCT_LIST_FAILED:'Get Product List Endpoint Failed',
 
+    ACCEPT_PROJECT_FAILED:'Accept Project Endpoint Failed',
 
+    DELETE_PRODUCT_LIST_FAILED:'Delete Product List Endpoint Failed',
+
+    GET_ALL_PRODUCT_FAILED:'Get All Product Endpoint Failed',
 
     // Add more error messages as needed...
   };

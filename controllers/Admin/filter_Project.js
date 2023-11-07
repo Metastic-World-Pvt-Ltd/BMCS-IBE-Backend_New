@@ -10,16 +10,21 @@ try {
     const projectStatus = req.body.projectStatus || req.query.projectStatus || req.headers["project-status"]
     logger.info(`Input - ${projectStatus}`)
     //find the projects as per user input status
-    const projectData = await Project.find({projectStatus});
-    //check for record found or not
-    if(projectData.length == 0){
-        logger.error(errorMessages.NOT_FOUND)
-        return res.status(404).json(errorMessages.NOT_FOUND)
+    try {
+        const projectData = await Project.find({projectStatus});
+        //check for record found or not
+        if(projectData.length == 0){
+            logger.error(errorMessages.NOT_FOUND)
+            return res.status(404).json(errorMessages.NOT_FOUND)
+        }
+        logger.info(`Output - ${successMessages.DATA_SEND_SUCCESSFULLY}`)
+        logger.info(successMessages.END);
+        //response
+        return res.status(200).json(projectData);
+    } catch (error) {
+        logger.error(errorMessages.BAD_GATEWAY)
+        return res.status(502).json(errorMessages.BAD_GATEWAY)
     }
-    logger.info(`Output - ${projectData}`)
-    logger.info(`End`);
-    //response
-    return res.status(200).json(projectData);
 } catch (error) {
     logger.error(errorMessages.FILTER_PROJECT_FAILED)
     return res.status(500).json(errorMessages.INTERNAL_ERROR)

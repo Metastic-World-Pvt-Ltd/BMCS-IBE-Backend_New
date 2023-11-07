@@ -40,6 +40,7 @@ const { getAllProducts } = require('../controllers/Admin/getAllProducts');
 const { getInpKyc } = require('../controllers/Admin/getInpKyc');
 const { projectByContact } = require('../controllers/Admin/projectByContact');
 const { acceptProject } = require('../controllers/Admin/acceptProject');
+const { deleteProductList } = require('../controllers/Admin/deleteProductList');
 
 
 const router=express.Router();
@@ -91,9 +92,9 @@ router.post('/reset-2fa',reset2FA); ///completed till here
 //edit product
 router.patch('/editproduct/:id', verifyUser,editProduct);
 //project appoval from Admin
-router.post('/approval/:id',verifyUser,projectApproval);
+router.post('/approval',verifyUser,projectApproval);
 //mark project as complete
-router.post('/complete/:id',verifyUser,completeProject);
+router.post('/complete',verifyUser,completeProject);
 //update withdraw status as complete
 router.post('/completewithdraw/:id',verifyUser,updateWithdrawStatus)
 //get all projects
@@ -138,5 +139,7 @@ router.get('/getcategory',getCategoryList);
 router.get('/allproducts',getAllProducts);
 //Get Inprogress Kyc Data
 router.get('/getkyc',getInpKyc)
+//delete product List
+router.post('/deleteproductlist',deleteProductList);
 
 module.exports = router;

@@ -173,7 +173,13 @@ module.exports = {
 
     ACTIVATED_GET_PRODUCT_LIST:'Get Product List Activated',
 
+    ACTIVATED_ACCEPT_PROJECT:'Accept Project Endpoint Activted',
 
+    DELETE_BANNER_ACTIVATED:'Delete Banner Endpoint Activated',
+
+    DELETE_PRODUCT_LIST_ACTIVATED:'Delete Product List Endpoint Activated',
+
+    GET_INP_KYC:'Get Inprogress Kyc Endpoint Activated',
 
     // Add more error messages as needed...
   };

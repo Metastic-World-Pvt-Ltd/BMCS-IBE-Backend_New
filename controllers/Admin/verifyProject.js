@@ -5,11 +5,9 @@ const successMessages = require('../../response/successMessages');
 const Ticket = require('../../models/Ticket');
 const TicketHistory = require('../../models/TicketHistory');
 module.exports.verifyProject = async function(req, res){
-// try {
+try {
     logger.info(successMessages.VERIFY_PROJECT_ACTIVATED)
-    //input projectID
-    //const projectId = req.params.id || req.body.id || req.query.id || req.headers["id"];
-   // logger.info(`Id - ${projectId}`)
+    
     //project status and comment
     const {projectId , projectStatus,comment} = req.body;
     logger.info(`Input - ${projectStatus} , ${comment}`)
@@ -70,9 +68,9 @@ module.exports.verifyProject = async function(req, res){
         logger.error(errorMessages.INVALID_INPUT);
         return res.status(400).json(errorMessages.INVALID_INPUT);
     }
-// } catch (error) {
-//     logger.error(errorMessages.VERIFY_PROJECT_FAILED);
-//     return res.status(500).json(errorMessages.INTERNAL_ERROR);
-// }
+} catch (error) {
+    logger.error(errorMessages.VERIFY_PROJECT_FAILED);
+    return res.status(500).json(errorMessages.INTERNAL_ERROR);
+}
 
 }

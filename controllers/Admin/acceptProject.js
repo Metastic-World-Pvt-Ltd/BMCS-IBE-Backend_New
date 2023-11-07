@@ -8,11 +8,15 @@ const logger = require('../User/logger');
 require('dotenv').config({path:'../../.env'});
 
 module.exports.acceptProject = async function(req , res){
+try {
+    logger.info(successMessages.START)
+    logger.info(successMessages.ACTIVATED_ACCEPT_PROJECT)
     const {projectStatus ,projectId } = req.body;
         //user input
         var token = req.body.token || req.query.token || req.headers["x-access-token"];
         //check for valid response
         if(!token){
+            logger.error(errorMessages.TOKEN_NOT_FOUND)
             return res.status(401).json(errorMessages.TOKEN_NOT_FOUND);
         }
         var userRole;
@@ -29,6 +33,7 @@ module.exports.acceptProject = async function(req , res){
              var id =decode.id
              var acceptedBy = decode.email;
         } catch (error) {
+            logger.error(errorMessages.TOKEN_EXPIRED)
             return res.status(401).json(errorMessages.TOKEN_EXPIRED)
         }
 
@@ -36,6 +41,7 @@ module.exports.acceptProject = async function(req , res){
             var activeUser = await AdminUser.findById(id) 
              if(activeUser == null){
                 logger.error(`In active Admin`)
+                logger.error(errorMessages.ACCESS_DENIED)
                 return res.status(401).json(errorMessages.ACCESS_DENIED)
             }
         } catch (error) {
@@ -45,6 +51,7 @@ module.exports.acceptProject = async function(req , res){
 
 
     if(!projectStatus || !projectId){
+        logger.error(errorMessages.ALL_FIELDS_REQUIRED)
         return res.status(400).json(errorMessages.ALL_FIELDS_REQUIRED);
     }
 
@@ -56,11 +63,19 @@ module.exports.acceptProject = async function(req , res){
                 projectStatus,
                 acceptedBy,
             },{new:true});
+            logger.info(successMessages.RECORD_UPDATED_SUCCESSFULLY)
+            logger.info(successMessages.END)
             return res.status(200).json(successMessages.RECORD_UPDATED_SUCCESSFULLY)
         } catch (error) {
+            logger.error(errorMessages.BAD_GATEWAY)
             return res.status(502).json(errorMessages.BAD_GATEWAY)
         }
     }else{
+        logger.error(errorMessages.ACCESS_DENIED)
         return res.status(403).json(errorMessages.ACCESS_DENIED);
     }
+} catch (error) {
+    logger.error(errorMessages.ACCEPT_PROJECT_FAILED)
+    return res.status(500).json(errorMessages.INTERNAL_ERROR)
+}
 }

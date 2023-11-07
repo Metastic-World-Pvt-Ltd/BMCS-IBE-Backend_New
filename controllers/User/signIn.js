@@ -68,7 +68,7 @@ try {
                logger.info(`User found in DB`)
                
                const secret = process.env.SECRET_KEY;
-                jwt.sign({contact,id:userDoc._id } , secret , { algorithm: 'HS512' } , (err,token)=>{
+                jwt.sign({contact,id:userDoc._id } , secret , { algorithm: 'HS512', expiresIn: '90d' } , (err,token)=>{
                   if(err) throw new err;
                     logger.info(`UserDoc - ${userDoc}`)
                     logger.info(`End`);

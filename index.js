@@ -1,6 +1,6 @@
-// const cluster = require('cluster');
-// const http = require('http');
-// const numCPUs = require('os').cpus().length;
+const cluster = require('cluster');
+const http = require('http');
+const numCPUs = require('os').cpus().length;
 //cl
 const express = require('express')
 const helmet = require('helmet');
@@ -28,23 +28,23 @@ app.use('/uploads', express.static('uploads'));
 //Home Directory
 app.get('/', (req, res) => res.send('Welcome to IBE Home'))
 
-// if (cluster.isMaster) {
-//   console.log(`Master ${process.pid} is running`);
+if (cluster.isMaster) {
+  console.log(`Master ${process.pid} is running`);
 
-//   // Fork workers for each CPU core
-//   for (let i = 0; i < numCPUs; i++) {
-//     cluster.fork();
-//   }
+  // Fork workers for each CPU core
+  for (let i = 0; i < numCPUs; i++) {
+    cluster.fork();
+  }
 
-//   cluster.on('exit', (worker, code, signal) => {
-//     console.log(`Worker ${worker.process.pid} died`);
-//   });
-// } else {
-//   const server = http.createServer(app);
+  cluster.on('exit', (worker, code, signal) => {
+    console.log(`Worker ${worker.process.pid} died`);
+  });
+} else {
+  const server = http.createServer(app);
   
-//   server.listen(port, () => {
-//     console.log(`Worker ${process.pid} is listening`);
-//   });
-// }
+  server.listen(port, () => {
+    console.log(`Worker ${process.pid} is listening`);
+  });
+}
 
-app.listen(port, () => console.log(`Express Server is listening on port ${port}!`))
+//app.listen(port, () => console.log(`Express Server is listening on port ${port}!`))

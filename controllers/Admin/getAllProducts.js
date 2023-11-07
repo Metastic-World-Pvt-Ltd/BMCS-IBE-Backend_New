@@ -4,6 +4,7 @@ const successMessages = require('../../response/successMessages');
 const logger = require('../User/logger');
 
 module.exports.getAllProducts = async function(req , res){
+try {
     logger.info(successMessages.START);
     logger.info(successMessages.GET_ALL_PRODUCT_ACTIVATED)
 
@@ -22,4 +23,8 @@ module.exports.getAllProducts = async function(req , res){
         logger.error(error)
         return res.status(502).json(errorMessages.BAD_GATEWAY)
     }
+} catch (error) {
+    logger.error(errorMessages.GET_ALL_PRODUCT_FAILED)
+    return res.status(500).json(errorMessages.INTERNAL_ERROR)
+}
 }

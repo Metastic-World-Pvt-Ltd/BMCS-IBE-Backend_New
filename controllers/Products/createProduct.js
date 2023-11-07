@@ -89,22 +89,11 @@ try {
                               for(var i=0;i<mim.buffer.length;i++){
                                 mybuffer[i]=mim.buffer[i];
                               }
-                            //   fs.writeFile(filePath,mybuffer,function(err){
-                            //     if(err){
-                            //         console.log(err);
-
-                            //     }
-                            //     else{
-                            //         console.log("saved");
-                            //     }
-                            //   });
-                            //     //file path
-                            //     console.log("filePath",filePath);
-                            //     var imageURL = filePath;
+                        
 
                             //Store filepath
                             var filePath = 'https://bmcsfileserver.s3.amazonaws.com/'+filename;
-                            projectDocuments.push(filePath);
+                           
                             //aws opertaion
         
                                 const credentials = {
@@ -159,9 +148,11 @@ try {
                 //     }
                 
                 }else{
+                    logger.error(errorMessages.ALL_FIELDS_REQUIRED)
                     return res.status(400).json(errorMessages.ALL_FIELDS_REQUIRED)
                 }
             } catch (error) {
+                logger.error(error)
                 return res.json(errorMessages.SOMETHING_WENT_WRONG)
             }
 

@@ -10,14 +10,12 @@ module.exports.completeProject = async function(req , res){
 try {
     logger.info(`Start`);
     logger.info(successMessages.COMPLETE_PROJECT_ACTIVATED)
-    //Input project ID
-    const _id =  req.params.id || req.body.id || req.query.id || req.headers["id"];
-    logger.info(`Id - ${_id}`)
+
     //input of status from body
-    const {projectStatus} = req.body;
+    const {productId ,projectStatus} = req.body;
     logger.info(`Input - ${projectStatus}`)
     //check if ID provided or not
-    if(!_id){
+    if(!productId){
         logger.error(errorMessages.PROJECT_ID)
         return res.status(400).json(errorMessages.PROJECT_ID)
     }
@@ -29,7 +27,7 @@ try {
     //check for project status by admin
     if(projectStatus == "Completed" || projectStatus == "completed"){
         //check projec exist in DB or not
-        const projectData = await Project.findById({_id});
+        const projectData = await Project.findById({projectId});
         //console.log(projectData);
         //if no record found
         if(projectData ==  null){
@@ -41,7 +39,7 @@ try {
         //check if Data in DB status is approved or not
         if(projectData.projectStatus == "Approved" || projectData.projectStatus == "approved"){
             //find and update data in DB
-            const completeData = await Project.findByIdAndUpdate({_id},{projectStatus},{new:true})
+            const completeData = await Project.findByIdAndUpdate({projectId},{projectStatus},{new:true})
             // console.log(completeData.contact);
             const contact = projectData.contact;
             //console.log(completeData);
@@ -68,7 +66,7 @@ try {
             //define all required data field
             const type = 'credit';
             const origin = 'Project';
-            const status = 'completed'
+            const status = 'Completed'
             //generate history for user transaction
             const transactionId = 'PRO' + Date.now();
             const userHistory = await History.create({
@@ -81,7 +79,7 @@ try {
             }) 
             logger.info(`Output - ${userHistory}`)
             //console.log("hist",userHistory);
-            const projectData2 = await Project.findByIdAndUpdate({_id},{projectStatus},{new:true})
+            const projectData2 = await Project.findByIdAndUpdate({projectId},{projectStatus},{new:true})
             logger.info(`Output - ${successMessages.STATUS_HAS_UPDATED_SUCCESSFULLY}`)
             //update Ticket status
             const newStatus = 'Closed';
