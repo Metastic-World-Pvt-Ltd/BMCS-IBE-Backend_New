@@ -109,7 +109,7 @@ router.post('/createproduct' ,upload.fields([
   { name: 'imageURL' },
 ]), createProduct);
 //delete Product
-router.post('/deleteproject/:id', verifyUser , deleteProduct);
+router.post('/deleteproduct/:id', verifyUser , deleteProduct);
 //edit/update product
 router.patch('/editproduct/:id',editProduct);
 //Generate Seceret API Key for external or client access

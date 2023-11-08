@@ -1,8 +1,12 @@
 const PIN = require('../../models/PIN');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
 const logger = require('../User/logger');
+const User = require('../../models/User');
+require('dotenv').config({path:'../../.env'});
+var CryptoJS = require("crypto-js");
 module.exports.verifyPIN = async function(req , res){
 try {
     logger.info(successMessages.VERIFY_PIN_ACTIVATED);
@@ -23,8 +27,18 @@ try {
         //check PIN  matched or not
         if(isMatch){
             //response
-            logger.info(`Output - ${successMessages.VERIFIED_PIN_SUCCESSFULLY}`)
-            return res.status(200).json(successMessages.VERIFIED_PIN_SUCCESSFULLY)
+            const userDoc = await User.findOne({contact});
+            const secret = process.env.SECRET_KEY;
+                jwt.sign({contact,id:userDoc._id } , secret , { algorithm: 'HS512', expiresIn: '90d' } , (err,token)=>{
+                  if(err) throw new err;
+                    logger.info(`UserDoc - ${userDoc}`)
+                    logger.info(`End`);
+                    var newToken =  encToken(token);
+                   
+                    return res.status(200).json({newToken , userDoc})
+                   })
+            // logger.info(`Output - ${successMessages.VERIFIED_PIN_SUCCESSFULLY}`)
+            // return res.status(200).json(successMessages.VERIFIED_PIN_SUCCESSFULLY)
         }else{
             //error
             logger.error(`Error - ${errorMessages.ACCESS_DENIED}`)
@@ -40,4 +54,10 @@ try {
     logger.error(`Error -  ${errorMessages.VERIFY_PIN_FAILED}`)
     return res.status(500).json(errorMessages.INTERNAL_ERROR);
 }
+}
+
+function encToken(token){
+    const secret = process.env.SECRET_KEY;
+    var token =  CryptoJS.AES.encrypt(token, secret).toString();
+    return token;
 }

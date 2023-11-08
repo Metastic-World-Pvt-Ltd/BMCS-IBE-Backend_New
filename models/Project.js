@@ -42,6 +42,9 @@ const projectData =  new mongoose.Schema({
     acceptedBy:{
         type:String,
     },
+    closedBy:{
+        type:String,
+    },
 
 },{
     timestamps:true

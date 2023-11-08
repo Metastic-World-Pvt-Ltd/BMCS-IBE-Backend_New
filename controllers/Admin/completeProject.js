@@ -6,16 +6,55 @@ const TicketHistory = require('../../models/TicketHistory');
 const logger = require('../User/logger');
 const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
+var CryptoJS = require("crypto-js");
+const jwt = require('jsonwebtoken');
+const AdminUser = require('../../models/AdminUser');
+require('dotenv').config({path:'../../.env'});
+
 module.exports.completeProject = async function(req , res){
-try {
+// try {
     logger.info(`Start`);
     logger.info(successMessages.COMPLETE_PROJECT_ACTIVATED)
+        //user input
+        var token = req.body.token || req.query.token || req.headers["x-access-token"];
+        //check for valid response
+        if(!token){
+            return res.status(401).json(errorMessages.TOKEN_NOT_FOUND);
+        }
+        var userRole;
+        try {
+            //decode token signature
+            const secret = process.env.SECRET_KEY;
+             // Decrypt
+             var bytes  = CryptoJS.AES.decrypt(token, secret);
+             token = bytes.toString(CryptoJS.enc.Utf8);
+            const decode = jwt.verify(token , secret);
+            console.log("decode",decode);
+        //check for user role as per token
+             userRole = decode.role;
+             var id =decode.id
+             var closedBy = decode.email;
+             
+        } catch (error) {
+            return res.status(401).json(errorMessages.TOKEN_EXPIRED)
+        }
+            //check Admin user is active or not
+        try {
+            var activeUser = await AdminUser.findById(id) 
+             if(activeUser == null){
+                logger.error(`In active Admin`)
+                return res.status(401).json(errorMessages.ACCESS_DENIED)
+            }
+        } catch (error) {
+            logger.error(errorMessages.BAD_GATEWAY)
+            return res.status(502).json(errorMessages.BAD_GATEWAY)
+        }
 
     //input of status from body
-    const {productId ,projectStatus} = req.body;
-    logger.info(`Input -${productId}, ${projectStatus}`)
+    const {projectId ,projectStatus} = req.body;
+    logger.info(`Input -${projectId}, ${projectStatus}`)
     //check if ID provided or not
-    if(!productId){
+    if(!projectId){
         logger.error(errorMessages.PROJECT_ID)
         return res.status(400).json(errorMessages.PROJECT_ID)
     }
@@ -28,7 +67,7 @@ try {
     if(projectStatus == "Completed" || projectStatus == "completed"){
         //check projec exist in DB or not
         const projectData = await Project.findOne({projectId});
-        //console.log(projectData);
+        console.log(projectData);
         //if no record found
         if(projectData ==  null){
             logger.error(errorMessages.NOT_FOUND)
@@ -39,7 +78,7 @@ try {
         //check if Data in DB status is approved or not
         if(projectData.projectStatus == "Approved" || projectData.projectStatus == "approved"){
             //find and update data in DB
-            const completeData = await Project.findOneAndUpdate({projectId},{projectStatus},{new:true})
+            const completeData = await Project.findOneAndUpdate({projectId},{projectStatus,closedBy},{new:true})
             // console.log(completeData.contact);
             const contact = projectData.contact;
             //console.log(completeData);
@@ -100,10 +139,10 @@ try {
         logger.error(errorMessages.UNABLE_TO_PERFORM)
         return res.status(401).json(errorMessages.UNABLE_TO_PERFORM)
     }
-} catch (error) {
-    logger.error(errorMessages.COMPLETE_PROJECT_FAILED)
-    return res.status(500).json(errorMessages.INTERNAL_ERROR);
-}
+// } catch (error) {
+//     logger.error(errorMessages.COMPLETE_PROJECT_FAILED)
+//     return res.status(500).json(errorMessages.INTERNAL_ERROR);
+// }
 
 }
 

@@ -13,7 +13,7 @@ try {
     //token input
     const token = req.body.token || req.query.token || req.headers["x-access-token"];
     //product id to delete the product
-    const _id = req.params.id || req.body.id || req.query.id || req.headers["id"];
+    const productId = req.params.id || req.body.id || req.query.id || req.headers["id"];
     // console.log("Id", _id);
     //check for valid response
     if(!token){
@@ -45,7 +45,7 @@ try {
     //condition to check role specific rights
     if(userRole == "Super_Admin" || userRole == "super_admin" || userRole == "Admin" || userRole == "admin"){
         //chek product exist in DB or not
-        const isExist = await Product.findById({_id});
+        const isExist = await Product.findOne({productId});
         logger.info(`Data found in DB - ${isExist}`)
         if(isExist){
             //insert deleteby filed into prev data
@@ -54,7 +54,7 @@ try {
             const creatDeletedData = await DeletedProject.insertMany(isExist);
             logger.info(`Created Deleted Record in to Db - Data -${creatDeletedData}`)
             //delete the product from DB
-            const deletedData = await Product.findByIdAndDelete({_id});
+            const deletedData = await Product.findOneAndDelete({productId});
             try {
                 //response
                 logger.info(`${successMessages.RECORD_DELETED_SUCCESSFULLY} - Data - ${deletedData}`)

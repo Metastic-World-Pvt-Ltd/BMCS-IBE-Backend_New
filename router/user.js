@@ -113,7 +113,7 @@ router.get('/allWithdrawRequest',allWithdrawRequest);
 //Generate Pin for User Login
 router.post('/generatepin',verifyUser , generatePin);
 //Verfy Uer PIN
-router.post('/verifypin',verifyUser , verifyPIN);
+router.post('/verifypin' , verifyPIN);
 //Update User PIN 
 router.patch('/updatepin',verifyUser,updateUserPin);
 //Sign in with Single API
