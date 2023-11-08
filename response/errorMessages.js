@@ -176,6 +176,8 @@ module.exports = {
 
     GET_ALL_PRODUCT_FAILED:'Get All Product Endpoint Failed',
 
+    GET_HOME_BANNER_FAILED:'Get Home Banner Endpoint Failed',
+
     // Add more error messages as needed...
   };
   

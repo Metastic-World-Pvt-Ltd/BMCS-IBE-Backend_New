@@ -41,6 +41,7 @@ const { getInpKyc } = require('../controllers/Admin/getInpKyc');
 const { projectByContact } = require('../controllers/Admin/projectByContact');
 const { acceptProject } = require('../controllers/Admin/acceptProject');
 const { deleteProductList } = require('../controllers/Admin/deleteProductList');
+const { getHomeBanner } = require('../controllers/Admin/getHomeBanner');
 
 
 const router=express.Router();
@@ -123,6 +124,8 @@ router.post('/banner1',upload.fields([
 router.patch('/hidebanner/:id',hideHomeBanner);
 //delete banner
 router.post('/deletebanner/:id', deleteBanner)
+//Get All Home Banner
+router.get('/getbanner',getHomeBanner);
 //Add products into list
 router.post('/addproductlist',addProductList);
 

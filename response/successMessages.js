@@ -181,6 +181,8 @@ module.exports = {
 
     GET_INP_KYC:'Get Inprogress Kyc Endpoint Activated',
 
+    GET_HOME_BANNER_ACTIVATED:'Get Home Banner Endpoint Activated',
+
     // Add more error messages as needed...
   };
   
