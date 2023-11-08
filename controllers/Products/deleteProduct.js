@@ -29,7 +29,7 @@ try {
          // Decrypt
          var bytes  = CryptoJS.AES.decrypt(token, secret);
          token = bytes.toString(CryptoJS.enc.Utf8);
-        const decode = jwt.verify(token , secret);
+        var decode = jwt.verify(token , secret);
     //check for user role as per token
          userRole = decode.role;
     } catch (error) {
