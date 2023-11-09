@@ -80,7 +80,7 @@ try {
                        })
                      }else{
                     //get prev pendig amount and current amount add it
-                      const amount =  amountData.projectEarning[0].pendingAmount + sanctionedAmount; 
+                      const amount =  parseInt(amountData.projectEarning[0].pendingAmount) + sanctionedAmount; 
                       //update the data into DB
                       const data = await Wallet.findOneAndUpdate({contact},{
                           projectEarning:[
