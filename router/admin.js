@@ -42,6 +42,9 @@ const { projectByContact } = require('../controllers/Admin/projectByContact');
 const { acceptProject } = require('../controllers/Admin/acceptProject');
 const { deleteProductList } = require('../controllers/Admin/deleteProductList');
 const { getHomeBanner } = require('../controllers/Admin/getHomeBanner');
+const { editCategory } = require('../controllers/Admin/editCategory.js');
+const { editSubCategory } = require('../controllers/Admin/editSubCategory');
+
 
 
 const router=express.Router();
@@ -144,5 +147,8 @@ router.get('/allproducts',getAllProducts);
 router.get('/getkyc',getInpKyc)
 //delete product List
 router.post('/deleteproductlist',deleteProductList);
-
+//Edit Category List
+router.patch('/editcategory', editCategory);
+//Edit Sub CAtegory List
+router.patch('/editsubcategory', editSubCategory)
 module.exports = router;

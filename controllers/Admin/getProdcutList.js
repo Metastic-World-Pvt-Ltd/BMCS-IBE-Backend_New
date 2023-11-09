@@ -24,7 +24,7 @@ try {
             
         }else{
             logger.info(`Output - ${successMessages.DATA_SEND_SUCCESSFULLY}`)
-            return res.status(200).json(data)
+            return res.status(200).json({data:data})
         }
     } catch (error) {
         logger.error(error)

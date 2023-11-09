@@ -178,6 +178,10 @@ module.exports = {
 
     GET_HOME_BANNER_FAILED:'Get Home Banner Endpoint Failed',
 
+    EDIT_CATEGORY_FAILED:'Edit Category Endpoint Failed',
+
+    EDIT_SUB_CATEGORY_FAILED:'Edit Sub Category Endpoint Failed'
+
     // Add more error messages as needed...
   };
   

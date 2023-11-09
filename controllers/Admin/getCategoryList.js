@@ -9,12 +9,10 @@ try {
     logger.info(successMessages.ACTIVATED_GET_CATEGORY_LIST)
 
     const category = req.headers['category'];
-    logger.info(`Input - ${category}`);
-    if(!category){
-        logger.error(errorMessages.ALL_FIELDS_REQUIRED)
-        return res.status(400).json(errorMessages.ALL_FIELDS_REQUIRED)
-    }
+    const subCategory = req.headers['sub_category']
 
+if(category){
+    logger.info(`Input - ${category}`);
     try {
         const getData = await ProductList.find({category});
         
@@ -30,6 +28,27 @@ try {
         logger.error(error);
         return res.status(502).json(errorMessages.BAD_GATEWAY);
     }
+}else if(subCategory){
+    logger.info(`Input - ${subCategory}`);
+    try {
+        const getData = await ProductList.find({subCategory});
+        
+        if(getData.length == 0){
+            logger.error(errorMessages.NOT_FOUND)
+            return res.status(404).json(errorMessages.NOT_FOUND)
+            
+        }else{
+            logger.info(`Output - ${successMessages.DATA_SEND_SUCCESSFULLY}`)
+            return res.status(200).json(getData);
+        }
+    } catch (error) {
+        logger.error(error);
+        return res.status(502).json(errorMessages.BAD_GATEWAY);
+    }
+}else{
+    logger.error(errorMessages.ALL_FIELDS_REQUIRED)
+    return res.status(400).json(errorMessages.ALL_FIELDS_REQUIRED)
+}
 } catch (error) {
     logger.error(errorMessages.GET_CATEGORY_LIST_FAILED)
     return res.status(500).json(errorMessages.INTERNAL_ERROR)
