@@ -34,13 +34,14 @@ try {
          decode = jwt.verify(token , secret);
     //check for user role as per token
          userRole = decode.role;
+         var _id = decode.id;
+         var adminEmail = decode.email;
 
     } catch (error) {
         logger.error(errorMessages.TOKEN_EXPIRED);
         return res.status(401).json(errorMessages.TOKEN_EXPIRED)
     }
-    const _id = decode.id;
-    const adminEmail = decode.email;
+
     const activeUser = await AdminUser.findById({_id})
     
     if(activeUser == null){
@@ -55,6 +56,10 @@ try {
         if(isExist == null){
             logger.error(errorMessages.NOT_FOUND)
             return res.status(404).json(errorMessages.NOT_FOUND)
+        }
+        if(email == adminEmail){
+            logger.error(errorMessages.ACCESS_DENIED)
+            return res.status(403).json(errorMessages.ACCESS_DENIED);
         }
         try {
             const DeletedHist = await DeletedUser.create({

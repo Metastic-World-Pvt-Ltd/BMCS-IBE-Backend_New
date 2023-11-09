@@ -11,7 +11,7 @@ try {
     logger.info(`Start`);
     logger.info(successMessages.RESET_PASSWORD_ACTIVATED)
     //input token from iser
-    const token = req.body.token || req.query.token || req.headers["x-access-token"];
+    var token = req.body.token || req.query.token || req.headers["x-access-token"];
     
     //input email and password
     const {email, password} = req.body;
@@ -31,10 +31,12 @@ try {
         console.log(decode);
     //check for user role as per token
          userRole = decode.role;
+         var adminEmail = decode.email;
     } catch (error) {
         logger.error(errorMessages.TOKEN_EXPIRED)
         return res.status(401).json(errorMessages.TOKEN_EXPIRED)
     }
+
     logger.info(`User Role - ${userRole}`)
     //check for authorization
     if(userRole == "Super_Admin" || userRole == "super_admin"){
@@ -43,7 +45,10 @@ try {
             logger.error(errorMessages.EMAIL_AND_NEWPASS_REQUIRED)
             return res.status(400).json(errorMessages.EMAIL_AND_NEWPASS_REQUIRED)
         }else{
-            
+            if(email == adminEmail){
+                logger.error(errorMessages.ACCESS_DENIED)
+                return res.status(403).json(errorMessages.ACCESS_DENIED);
+            }
             //check the email and update the password in DB
             const userData = await AdminUser.findOneAndUpdate({email},{password},{new:true})
             //console.log(userData);
