@@ -18,7 +18,7 @@ const bannerSchema =  new mongoose.Schema({
         required:true
     },
     hidden:{
-        type:Boolean,
+        type:String,
         required:true,
     },
 },{

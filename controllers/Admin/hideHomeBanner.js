@@ -36,7 +36,6 @@ try {
         var bytes  = CryptoJS.AES.decrypt(token, secret);
         token = bytes.toString(CryptoJS.enc.Utf8);
          decode = jwt.verify(token , secret);
-        console.log(decode);
     //check for user role as per token
          userRole = decode.role;
     } catch (error) {
