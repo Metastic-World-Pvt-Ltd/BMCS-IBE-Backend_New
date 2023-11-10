@@ -5,18 +5,23 @@ const logger = require('../User/logger');
 const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
 require('dotenv').config({path:'../../.env'});
-
+const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 module.exports.editProduct = async function(req, res){
 try {
     logger.info(`Start`);
     logger.info(successMessages.EDIT_PRODUCT_ACTIVATED)
     //user input
-    const {productName, productSummary, requiredDoc} = req.body;
+    const {productName, productSummary, requiredDoc ,marketPrice , offerPrice ,discount  ,category , subCategory , imageURL} = req.body;
+    if(!productName|| !productSummary|| !requiredDoc || !marketPrice || !offerPrice || !discount  || !category || !subCategory){
+        logger.error(errorMessages.ALL_FIELDS_REQUIRED)
+        return res.status(400).json(errorMessages.ALL_FIELDS_REQUIRED)
+    }
+    var filePath;
     //token input
     logger.info(`${productName}, ${productSummary}, ${requiredDoc}`)
     const token = req.body.token || req.query.token || req.headers["x-access-token"];
-    const _id = req.params.id || req.body.id || req.query.id || req.headers["id"];
-    console.log("Id", _id);
+    const productId = req.params.id || req.body.id || req.query.id || req.headers["id"];
+    console.log("Id", productId);
     //check for valid response
 
     if(!token){
@@ -48,30 +53,119 @@ try {
     //condition to check role specific rights
     if(userRole == "Super_Admin" || userRole == "super_admin" || userRole == "Admin" || userRole == "admin"){
 
-        const isExist = await Product.findById({_id});
-        if(isExist){
-            // console.log(isExist);
-            try {
-                const updatedBy = adminEmail;
-                //update records into db
-                const updatedData = await Product.findByIdAndUpdate(_id, 
-                    {productName, productSummary, requiredDoc , updatedBy}
-                     , {new:true} )
-                logger.info(`Updated Data - ${updatedData}`) 
-                logger.info(`End`);  
-                //response  
-                return res.status(200).json(updatedData);
-            } catch (error) {
-                logger.error(`Error - ${error}`)
-                return res.json(error)
-            }
-            
+        const isExist = await Product.findById({productId});
+       //check product exist or not
+       if(isExist){
+        if(imageURL){
+            filePath = imageURL; 
         }else{
-            logger.error(errorMessages.NOT_FOUND)
-            return res.status(404).json(errorMessages.NOT_FOUND)
+
+        //upload files
+        try {
+            if(req.files){
+              //store file path
+              console.log();
+                 const mim = JSON.parse(req.body.imageURL);
+                 console.log("MInData",mim);
+                //split file extention name   
+                const parts = mim.mimetype.split('/')
+                const ext = parts[1];
+                //define allowed file types
+                const allowedTypes = ['image/jpeg', 'image/jpg','image/png'];
+                    if (allowedTypes.includes(mim.mimetype)) {
+                        //check file size
+                        if(mim.size < 1000000){
+                        //file name
+                            const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+                            const filename = `${mim.fieldname}-${uniqueSuffix}.${mim.originalname.split('.').pop()}`;
+                        
+                            //write file in dir
+                            var mybuffer = new Buffer(mim.buffer.length)
+                          for(var i=0;i<mim.buffer.length;i++){
+                            mybuffer[i]=mim.buffer[i];
+                          }
+                    
+
+                        //Store filepath
+                         filePath = 'https://bmcsfileserver.s3.amazonaws.com/'+filename;
+                       
+                        //aws opertaion
+    
+                            const credentials = {
+                                accessKeyId: process.env.ACCESS_KEY,
+                                secretAccessKey: process.env.SECERET_KEY
+                              };
+                              
+                              const region = process.env.BUCKET_REGION;                                               
+                                                     
+                              const bucketName = process.env.BUCKET_NAME;
+                              const fileName = filename;
+                              const fileContent = Buffer.from(mybuffer);;
+                              
+                              const s3 = new S3Client({ region, credentials });
+                              
+                              async function uploadFileAndSaveToDatabase() {
+                                                         
+                                // Set the S3 parameters
+                                const params = {
+                                  Bucket: bucketName,
+                                  Key: fileName,
+                                  ContentType: 'image/png',
+                                  Body: fileContent,
+                                };
+                              
+                                try {
+                                  // Upload the file to S3
+                                  const uploadResponse = await s3.send(new PutObjectCommand(params));
+                                   
+                                } catch (err) {
+                                  console.error('Error uploading to S3 or saving to MongoDB:', err);
+                                  return res.json(errorMessages.SOMETHING_WENT_WRONG);
+                                } 
+                              }
+                              
+                              // Call the function to upload the file and save the S3 URL to the database
+                              uploadFileAndSaveToDatabase();
+    
+                            //end of Aws
+
+                        }else{
+                            logger.error(errorMessages.MAX_ALLOWED_SIZE)
+                            return res.status(400).json(errorMessages.MAX_ALLOWED_SIZE);
+                        
+                        }
+
+                    } else {
+                    logger.error(errorMessages.INVALID_FILE) 
+                    return res.status(400).json(errorMessages.INVALID_FILE);
+                    }
+            
+                
+            
+            }else{
+                logger.error(errorMessages.ALL_FIELDS_REQUIRED)
+                return res.status(400).json(errorMessages.ALL_FIELDS_REQUIRED)
+            }
+        } catch (error) {
+            logger.error(error)
+            return res.json(errorMessages.SOMETHING_WENT_WRONG)
         }
-        
     }
+        //update product and Store into DB
+        const productData = await Product.findOneAndUpdate({productId},{
+            productName, productSummary, requiredDoc ,updatedBy , marketPrice , offerPrice ,discount , imageURL:filePath ,category , subCategory
+        })
+        logger.info(`Product Created - ${productData}`)
+        logger.info(`End`);
+        //response
+        return res.status(200).json(productData)
+    }else{
+        logger.error(errorMessages.NOT_FOUND)
+        return res.status(422).json(errorMessages.NOT_FOUND)
+    }
+}
+        
+    
 } catch (error) {
     logger.error(errorMessages.EDIT_PRODUCT_FAILED)
     return res.status(500).json(errorMessages.INTERNAL_ERROR)

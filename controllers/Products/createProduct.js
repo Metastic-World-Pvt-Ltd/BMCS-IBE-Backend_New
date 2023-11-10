@@ -14,7 +14,10 @@ try {
     logger.info(successMessages.CREATE_PRODUCT_ACTIVATED)
     //user input
     const {productName, productSummary, requiredDoc ,marketPrice , offerPrice ,discount  ,category , subCategory} = req.body;
-    
+    if(!productName|| !productSummary|| !requiredDoc || !arketPrice || !offerPrice || !discount  || !category || !subCategory){
+        logger.error(errorMessages.ALL_FIELDS_REQUIRED)
+        return res.status(400).json(errorMessages.ALL_FIELDS_REQUIRED)
+    }
     //token input
     logger.info(`${productName}, ${productSummary}, ${requiredDoc}`)
     var token = req.body.token || req.query.token || req.headers["x-access-token"];

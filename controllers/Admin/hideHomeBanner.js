@@ -14,7 +14,7 @@ try {
         return res.status(400).json(`Please Provide hidden status`)
     }
     
-    const token = req.body.token || req.query.token || req.headers["x-access-token"];
+    var token = req.body.token || req.query.token || req.headers["x-access-token"];
 
     const id = req.params.id || req.body.id || req.query.id || req.headers["id"];
     if(!id){
@@ -45,7 +45,7 @@ try {
     }
     const _id = decode.id;
     const adminEmail = decode.email;
-    const activeUser = await AdminUser.findById({_id})
+    const activeUser = await AdminUser.findOne({_id})
     
     if(activeUser == null){
         logger.error(`In active Admin`)
@@ -55,7 +55,7 @@ try {
     //check for authorization
     if(userRole == "Admin" || userRole == "admin" || userRole == "Super_Admin" || userRole == "super_admin"){
         console.log("ID",id);
-        const isExist = await HomeBanner.findOne({_id:id});
+        const isExist = await HomeBanner.findOne({id});
         logger.info(`Banner In DB - ${isExist}`)
         if(isExist == null){
             logger.error(errorMessages.NOT_FOUND)
@@ -63,7 +63,7 @@ try {
         }
         try {
 
-            const hiddenData = await HomeBanner.findByIdAndUpdate({_id:id},{hidden},{new:true})
+            const hiddenData = await HomeBanner.findOneAndUpdate({id},{hidden},{new:true})
 
             if(hiddenData){
                 logger.info(successMessages.RECORD_UPDATED_SUCCESSFULLY);

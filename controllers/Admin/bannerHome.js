@@ -9,7 +9,7 @@ module.exports.bannerHome = async function(req , res){
 try {
         logger.info(successMessages.START)
         logger.info(successMessages.BANNER_HOME_ACTIVATED)
-        const title  = req.body.title;
+        const {title ,bannerType}  = req.body;
         logger.info(`Input - ${title}`)
         if(!title){
             logger.error(errorMessages.TITLE_IS_REQUIRED)
@@ -117,7 +117,7 @@ try {
     try {
         const id = Date.now();
         const bannerData = await HomeBanner.create({
-        id ,  title , imageURL:filePath , hidden:false
+        id ,  title , imageURL:filePath ,bannerType , hidden:false
         })
         logger.info(`Output - ${bannerData}`)
         logger.info(successMessages.END)

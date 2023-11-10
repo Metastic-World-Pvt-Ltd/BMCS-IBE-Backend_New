@@ -124,7 +124,7 @@ router.post('/banner1',upload.fields([
     { name: 'imageURL' },
   ]) , bannerHome);
 //Hide Banner
-router.patch('/hidebanner/:id',hideHomeBanner);
+router.patch('/hidebanner',hideHomeBanner);
 //delete banner
 router.post('/deletebanner/:id', deleteBanner)
 //Get All Home Banner

@@ -39,7 +39,12 @@ const enquiryData =  new mongoose.Schema({
     refBy:{
         type:String,
     },
-
+    acceptedBy:{
+        type:String,
+    },
+    closedBy:{
+        type:String,
+    },
 },{
     timestamps:true
 })
