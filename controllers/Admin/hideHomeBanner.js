@@ -8,9 +8,9 @@ require('dotenv').config({path:'../../.env'});
 var CryptoJS = require("crypto-js");
 module.exports.hideHomeBanner = async function(req , res){
 try {
-    const  hidden = req.body.hidden;
-
-    if(!hidden){
+    const  {hidden} = req.body;
+   
+    if(hidden == undefined){
         return res.status(400).json(`Please Provide hidden status`)
     }
     
