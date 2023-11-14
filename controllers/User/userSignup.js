@@ -70,7 +70,7 @@ module.exports.userSignup = async function(req, res){
             const level = 'Admin';
             const refBy = 'Admin';
             var isKyc = "false";
-            var setPin = "false"
+            var setPin = "false";
             const userDoc = await User.create({
                 contact ,empId, firstName , lastName,gender , email , userRole , role  , level , refId , refCount, refBy,setPin , isKyc
             })
@@ -115,6 +115,8 @@ module.exports.userSignup = async function(req, res){
                    const refBy = refExist.refId;
                    console.log("refby",refBy);
                     //create user
+                    var isKyc = "false";
+                    var setPin = "false";
                     const userDoc = await User.create({
                     contact ,empId, firstName , lastName , gender, email , userRole , role  , level , refId , refCount, refBy ,setPin,isKyc,
                 })
