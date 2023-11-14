@@ -5,7 +5,7 @@ const successMessages = require('../../response/successMessages');
 const logger = require('./logger');
 const fs = require('fs');
 const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
-const projectDocuments = [];
+const kycDocuments = [];
 module.exports.userKyc = async function(req, res){
 try {
     logger.info(`Start`);
@@ -25,7 +25,7 @@ try {
         return res.status(404).json(errorMessages.NOT_FOUND)
     }else{
     //store file path
-    var kycDocuments = [];
+
     //upload files
         const adhar = JSON.parse(req.body.Adhar);
         uploadImage(adhar)        
@@ -89,7 +89,7 @@ async function uploadImage(mim){
             }
           //Store filepath
           var filePath = 'https://bmcsfileserver.s3.amazonaws.com/'+filename;
-           projectDocuments.push(filePath);
+           kycDocuments.push(filePath);
           //aws opertaion
               const credentials = {
                   accessKeyId: process.env.ACCESS_KEY,

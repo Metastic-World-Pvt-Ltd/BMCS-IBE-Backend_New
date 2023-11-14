@@ -37,6 +37,9 @@ const kycData =  new mongoose.Schema({
         type:[String],
         required:true,
     },
+    comment:{
+        type:String,
+    },
     acceptedBy:{
         type:String,
     },

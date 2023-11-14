@@ -44,6 +44,8 @@ const { deleteProductList } = require('../controllers/Admin/deleteProductList');
 const { getHomeBanner } = require('../controllers/Admin/getHomeBanner');
 const { editCategory } = require('../controllers/Admin/editCategory.js');
 const { editSubCategory } = require('../controllers/Admin/editSubCategory');
+const { acceptKyc } = require('../controllers/Admin/acceptKyc.js');
+const { verifyKyc } = require('../controllers/Admin/verifyKyc.js');
 
 
 
@@ -151,4 +153,8 @@ router.post('/deleteproductlist',deleteProductList);
 router.patch('/editcategory', editCategory);
 //Edit Sub CAtegory List
 router.patch('/editsubcategory', editSubCategory)
+//Accept Kyc
+router.patch('/acceptkyc',acceptKyc)
+//Verify Kyc
+router.patch('/verifykyc',verifyKyc);
 module.exports = router;
