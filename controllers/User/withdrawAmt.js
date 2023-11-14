@@ -127,8 +127,8 @@ try {
             logger.info(`End`)
             return res.status(200).json(hist)
         }else{
-            logger.error(errorMessages.NOT_FOUND)
-            return res.status(404).json(errorMessages.NOT_FOUND)
+            logger.error(errorMessages.KYC_PENDING)
+            return res.status(404).json(errorMessages.KYC_PENDING)
         }
     }else{
         logger.error(errorMessages.MINMUM_AMOUNT_ERROR)

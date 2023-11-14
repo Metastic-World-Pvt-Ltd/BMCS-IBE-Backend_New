@@ -53,6 +53,7 @@ module.exports.completeProject = async function(req , res){
     //input of status from body
     const {projectId ,projectStatus} = req.body;
     logger.info(`Input -${projectId}, ${projectStatus}`)
+    console.log(`${projectId}, ${projectStatus}`);
     //check if ID provided or not
     if(!projectId){
         logger.error(errorMessages.PROJECT_ID)

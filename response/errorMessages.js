@@ -180,7 +180,9 @@ module.exports = {
 
     EDIT_CATEGORY_FAILED:'Edit Category Endpoint Failed',
 
-    EDIT_SUB_CATEGORY_FAILED:'Edit Sub Category Endpoint Failed'
+    EDIT_SUB_CATEGORY_FAILED:'Edit Sub Category Endpoint Failed',
+
+    KYC_PENDING:'Kyc Pending',
 
     // Add more error messages as needed...
   };
