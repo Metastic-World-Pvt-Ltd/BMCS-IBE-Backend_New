@@ -1,7 +1,7 @@
 const mongoose =  require('mongoose');
 
 const kycData =  new mongoose.Schema({
-    name:{
+    accHolderName:{
         type:String,
         required:true,
     },

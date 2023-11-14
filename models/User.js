@@ -51,8 +51,11 @@ const userData =  new mongoose.Schema({
         required:true
     },
     setPin:{
-        type:Boolean,
+        type:String,
     },
+    isKyc:{
+        type:String,
+    }
 
 },{
     timestamps:true

@@ -5,17 +5,17 @@ const successMessages = require('../../response/successMessages');
 const logger = require('./logger');
 const fs = require('fs');
 const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
-const projectDocuments = [];
+const kycDocuments = [];
 
 module.exports.editKyc = async function(req, res){
 try {
     logger.info(`Start`);
     logger.info(successMessages.EDIT_KYC_ACTIVATED)
     //user input 
-    const _id = req.params.id || req.body.id || req.query.id || req.headers["id"];
+    const empId = req.params.id || req.body.id || req.query.id || req.headers["id"];
     logger.info(`Input - ${req.body}`)
     //check old kyc data 
-    const oldKycData = await Kyc.findById({_id});
+    const oldKycData = await Kyc.findOne({empId});
     logger.info(`Body - ${oldKycData}`)
     
         //upload files
@@ -30,7 +30,7 @@ try {
     
     
     //update data 
-    const kycData = await Kyc.findByIdAndUpdate({_id},req.body , kycDocuments,{new:true})
+    const kycData = await Kyc.findOneAndUpdate({empId},req.body , kycDocuments,{new:true})
     logger.info(successMessages.RECORD_UPDATED_SUCCESSFULLY)
     logger.info(`End`);
     return res.status(200).json(successMessages.RECORD_UPDATED_SUCCESSFULLY)
@@ -63,7 +63,7 @@ async function uploadImage(mim){
               }
             //Store filepath
             var filePath = 'https://bmcsfileserver.s3.amazonaws.com/'+filename;
-             projectDocuments.push(filePath);
+            kycDocuments.push(filePath);
             //aws opertaion
                 const credentials = {
                     accessKeyId: process.env.ACCESS_KEY,

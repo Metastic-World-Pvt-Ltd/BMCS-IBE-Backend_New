@@ -11,7 +11,7 @@ try {
     logger.info(`Start`);
     logger.info(successMessages.USER_KYC_ACYIVATED)
     //user input
-    const {contact , bankName, accountNumber , ifscCode } = req.body;
+    const {contact , accHolderName, bankName, accountNumber , ifscCode } = req.body;
     logger.info(`Input - ${contact} ,${bankName} ${accountNumber} , ${ifscCode} }`)
     //check for correct data or not
     if(!contact || !bankName || !accountNumber || !ifscCode ){
@@ -35,14 +35,14 @@ try {
         uploadImage(Statement_Check)
         //end of file upload section
         //store data into DB
-        const name = isExist.firstName + " " + isExist.lastName;
+       // const name = isExist.firstName + " " + isExist.lastName;
         const email = isExist.email;
-        console.log(email + "type" + typeof(email));
+       // console.log(email + "type" + typeof(email));
         const status = "Pending";
         const empId = isExist.empId;
       try {
         const kycData = await Kyc.create({
-          name,
+          accHolderName,
           contact,
           email,
           empId,
@@ -55,6 +55,8 @@ try {
       //return the response
       logger.info(`Output - ${kycData}`)
       logger.info(successMessages.END);
+      const isKyc = "true";
+      const updateStatus = await User.findOneAndUpdate({contact},{isKyc},{new:true});
       return res.status(200).json(kycData)
       } catch (error) {
         logger.error(error)
