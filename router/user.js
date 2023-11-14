@@ -54,7 +54,7 @@ router.post('/kyc',verifyUser,upload.fields([
   { name: 'Statement_Check' },
 ]),userKyc);
 //update Kyc details
-router.patch('/updateKyc/:id',verifyUser,editKyc);
+router.patch('/updateKyc',verifyUser,editKyc);
 //withdraw amount
 router.post('/withdraw',verifyUser,withdrawAmt);
 //fetch all withdraw request
