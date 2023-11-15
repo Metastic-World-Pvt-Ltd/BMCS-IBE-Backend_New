@@ -185,7 +185,9 @@ module.exports = {
 
     EDIT_CATEGORY_ACTIVATED:'Edit Category Endpoint Activated',
 
-    EDIT_SUB_CATEGORY_ACTIVATED:'Edit Sub Category Endpoint Activated'
+    EDIT_SUB_CATEGORY_ACTIVATED:'Edit Sub Category Endpoint Activated',
+
+    GET_KYC_BY_EMPID_ACTIAVTED:'Get Kyc By Emp Id Endpoint Activated',
 
     // Add more error messages as needed...
   };

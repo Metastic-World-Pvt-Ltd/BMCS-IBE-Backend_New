@@ -12,8 +12,10 @@ try {
         try {
             const data =  await Kyc.find();
             if(data.length == 0){
+                logger.error(errorMessages.NOT_FOUND)
                 return res.status(404).json(errorMessages.NOT_FOUND)
             }else{
+                logger.info(successMessages.DATA_SEND_SUCCESSFULLY)
                 return res.status(200).json(data);
             }
         } catch (error) {
@@ -38,7 +40,7 @@ try {
     } 
     
 } catch (error) {
-    logger.error(error);
+    logger.error(errorMessages.GET_ALL_KYC_FAILED);
     return res.status(500).json(errorMessages.INTERNAL_ERROR)
 }
 

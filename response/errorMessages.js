@@ -184,6 +184,10 @@ module.exports = {
 
     KYC_PENDING:'Kyc Pending',
 
+    GET_KYC_BY_EMPID_FAILED:'Get Kyc By Emp Id Endpoint Failed',
+
+    GET_ALL_KYC_FAILED:'Get All Kyc Endpoint Failed',
+
     // Add more error messages as needed...
   };
   

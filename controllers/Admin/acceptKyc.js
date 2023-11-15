@@ -8,7 +8,7 @@ const AdminUser = require('../../models/AdminUser');
 require('dotenv').config({path:'../../.env'});
 
 module.exports.acceptKyc = async function(req, res){
-// try {
+try {
     const {empId} = req.body;
         //user input
         var token = req.body.token || req.query.token || req.headers["x-access-token"];
@@ -59,8 +59,8 @@ module.exports.acceptKyc = async function(req, res){
     } catch (error) {
         return res.status(502).json(errorMessages.BAD_GATEWAY);
     }
-// } catch (error) {
-//     return res.status(500).json(errorMessages.INTERNAL_ERROR)
-// }
+} catch (error) {
+    return res.status(500).json(errorMessages.INTERNAL_ERROR)
+}
    
 }
