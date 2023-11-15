@@ -5,7 +5,7 @@ const successMessages = require('../../response/successMessages');
 const logger = require('./logger');
 const fs = require('fs');
 const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
-const kycDocuments = [];
+var kycDocuments = [];
 module.exports.userKyc = async function(req, res){
 try {
     logger.info(`Start`);
@@ -57,6 +57,7 @@ try {
       logger.info(successMessages.END);
       const isKyc = "true";
       const updateStatus = await User.findOneAndUpdate({contact},{isKyc},{new:true});
+      kycDocuments = [];
       return res.status(200).json(kycData)
       } catch (error) {
         logger.error(error)
@@ -83,12 +84,9 @@ async function uploadImage(mim){
               const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
               const filename = `${mim.fieldname}-${uniqueSuffix}.${mim.originalname.split('.').pop()}`;
               //write file in dir
-              var mybuffer = new Buffer(mim.buffer.length)
-            for(var i=0;i<mim.buffer.length;i++){
-              mybuffer[i]=mim.buffer[i];
-            }
+             
           //Store filepath
-          var filePath = 'https://bmcsfileserver.s3.amazonaws.com/'+filename;
+          var filePath = 'https://bmcsfileserver.s3.amazonaws.com/User_Kyc/'+filename;
            kycDocuments.push(filePath);
           //aws opertaion
               const credentials = {
@@ -98,7 +96,7 @@ async function uploadImage(mim){
                 const region = process.env.BUCKET_REGION;
                 const bucketName = process.env.BUCKET_NAME;
                 const fileName = filename;
-                const fileContent = Buffer.from(mybuffer);;
+                var fileContent = Buffer.from(mim.buffer);;
                 const s3 = new S3Client({ region, credentials });
                 async function uploadFileAndSaveToDatabase() {
                   // Set the S3 parameters
@@ -111,7 +109,9 @@ async function uploadImage(mim){
                   try {
                     // Upload the file to S3
                     const uploadResponse = await s3.send(new PutObjectCommand(params));
+                    fileContent = Buffer.alloc(0);
                   } catch (err) {
+                    kycDocuments = [];
                     console.error('Error uploading to S3 or saving to MongoDB:', err);
                     return res.json(errorMessages.SOMETHING_WENT_WRONG);
                   }

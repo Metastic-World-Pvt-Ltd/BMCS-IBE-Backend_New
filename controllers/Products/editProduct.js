@@ -79,15 +79,9 @@ try {
                             const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
                             const filename = `${mim.fieldname}-${uniqueSuffix}.${mim.originalname.split('.').pop()}`;
                         
-                            //write file in dir
-                            var mybuffer = new Buffer(mim.buffer.length)
-                          for(var i=0;i<mim.buffer.length;i++){
-                            mybuffer[i]=mim.buffer[i];
-                          }
-                    
 
                         //Store filepath
-                         filePath = 'https://bmcsfileserver.s3.amazonaws.com/'+filename;
+                         filePath = 'https://bmcsfileserver.s3.amazonaws.com/Product/'+filename;
                        
                         //aws opertaion
     
@@ -100,7 +94,7 @@ try {
                                                      
                               const bucketName = process.env.BUCKET_NAME;
                               const fileName = filename;
-                              const fileContent = Buffer.from(mybuffer);;
+                              var fileContent = Buffer.from(mim.buffer);;
                               
                               const s3 = new S3Client({ region, credentials });
                               
@@ -117,7 +111,7 @@ try {
                                 try {
                                   // Upload the file to S3
                                   const uploadResponse = await s3.send(new PutObjectCommand(params));
-                                   
+                                  fileContent = Buffer.alloc(0);
                                 } catch (err) {
                                   console.error('Error uploading to S3 or saving to MongoDB:', err);
                                   return res.json(errorMessages.SOMETHING_WENT_WRONG);
