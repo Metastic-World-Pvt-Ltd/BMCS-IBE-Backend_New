@@ -71,8 +71,9 @@ module.exports.userSignup = async function(req, res){
             const refBy = 'Admin';
             var isKyc = "false";
             var setPin = "false";
+            var userStatus = 'Active';
             const userDoc = await User.create({
-                contact ,empId, firstName , lastName,gender , email , userRole , role  , level , refId , refCount, refBy,setPin , isKyc
+                contact ,empId, firstName , lastName,gender , email , userRole , role  , level , refId , refCount, refBy,userStatus,setPin , isKyc
             })
             logger.info(`Output - ${userDoc}`)
 
@@ -117,8 +118,9 @@ module.exports.userSignup = async function(req, res){
                     //create user
                     var isKyc = "false";
                     var setPin = "false";
+                    var userStatus =  'Active';
                     const userDoc = await User.create({
-                    contact ,empId, firstName , lastName , gender, email , userRole , role  , level , refId , refCount, refBy ,setPin,isKyc,
+                    contact ,empId, firstName , lastName , gender, email , userRole , role  , level , refId , refCount, refBy, userStatus ,setPin,isKyc,
                 })
                 logger.info(`Output - ${userDoc}`)
                 //generate token for user

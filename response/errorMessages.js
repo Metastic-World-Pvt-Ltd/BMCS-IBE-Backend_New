@@ -188,6 +188,8 @@ module.exports = {
 
     GET_ALL_KYC_FAILED:'Get All Kyc Endpoint Failed',
 
+    INACTIVE_USER_ERROR:'User Suspended, Please contact to Support',
+
     // Add more error messages as needed...
   };
   

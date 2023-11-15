@@ -50,6 +50,10 @@ const userData =  new mongoose.Schema({
         type:String,
         required:true
     },
+    userStatus:{
+        type:String,
+        required:true
+    },
     setPin:{
         type:String,
     },

@@ -26,7 +26,7 @@ try {
             }
             const userDoc = await User.findOne({contact:number});
             if(userDoc){
-                
+                if(userDoc.userStatus == 'Active'){
                //generate token for user
                logger.info(`User found in DB`)
                
@@ -39,7 +39,11 @@ try {
                  
                   return res.status(200).json({newToken , userDoc})
                    })
-               // res.status(200).json('user verified')
+                }else{
+                    logger.error(errorMessages.INACTIVE_USER_ERROR)
+                    return res.status(401).json(errorMessages.INACTIVE_USER_ERROR)
+                }
+               
             }else{
                 logger.error(errorMessages.USER_DOES_NOT_EXIST)
                 return res.status(404).json(errorMessages.USER_DOES_NOT_EXIST)
