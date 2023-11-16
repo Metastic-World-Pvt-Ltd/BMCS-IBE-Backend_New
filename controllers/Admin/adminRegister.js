@@ -95,7 +95,7 @@ try {
 
     async function sendEmail(username , role  , email , password){
         let testAccount = await nodemailer.createTestAccount();
-                const url = 'http://localhost:4000/admin';
+                const url = 'http://admin.bmcsindia.in.s3-website-us-east-1.amazonaws.com/#/loginPage';
                 //sender email
                 var senderEmail = process.env.EMAIL;
                 //sender email password

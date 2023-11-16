@@ -50,7 +50,7 @@ try {
             res.status(400).json(errorMessages.COMMENT_REQUIRED)
         }else{
             //updste the data into DB
-            const projectData = await Project.findOneAndUpdate({projectId},{comment},{new:true})
+            const projectData = await Project.findOneAndUpdate({projectId},{projectStatus ,comment},{new:true})
             logger.info(`Output - ${projectData}`)
             const contact = projectData.contact;
             const status = 'Pending Document';
