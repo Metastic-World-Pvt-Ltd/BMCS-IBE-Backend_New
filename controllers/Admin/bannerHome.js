@@ -59,7 +59,7 @@ try {
                                   // Set the S3 parameters
                                   const params = {
                                     Bucket: bucketName,
-                                    Key: fileName,
+                                    Key: 'Banner/'+fileName,
                                     ContentType: 'image/png',
                                     Body: fileContent,
                                   };

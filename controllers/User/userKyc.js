@@ -102,7 +102,7 @@ async function uploadImage(mim){
                   // Set the S3 parameters
                   const params = {
                     Bucket: bucketName,
-                    Key: fileName,
+                    Key: 'User_Kyc/'+fileName,
                     ContentType: 'image/png',
                     Body: fileContent,
                   };

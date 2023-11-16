@@ -103,7 +103,7 @@ try {
                                 // Set the S3 parameters
                                 const params = {
                                   Bucket: bucketName,
-                                  Key: fileName,
+                                  Key: 'Product/'+fileName,
                                   ContentType: 'image/png',
                                   Body: fileContent,
                                 };
