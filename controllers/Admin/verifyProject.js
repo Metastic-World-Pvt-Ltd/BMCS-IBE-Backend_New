@@ -33,7 +33,7 @@ try {
         const projectData = await Project.findOneAndUpdate({projectId},{projectStatus},{new:true})
         logger.info(`Output - ${projectData}`)
         const contact = projectData.contact;
-        const status = 'Work in Progress';
+        const status = 'In Progress';
         const ticketData = await Ticket.findOneAndUpdate({contact},{projectStatus:status},{new:true})
         logger.info(`Updated Status - ${ticketData}`);
         const ticketId = ticketData.ticketId;
@@ -43,7 +43,7 @@ try {
         //response
          res.status(200).json(projectData);
          //check status update comment data and return response
-    }else if(projectStatus == "Re_Verify" || projectStatus == "re_verify"){
+    }else if(projectStatus == "Rejected" || projectStatus == "rejected"){
         //check if comment provided or not
         if(!comment){
             logger.error(errorMessages.COMMENT_REQUIRED)
