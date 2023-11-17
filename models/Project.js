@@ -1,5 +1,6 @@
 const mongoose =  require('mongoose');
 
+
 const projectData =  new mongoose.Schema({
     projectId:{
         type:String,
@@ -17,7 +18,17 @@ const projectData =  new mongoose.Schema({
         type:Number,
         required:true,
     },
+    sanctionedAmount:{
+        type:Number,
+    },
+    comissionAmount:{
+        type:Number,
+    },
     projectType:{
+        type:String,
+        required:true,
+    },
+    industryType:{
         type:String,
         required:true,
     },
@@ -36,8 +47,23 @@ const projectData =  new mongoose.Schema({
     comment:{
         type:[String],
     },
-    sanctionedAmount:{
-        type:Number,
+    address:{
+        district:{
+            type:String,
+            required:true,
+        }, 
+        city:{
+            type:String,
+            required:true,
+        }, 
+        state:{
+            type:String,
+            required:true,
+        }, 
+        pinCode:{
+            type:String,
+            required:true,
+        },
     },
     acceptedBy:{
         type:String,

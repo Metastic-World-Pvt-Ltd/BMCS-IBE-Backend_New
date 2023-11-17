@@ -32,7 +32,7 @@ try {
         logger.info(`Output - ${kycData}`)
         if(kycData){
             //defined required details 
-            const userName = kycData.name
+            const userName = kycData.accHolderName
             const userEmail = kycData.email;
             const userContact = kycData.contact
             const userId = kycData.empId;

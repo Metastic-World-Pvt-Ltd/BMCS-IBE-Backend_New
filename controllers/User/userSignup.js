@@ -195,7 +195,7 @@ async function sendEmail(useremail,name){
 
           
         <div style="text-align: center;">
-            <img style="border: 2px solid #333;" src="/controllers/Assets//img/logo.png" alt="Logo">
+            <img style="border: 2px solid #333;" src="https://bmcsfileserver.s3.amazonaws.com/BMCS+(1).png" alt="Logo">
             <br><br><br>
             Dear <b>${name}</b>,
             <br><br>
