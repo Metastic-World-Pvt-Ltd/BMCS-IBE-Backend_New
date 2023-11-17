@@ -66,7 +66,7 @@ router.get('/gethistory/:id',verifyUser, getHistory)
 router.post('/totalEarning',verifyUser,totalEarning);
 
 //Generate Mobile Otp
-router.post('/generateOtp', checkAPIKey, generateOtp);
+router.post('/generateOtp', generateOtp);
 //Generate Email Otp
 router.post('/generateEmailOtp',generateEmailOtp);
 //verify otp

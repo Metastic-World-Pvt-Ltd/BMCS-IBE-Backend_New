@@ -8,7 +8,7 @@ const { error } = require('winston');
 
 
 module.exports.signUpCheck = async function(req, res){
-try {
+// try {
     logger.info(`Start`);
     logger.info(successMessages.GENERATE_OTP_ACTIVATED);
     //user input
@@ -63,7 +63,8 @@ try {
             const checkStatus = await client.messages
             .create({
                 body: `Enter the ${otp} to verify you Please do not share the OTP  `,
-                from: '+12292672362',
+                // from: '+12292672362',
+                from: '+12512902874',
                 to: contact,
             })
             //  .then(message => console.log(message.sid))
@@ -90,9 +91,9 @@ try {
                
 
 
-} catch (error) {
-    logger.error(errorMessages.GENERATE_OTP_FAILED)
-    return res.status(500).json(errorMessages.INTERNAL_ERROR)
-}
+// } catch (error) {
+//     logger.error(errorMessages.GENERATE_OTP_FAILED)
+//     return res.status(500).json(errorMessages.INTERNAL_ERROR)
+// }
 
 }

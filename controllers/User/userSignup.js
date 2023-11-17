@@ -9,7 +9,7 @@ const successMessages = require('../../response/successMessages');
 var CryptoJS = require("crypto-js");
 module.exports.userSignup = async function(req, res){
     
-    try {
+    // try {
         logger.info(`Start`);
         logger.info(successMessages.USER_SIGN_UP_ACTIVATED)
         //secret key
@@ -76,7 +76,7 @@ module.exports.userSignup = async function(req, res){
                 contact ,empId, firstName , lastName,gender , email , userRole , role  , level , refId , refCount, refBy,userStatus,setPin , isKyc
             })
             logger.info(`Output - ${userDoc}`)
-
+            sendEmail(userDoc.email , userDoc.firstName)
             //generate token for user
             jwt.sign({contact,firstName} , secret , { algorithm: 'HS512', expiresIn: '90d' } , (err,token)=>{
                 if(err) throw new err;
@@ -142,10 +142,10 @@ module.exports.userSignup = async function(req, res){
         }
         }
 
-    } catch (error) {
-        logger.error(errorMessages.USER_SIGNUP_FAILED)
-        return res.status(500).json(errorMessages.INTERNAL_ERROR)
-    }
+    // } catch (error) {
+    //     logger.error(errorMessages.USER_SIGNUP_FAILED)
+    //     return res.status(500).json(errorMessages.INTERNAL_ERROR)
+    // }
 
 }
 
@@ -173,22 +173,23 @@ async function sendEmail(useremail,name){
         },
     })
 
-try {
+// try {
+    console.log("useremail",useremail);
     let info = await transporter.sendMail({
         from: `no-reply@bmcsindia.in <${senderEmail}>`, // sender address
         to: useremail, // list of receivers
         subject: "Welcome to BMCS", // Subject line
-        // text: `Dear ${name},
+        text: `Dear ${name},
 
-        // Welcome to BMCS
-        // We're delighted to have you on board.
+        Welcome to BMCS
+        We're delighted to have you on board.
         
-        // Thank you for choosing us, and we look forward to serving you.
+        Thank you for choosing us, and we look forward to serving you.
         
-        // Best Regards,
-        // [Team BMCS]
-        // [https://bmcsindia.in/]
-        //  `, // plain text body
+        Best Regards,
+        [Team BMCS]
+        [https://bmcsindia.in/]
+         `, // plain text body
         html: `  
         <div >
 
@@ -248,8 +249,8 @@ try {
     logger.info(successMessages.EMAIL_OTP_SENT_SUCCESSFULLY)
     logger.info(`End`);
     return (successMessages.EMAIL_OTP_SENT_SUCCESSFULLY)
-} catch (error) {
-    logger.error(`Error - ${error}`)
-    return (error);
-}
+// } catch (error) {
+//     logger.error(`Error - ${error}`)
+//     return (error);
+// }
 }

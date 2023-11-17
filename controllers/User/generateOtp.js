@@ -60,7 +60,8 @@ try {
             const checkStatus = await client.messages
             .create({
                 body: `Enter the ${otp} to verify you Please do not share the OTP  `,
-                from: '+12292672362',
+                // from: '+12292672362',
+                from: '+12512902874',
                 to: contact,
             })
             // .then(message => console.log(message.sid))

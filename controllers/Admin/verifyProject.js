@@ -53,7 +53,7 @@ try {
             const projectData = await Project.findOneAndUpdate({projectId},{projectStatus ,comment},{new:true})
             logger.info(`Output - ${projectData}`)
             const contact = projectData.contact;
-            const status = 'Pending Document';
+            const status = 'Closed';
             const ticketData = await Ticket.findOneAndUpdate({contact},{projectStatus:status},{new:true})
             logger.info(`Updated Status - ${ticketData}`);
             const ticketId = ticketData.ticketId;
