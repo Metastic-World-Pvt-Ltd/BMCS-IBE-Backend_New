@@ -9,7 +9,7 @@ const successMessages = require('../../response/successMessages');
 var CryptoJS = require("crypto-js");
 module.exports.userSignup = async function(req, res){
     
-    // try {
+    try {
         logger.info(`Start`);
         logger.info(successMessages.USER_SIGN_UP_ACTIVATED)
         //secret key
@@ -142,10 +142,10 @@ module.exports.userSignup = async function(req, res){
         }
         }
 
-    // } catch (error) {
-    //     logger.error(errorMessages.USER_SIGNUP_FAILED)
-    //     return res.status(500).json(errorMessages.INTERNAL_ERROR)
-    // }
+    } catch (error) {
+        logger.error(errorMessages.USER_SIGNUP_FAILED)
+        return res.status(500).json(errorMessages.INTERNAL_ERROR)
+    }
 
 }
 
