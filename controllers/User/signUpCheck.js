@@ -8,7 +8,7 @@ const { error } = require('winston');
 
 
 module.exports.signUpCheck = async function(req, res){
-// try {
+try {
     logger.info(`Start`);
     logger.info(successMessages.GENERATE_OTP_ACTIVATED);
     //user input
@@ -59,7 +59,7 @@ module.exports.signUpCheck = async function(req, res){
         const authToken = process.env.authToken;
         const client = require('twilio')(accountSid, authToken);
         
-        // try {
+        try {
             const checkStatus = await client.messages
             .create({
                 body: `Enter the ${otp} to verify you Please do not share the OTP  `,
@@ -80,9 +80,9 @@ module.exports.signUpCheck = async function(req, res){
             //   }
             
 
-        // } catch (error) {
-        //     return res.status(400).json(error)
-        // }
+        } catch (error) {
+            return res.status(400).json(error)
+        }
 
             logger.info(successMessages.OTP_SENT_SUCCESSFULLY)
             logger.info(`End`);
@@ -91,9 +91,9 @@ module.exports.signUpCheck = async function(req, res){
                
 
 
-// } catch (error) {
-//     logger.error(errorMessages.GENERATE_OTP_FAILED)
-//     return res.status(500).json(errorMessages.INTERNAL_ERROR)
-// }
+} catch (error) {
+    logger.error(errorMessages.GENERATE_OTP_FAILED)
+    return res.status(500).json(errorMessages.INTERNAL_ERROR)
+}
 
 }
