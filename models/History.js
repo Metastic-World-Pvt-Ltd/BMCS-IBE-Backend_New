@@ -23,6 +23,9 @@ const historyData =  new mongoose.Schema({
     transactionId:{
         type:String,
         required:true,
+    },
+    comment:{
+        type:String,
     }
 },{
     timestamps:true

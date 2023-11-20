@@ -33,9 +33,7 @@ module.exports.totalRef = async function(req , res){
     if(!isExist){
         return res.status(404).json(errorMessages.NOT_FOUND);
     }
-    var refCount = isExist.refCount;
-    var totalCount = parseInt(refCount);
-
-    return res.status(200).json({totalCount,amount});
+    
+    return res.status(200).json({amount});
 
 }

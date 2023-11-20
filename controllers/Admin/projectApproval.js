@@ -12,9 +12,9 @@ try {
 
     
     //input for sactioned amount
-    const {projectId , sanctionedAmount , projectStatus} = req.body;
+    const {projectId , sanctionedAmount , comissionAmount , projectStatus} = req.body;
     logger.info(`Input -${projectId} ,${sanctionedAmount} , ${projectStatus}`)
-    if(!projectId || !sanctionedAmount || !projectStatus){
+    if(!projectId || !sanctionedAmount || !comissionAmount || !projectStatus){
         return res.status(400).json(errorMessages.ALL_FIELDS_REQUIRED);
     }
     //check projects exist or not in DB
@@ -43,7 +43,7 @@ try {
                 return res.status(400).json(errorMessages.SANCTIONED_AMOUNT_REQUIRED);
             }
             //update the data in DB
-            const approvedData = await Project.findOneAndUpdate({projectId},{projectStatus,sanctionedAmount},{new:true})
+            const approvedData = await Project.findOneAndUpdate({projectId},{projectStatus,sanctionedAmount , comissionAmount},{new:true})
                         // console.log(transactionAmount);
                         //required fields for DB
                         const type = 'credit';
@@ -53,14 +53,14 @@ try {
                        const transactionId = 'PRO' + Date.now();
                         const userHistory = await History.create({
                             contact,
-                            transactionAmount:sanctionedAmount,
+                            transactionAmount:comissionAmount,
                             type,
                             status:'Pending',
                             origin,
                             transactionId,
                         })  
                         logger.info(`Output - ${userHistory}`)
-                       //console.log(userHistory);
+                       
                       //update user wallet amount 
                       //find user data in Wallet
                      const amountData = await Wallet.findOne({contact});
@@ -70,7 +70,7 @@ try {
                             contact,
                             projectEarning:[
                               {
-                                pendingAmount:sanctionedAmount,
+                                pendingAmount:comissionAmount,
                                 withdrawableAmount:0,
                             }
                             ],
@@ -80,7 +80,7 @@ try {
                        })
                      }else{
                     //get prev pendig amount and current amount add it
-                      const amount =  parseInt(amountData.projectEarning[0].pendingAmount) + sanctionedAmount; 
+                      const amount =  parseInt(amountData.projectEarning[0].pendingAmount) + comissionAmount; 
                       //update the data into DB
                       const data = await Wallet.findOneAndUpdate({contact},{
                           projectEarning:[

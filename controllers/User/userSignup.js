@@ -199,11 +199,11 @@ async function sendEmail(useremail,name){
             <br><br><br>
             Dear <b>${name}</b>,
             <br><br>
-            <p>Welcome to <b>BMCS</b></p> 
+            <p>Welcome to <b>BMCS India</b></p> 
         </div>
         <div style="position: relative ;left: 100px;">
             <p> Congratulations on taking the first step toward financial empowerment. <br> We're excited to have you on board and to help you take control of your financial future.
-                Here's what you can expect from <b>BMCS</b></p>
+                Here's what you can expect from <b>Bureauology Management Consultancy Pvt. Ltd.</b></p>
                 <p><b>Manage your finances with ease:</b> Keep track of your income, expenses, and investments all in one place.</p>
                 <p><b>Invest wisely:</b> Explore investment opportunities, get insights, and grow your wealth.</p>
                 <p><b>Secure and private:</b> Your financial data is important to us. Rest assured, your information is safe and private.</p>

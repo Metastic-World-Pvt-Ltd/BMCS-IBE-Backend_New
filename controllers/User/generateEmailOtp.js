@@ -80,7 +80,7 @@ module.exports.generateEmailOtp = async function(req, res){
             return res.status(200).json(successMessages.EMAIL_OTP_SENT_SUCCESSFULLY)
         } catch (error) {
             logger.error(`Error - ${error}`)
-            return res.status(400).json(error);
+            return res.status(550).json('Invalid Email');
         }
     // } catch (error) {
     //     logger.error(errorMessages.GENERATE_EMAIL_OTP_FAILED)

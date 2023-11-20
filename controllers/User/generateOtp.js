@@ -29,7 +29,7 @@ try {
     const userExist =  await User.findOne({contact:number})
     console.log(userExist);
     if(!userExist){
-        return res.status(422).json(errorMessages.USER_DOES_NOT_EXIST);
+        return res.status(401).json(errorMessages.USER_DOES_NOT_EXIST);
     } 
 
         const otpInt = Math.floor(1000 + Math.random() *9000);
@@ -56,7 +56,7 @@ try {
         const authToken = process.env.authToken;
         const client = require('twilio')(accountSid, authToken);
         
-        // try {
+        try {
             const checkStatus = await client.messages
             .create({
                 body: `Enter the ${otp} to verify you Please do not share the OTP  `,
@@ -71,9 +71,9 @@ try {
             //   });
             //console.log("checkStatus",checkStatus);
 
-        // } catch (error) {
-        //     return res.status(400).json(error)
-        // }
+        } catch (error) {
+            return res.status(400).json(error)
+        }
 
             logger.info(successMessages.OTP_SENT_SUCCESSFULLY)
             logger.info(`End`);

@@ -15,10 +15,10 @@ try {
     logger.info(`Start`);
     logger.info(successMessages.AGENT_PROJECT_ACTIVATED)
     //user input
-    const {projectName , contact , projectAmount , projectType , projectDescription } = req.body;
+    const {projectName , contact , projectAmount , projectType , industryType , projectDescription , address } = req.body;
     //check for required filed
     logger.info(`Input - ${projectName , contact , projectAmount , projectType , projectDescription}`)
-    if(!projectName || !contact || !projectAmount || !projectType || !projectDescription){
+    if(!projectName || !contact || !projectAmount || !projectType || !industryType  || !projectDescription || !address){
         logger.error(errorMessages.ALL_FILEDS_REQUIRED)
         return res.status(400).json(errorMessages.ALL_FILEDS_REQUIRED)
     }
@@ -64,9 +64,11 @@ try {
         contact,
         projectAmount,
         projectType,
+        industryType,
         projectDescription,
         projectDocuments:projectDocuments,
         projectStatus:status,
+        address,
         acceptedBy:'',
        })
        console.log(projectData);

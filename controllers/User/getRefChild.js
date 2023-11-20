@@ -20,14 +20,14 @@ module.exports.getRefChild = async function(req, res){
         logger.error(`Error - ${errorMessages.CONTACT_IS_REQUIRED}`);
         return res.status(400).json(errorMessages.CONTACT_IS_REQUIRED);
     }
-
+const firstRef = await User.findOne({contact}); 
     const level = [];
     var i=1;
-   
+    var totalRef = parseInt(firstRef.refCount);
 // Function to retrieve child and sub-child documents
 async function getChildren(contact) {
   const documents = await User.find({ refBy: contact });
-
+  
   if (documents.length === 0) {
     return [];
   }
@@ -37,8 +37,12 @@ async function getChildren(contact) {
   var levelCount = 'level ' + i;
   level.push({ key: levelCount, value: documents.length });
 i++;
+//console.log(documents);
+
   for (const document of documents) {
-     
+ 
+    const data = parseInt(document.refCount)  
+    totalRef += data; 
     childDocs.push({
       contact: document.contact,
       children: await getChildren(document.contact),
@@ -54,7 +58,7 @@ const rootContactNumber = contact;
 const data = await getChildren(rootContactNumber)
 // console.log("data",data);
 
-res.json({level})
+res.json({totalRef ,level})
 
 }
 
