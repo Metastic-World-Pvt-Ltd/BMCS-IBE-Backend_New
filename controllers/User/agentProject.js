@@ -1,5 +1,5 @@
 const Project = require('../../models/Project');
-const Ticket = require('../../models/Ticket');
+const Ticket = require('../../models/Loan');
 const TicketHistory =  require('../../models/TicketHistory');
 const fs = require('fs');
 const path = require('path');
@@ -15,27 +15,37 @@ try {
     logger.info(`Start`);
     logger.info(successMessages.AGENT_PROJECT_ACTIVATED)
     //user input
-    const {projectName , contact , projectAmount , projectType , industryType , projectDescription , address } = req.body;
+    var {projectName , contact , projectAmount , projectType , industryType , projectDescription , address } = req.body;
     //check for required filed
+    
+    console.log("Body Data",req.body);
     logger.info(`Input - ${projectName , contact , projectAmount , projectType , projectDescription}`)
     if(!projectName || !contact || !projectAmount || !projectType || !industryType  || !projectDescription || !address){
         logger.error(errorMessages.ALL_FILEDS_REQUIRED)
         return res.status(400).json(errorMessages.ALL_FILEDS_REQUIRED)
     }
+    //store address
+    address = JSON.parse(req.body.address);
+    console.log("Adddress",address);
+    //res.json(address)
+    const district = address.district
+    const city = address.city
+    const state = address.state
+    const country = address.country
+    const pinCode = address.pinCode
     //store file path
     // var projectDocuments = [];
     console.log('outside Loop');
     //upload files
     //for (const field of Object.keys(req.files)){
         const adhar = JSON.parse(req.body.Adhar);
-        uploadImage(adhar)        
+        uploadImage(adhar)
         const pan = JSON.parse(req.body.Pan);
         uploadImage(pan)
         const cAdhar = JSON.parse(req.body.cAdhar);
         uploadImage(cAdhar)
         const cPan = JSON.parse(req.body.cPan);
         uploadImage(pan)
-        
          //upload files
         //end of file upload section
         //check char limit in description
@@ -68,7 +78,7 @@ try {
         projectDescription,
         projectDocuments:projectDocuments,
         projectStatus:status,
-        address,
+        address:address,
         acceptedBy:'',
        })
        console.log(projectData);
@@ -122,7 +132,6 @@ async function uploadImage(mim){
             //file name
                 const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
                 const filename = `${mim.fieldname}-${uniqueSuffix}.${mim.originalname.split('.').pop()}`;
-              
             //Store filepath
             var filePath = 'https://bmcsfileserver.s3.amazonaws.com/IBE_Project/'+filename;
              projectDocuments.push(filePath);
@@ -166,3 +175,7 @@ async function uploadImage(mim){
         return res.status(400).json(errorMessages.INVALID_FILE);
         }
   }
+
+
+
+

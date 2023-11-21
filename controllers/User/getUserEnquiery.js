@@ -1,4 +1,4 @@
-const Ticket = require('../../models/Ticket');
+const Ticket = require('../../models/Loan');
 const errorMessages = require('../../response/errorMessages')
 module.exports.getUserEnquiery = async function(req, res){
     const contact = req.params.contact || req.body.contact || req.query.contact || req.headers["contact"];

@@ -1,4 +1,4 @@
-const Fund = require('../../models/Fund');
+const Loan = require('../../models/Loan');
 const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
 var CryptoJS = require("crypto-js");
@@ -7,9 +7,9 @@ const logger = require('../User/logger');
 const AdminUser = require('../../models/AdminUser');
 require('dotenv').config({path:'../../.env'});
 
-module.exports.closeFund = async function(req, res){
+module.exports.acceptTicket = async function(req, res){
 try {
-    const {ticketId ,comment} = req.body;
+    const {ticketId} = req.body;
         //user input
         var token = req.body.token || req.query.token || req.headers["x-access-token"];
         //check for valid response
@@ -28,7 +28,7 @@ try {
         //check for user role as per token
              userRole = decode.role;
              var id =decode.id
-             var closedBy = decode.email;
+             var acceptedBy = decode.email;
         } catch (error) {
             return res.status(401).json(errorMessages.TOKEN_EXPIRED)
         }
@@ -48,26 +48,18 @@ try {
     if(!ticketId){
         return res.status(400).json(errorMessages.ALL_FIELDS_REQUIRED)
     }
-    const isExist = await Fund.findOne({ticketId});
-    if(isExist){
-        if(isExist.projectStatus == 'In Progress'){
-            try {
-                const status = 'Closed';
-                const updateStatus = await Fund.findOneAndUpdate({ticketId},{projectStatus:status , closedBy ,comment},{new:true});
-                
-                if(!updateStatus){
-                    return res.status(404).json(errorMessages.NOT_FOUND)
-                }else{
-                    res.status(200).json(successMessages.STATUS_HAS_UPDATED_SUCCESSFULLY)
-                }
-            } catch (error) {
-                return res.status(502).json(errorMessages.BAD_GATEWAY);
-            }
+    try {
+        const status = 'In Progress';
+        const updateStatus = await Loan.findOneAndUpdate({ticketId},{projectStatus:status , acceptedBy},{new:true});
+        
+        if(!updateStatus){
+            return res.status(404).json(errorMessages.NOT_FOUND)
         }else{
-            return res.status(403).json(errorMessages.ACCESS_DENIED)
+            res.status(200).json(successMessages.STATUS_HAS_UPDATED_SUCCESSFULLY)
         }
+    } catch (error) {
+        return res.status(502).json(errorMessages.BAD_GATEWAY);
     }
-
 } catch (error) {
     return res.status(500).json(errorMessages.INTERNAL_ERROR)
 }

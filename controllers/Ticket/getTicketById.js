@@ -1,4 +1,4 @@
-const Ticket =  require('../../models/Ticket');
+const Loan =  require('../../models/Loan');
 const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
 const logger = require('../User/logger');
@@ -12,7 +12,7 @@ module.exports.getTicketById = async function(req , res){
         logger.error(errorMessages.UNIQUE_ID_MISSING);
         return res.status(400).json(errorMessages.UNIQUE_ID_MISSING);
     }
-    const ticketData = await Ticket.findById({_id});
+    const ticketData = await Loan.findById({_id});
     if(!ticketData){
         logger.error(errorMessages.NOT_FOUND);
         return res.status(404).json(errorMessages.NOT_FOUND);

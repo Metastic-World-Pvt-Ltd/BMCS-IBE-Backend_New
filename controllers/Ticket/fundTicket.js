@@ -7,11 +7,11 @@ const logger = require('../User/logger');
 
 module.exports.fundTicket = async function(req , res){
 try {
-    logger.info(successMessages.CREATE_TICKET_ACTIVATED);
+    logger.info(successMessages.FUND_TICKET_ACTIVATED);
     logger.info(successMessages.START);
-    var {userId , projectName , projectDiscription, projectAmount , cPan , GSTIN , companyType , refBy} = req.body;
+    var {userId , projectName , projectDiscription, projectAmount , netWorth , companySize, companyType, serviceType , refBy} = req.body;
     
-    if(!userId || !projectName || !projectAmount || !cPan || !GSTIN || !companyType || !refBy){
+    if(!userId || !projectName || !projectAmount || !netWorth || !companySize || !companyType || !serviceType || !refBy){
         logger.error(errorMessages.ALL_FIELDS_REQUIRED);
         return res.status(400).json(errorMessages.ALL_FIELDS_REQUIRED);
     }
@@ -52,7 +52,7 @@ try {
             projectDiscription = '';
         }
         const enquiryData = await Fund.create({
-            userId , ticketId ,userName, contact , email ,  projectName, projectDiscription , projectAmount , cPan , GSTIN , companyType, projectStatus , refBy
+            userId , ticketId ,userName, contact , email ,  projectName , projectAmount , netWorth , companySize  , companyType, serviceType, projectDiscription, projectStatus , refBy
         })
         const ticketData = await TicketHistory.create({
             contact , ticketId ,status:projectStatus
@@ -67,7 +67,7 @@ try {
     }
 
 } catch (error) {
-    logger.error(errorMessages.CREATE_TICKET_FAILED);
+    logger.error(errorMessages.FUND_TICKET_FAILED);
     return res.status(500).json(errorMessages.INTERNAL_ERROR);
 }
     

@@ -66,8 +66,16 @@ module.exports.signUpEmailCheck = async function(req, res){
                 from: `no-reply@bmcsindia.in <${senderEmail}>`, // sender address
                 to: useremail, // list of receivers
                 subject: "OTP Verification", // Subject line
-                text: `Enter the ${otp} to verify you Please do not share the OTP `, // plain text body
-                html: `Enter the <b>${otp}</b> to verify you Please do not share the OTP `, // html body
+                text: `Important message from BMCS India
+                Your one-time code is ${otp} .
+                Use it for secure login.
+                Please do not share.
+                Securing smiles, one password at a time! `, // plain text body
+                html: `Important message from <b>BMCS India</b> <br>
+                Your one-time code is <b>${otp}</b> .<br>
+                Use it for secure login.<br>
+                Please do not share.<br>
+                <b>Securing smiles, one password at a time!</b> `, // html body
             });
             logger.info(`Email info - ${info.response , info.envelope , info.accepted , info.rejected, info.messageId}`)
             //console.log(info);

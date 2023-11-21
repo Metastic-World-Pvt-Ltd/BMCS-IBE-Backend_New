@@ -189,6 +189,9 @@ module.exports = {
 
     GET_KYC_BY_EMPID_ACTIAVTED:'Get Kyc By Emp Id Endpoint Activated',
 
+    FUND_TICKET_ACTIVATED:'Fund Ticket Endpoint Activated',
+
+    AMC_TICKET_ACTIVATED:'AMC Ticket Endpoint Activated',
     // Add more error messages as needed...
   };
   

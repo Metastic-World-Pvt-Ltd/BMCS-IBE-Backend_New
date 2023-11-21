@@ -2,7 +2,7 @@ const Project = require('../../models/Project');
 const logger = require('../User/logger');
 const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
-const Ticket = require('../../models/Ticket');
+const Ticket = require('../../models/Loan');
 const TicketHistory = require('../../models/TicketHistory');
 module.exports.verifyProject = async function(req, res){
 try {

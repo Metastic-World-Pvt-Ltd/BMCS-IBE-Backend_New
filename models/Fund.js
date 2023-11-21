@@ -25,24 +25,28 @@ const enquiryData =  new mongoose.Schema({
         type:String,
         required:true
     },
-    projectDiscription:{
-        type:String,
-    },
     projectAmount:{
         type:Number,
         required:true,
     },
-    cPan:{
-        type:String,
+    netWorth:{
+        type:Number,
         required:true,
     },
-    GSTIN:{
+    companySize:{
         type:String,
         required:true,
     },
     companyType:{
         type:String,
         required:true,
+    },
+    serviceType:{
+        type:String,
+        required:true,
+    },
+    projectDiscription:{
+        type:String,
     },
     projectStatus:{
         type:String,

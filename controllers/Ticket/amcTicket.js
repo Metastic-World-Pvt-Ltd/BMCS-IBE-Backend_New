@@ -1,21 +1,21 @@
-const Loan = require('../../models/Loan');
+const AMC = require('../../models/AMC');
 const User = require('../../models/User');
 const TicketHistory =  require('../../models/TicketHistory');
 const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
 const logger = require('../User/logger');
 
-module.exports.createTicket = async function(req , res){
+module.exports.amcTicket = async function(req , res){
 try {
-    logger.info(successMessages.CREATE_TICKET_ACTIVATED);
+    logger.info(successMessages.AMC_TICKET_ACTIVATED);
     logger.info(successMessages.START);
-    var {userId , projectName , projectDiscription, projectAmount ,laonType , refBy} = req.body;
+    var {userId , projectName , projectDiscription , netWorth , companySize, companyType , refBy} = req.body;
     
-    if(!userId || !projectName || !projectAmount || !laonType|| !refBy){
+    if(!userId || !projectName || !netWorth || !companySize || !companyType || !refBy){
         logger.error(errorMessages.ALL_FIELDS_REQUIRED);
         return res.status(400).json(errorMessages.ALL_FIELDS_REQUIRED);
     }
-    const isExist = await Loan.findOne({projectName});
+    const isExist = await AMC.findOne({projectName});
     
     if(isExist){
         logger.error(errorMessages.PROJECT_NAME_EXIST);
@@ -28,7 +28,7 @@ try {
             return res.status(404).json(errorMessages.NOT_FOUND)
         }
         
-        const data =  await Loan.countDocuments();
+        const data =  await AMC.countDocuments();
         let formattedNumber;
         counter = data + 1;
         if (counter < 10) {
@@ -51,8 +51,8 @@ try {
         if(!projectDiscription){
             projectDiscription = '';
         }
-        const enquiryData = await Loan.create({
-            userId , ticketId ,userName, contact , email ,  projectName, projectDiscription , projectAmount, laonType, projectStatus , refBy
+        const enquiryData = await AMC.create({
+            userId , ticketId ,userName, contact , email ,  projectName  , netWorth , companySize  , companyType, projectDiscription, projectStatus , refBy
         })
         const ticketData = await TicketHistory.create({
             contact , ticketId ,status:projectStatus
@@ -67,7 +67,7 @@ try {
     }
 
 } catch (error) {
-    logger.error(errorMessages.CREATE_TICKET_FAILED);
+    logger.error(errorMessages.AMC_TICKET_FAILED);
     return res.status(500).json(errorMessages.INTERNAL_ERROR);
 }
     

@@ -8,7 +8,7 @@ const { error } = require('winston');
 
 
 module.exports.signUpCheck = async function(req, res){
-// try {
+try {
     logger.info(`Start`);
     logger.info(successMessages.GENERATE_OTP_ACTIVATED);
     //user input
@@ -62,7 +62,7 @@ module.exports.signUpCheck = async function(req, res){
         // try {
             const checkStatus = await client.messages
             .create({
-                body: `Enter the ${otp} to verify you Please do not share the OTP  `,
+                body: `Important message from BMCS India Your one-time code is ${otp}. Use it for secure login. Please do not share. Securing smiles, one password at a time! `,
                 from: '+12512902874',
                 to: contact,
             })
@@ -90,9 +90,9 @@ module.exports.signUpCheck = async function(req, res){
                
 
 
-// } catch (error) {
-//     logger.error(errorMessages.GENERATE_OTP_FAILED)
-//     return res.status(500).json(errorMessages.INTERNAL_ERROR)
-// }
+} catch (error) {
+    logger.error(errorMessages.GENERATE_OTP_FAILED)
+    return res.status(500).json(errorMessages.INTERNAL_ERROR)
+}
 
 }

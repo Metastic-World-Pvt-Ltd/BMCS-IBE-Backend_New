@@ -190,6 +190,10 @@ module.exports = {
 
     INACTIVE_USER_ERROR:'User Suspended, Please contact to Support',
 
+    FUND_TICKET_FAILED:'Fund Ticket Endpoint Failed',
+
+    AMC_TICKET_FAILED:'AMC Ticket Endpoint Failed',
+
     // Add more error messages as needed...
   };
   

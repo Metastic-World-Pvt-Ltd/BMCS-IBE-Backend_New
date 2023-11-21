@@ -1,4 +1,4 @@
-const Fund = require('../../models/Fund');
+const Loan = require('../../models/Loan');
 const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
 var CryptoJS = require("crypto-js");
@@ -48,12 +48,12 @@ try {
     if(!ticketId){
         return res.status(400).json(errorMessages.ALL_FIELDS_REQUIRED)
     }
-    const isExist = await Fund.findOne({ticketId});
+    const isExist = await Loan.findOne({ticketId});
     if(isExist){
         if(isExist.projectStatus == 'In Progress'){
             try {
                 const status = 'Closed';
-                const updateStatus = await Fund.findOneAndUpdate({ticketId},{projectStatus:status , closedBy ,comment},{new:true});
+                const updateStatus = await Loan.findOneAndUpdate({ticketId},{projectStatus:status , closedBy ,comment},{new:true});
                 
                 if(!updateStatus){
                     return res.status(404).json(errorMessages.NOT_FOUND)

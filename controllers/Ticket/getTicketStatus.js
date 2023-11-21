@@ -1,4 +1,4 @@
-const Ticket = require('../../models/Ticket');
+const Loan = require('../../models/Loan');
 const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
 const logger = require('../User/logger');
@@ -14,7 +14,7 @@ module.exports.getTicketStatus =  async function(req, res){
         return res.status(400).json(errorMessages.CONTACT_IS_REQUIRED);
     }
     try {
-        const data = await Ticket.findOne({contact});
+        const data = await Loan.findOne({contact});
         logger.info(`Output - ${data.projectStatus}`)
         res.status(200).json(data.projectStatus);
     } catch (error) {

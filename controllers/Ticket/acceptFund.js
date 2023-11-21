@@ -51,7 +51,7 @@ try {
     try {
         const status = 'In Progress';
         const updateStatus = await Fund.findOneAndUpdate({ticketId},{projectStatus:status , acceptedBy},{new:true});
-        console.log(updateStatus);
+        
         if(!updateStatus){
             return res.status(404).json(errorMessages.NOT_FOUND)
         }else{

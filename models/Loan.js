@@ -32,6 +32,10 @@ const enquiryData =  new mongoose.Schema({
         type:Number,
         required:true,
     },
+    laonType:{
+        type:String,
+        required:true,
+    },
     projectStatus:{
         type:String,
         required:true,
@@ -45,8 +49,11 @@ const enquiryData =  new mongoose.Schema({
     closedBy:{
         type:String,
     },
+    comment:{
+        type:String,
+    },
 },{
     timestamps:true
 })
 
-module.exports = mongoose.model('Ticket', enquiryData);
+module.exports = mongoose.model('Loan', enquiryData);

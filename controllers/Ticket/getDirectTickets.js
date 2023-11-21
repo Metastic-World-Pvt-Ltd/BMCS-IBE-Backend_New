@@ -1,4 +1,4 @@
-const Ticket = require('../../models/Ticket');
+const Loan = require('../../models/Loan');
 const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
 const logger = require('../User/logger');
@@ -6,7 +6,7 @@ const logger = require('../User/logger');
 module.exports.getDirectTickets =  async function(req, res){
     logger.info(successMessages.GET_DIRECT_TICKET)
     logger.info(successMessages.START);
-    const data = await Ticket.find({refBy:'Admin'});
+    const data = await Loan.find({refBy:'Admin'});
     if(!data){
         logger.info(errorMessages.NOT_FOUND);
         return res.status(404).json(errorMessages.NOT_FOUND);

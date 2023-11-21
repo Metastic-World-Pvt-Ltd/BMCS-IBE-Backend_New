@@ -1,4 +1,4 @@
-const Fund = require('../../models/Fund');
+const AMC = require('../../models/AMC');
 const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
 var CryptoJS = require("crypto-js");
@@ -7,7 +7,7 @@ const logger = require('../User/logger');
 const AdminUser = require('../../models/AdminUser');
 require('dotenv').config({path:'../../.env'});
 
-module.exports.closeFund = async function(req, res){
+module.exports.closeAMC = async function(req, res){
 try {
     const {ticketId ,comment} = req.body;
         //user input
@@ -48,12 +48,12 @@ try {
     if(!ticketId){
         return res.status(400).json(errorMessages.ALL_FIELDS_REQUIRED)
     }
-    const isExist = await Fund.findOne({ticketId});
+    const isExist = await AMC.findOne({ticketId});
     if(isExist){
         if(isExist.projectStatus == 'In Progress'){
             try {
                 const status = 'Closed';
-                const updateStatus = await Fund.findOneAndUpdate({ticketId},{projectStatus:status , closedBy ,comment},{new:true});
+                const updateStatus = await AMC.findOneAndUpdate({ticketId},{projectStatus:status , closedBy ,comment},{new:true});
                 
                 if(!updateStatus){
                     return res.status(404).json(errorMessages.NOT_FOUND)

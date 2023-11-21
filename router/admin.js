@@ -48,6 +48,11 @@ const { acceptKyc } = require('../controllers/Admin/acceptKyc.js');
 const { verifyKyc } = require('../controllers/Admin/verifyKyc.js');
 const { acceptFund } = require('../controllers/Ticket/acceptFund.js');
 const { closeFund } = require('../controllers/Ticket/closeFund.js');
+const { acceptAMC } = require('../controllers/Ticket/acceptAMC.js');
+const { closeAMC } = require('../controllers/Ticket/closeAMC.js');
+const { acceptTicket } = require('../controllers/Ticket/acceptTicket.js');
+const { closeTicket } = require('../controllers/Support/closeTicket.js');
+
 
 
 
@@ -163,5 +168,13 @@ router.patch('/verifykyc',verifyKyc);
 router.patch('/acceptfund', acceptFund);
 //close fund ticket
 router.patch('/closefund',closeFund);
+//Accept Fund Ticket
+router.patch('/acceptamc', acceptAMC);
+//close fund ticket
+router.patch('/closeamc', closeAMC);
+//Accept Ticket Ticket
+router.patch('/acceptloan', acceptTicket);
+//close Ticket ticket
+router.patch('/closeloan', closeTicket);
 
 module.exports = router;
