@@ -35,6 +35,7 @@ const { getAllProjectByContact } = require('../controllers/User/getAllProjectByC
 const { getRefAllChild } = require('../controllers/User/getRefAllChild');
 const { getWallet } = require('../controllers/User/getWallet');
 const { getKycByempId } = require('../controllers/User/getKycByempId');
+const { fundTicket } = require('../controllers/Ticket/fundTicket');
 
 var upload = multer({
     dest: storageValue,
@@ -131,4 +132,7 @@ router.get('/getallrefchid', getRefAllChild)
 router.get('/getwallet',getWallet);
 //Get User By Emp Id
 router.get('/getkycbyemp', getKycByempId);
+//Fund Ticket
+router.post('/fundticket', fundTicket);
+
 module.exports = router;

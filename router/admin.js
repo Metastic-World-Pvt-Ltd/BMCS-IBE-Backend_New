@@ -46,6 +46,8 @@ const { editCategory } = require('../controllers/Admin/editCategory.js');
 const { editSubCategory } = require('../controllers/Admin/editSubCategory');
 const { acceptKyc } = require('../controllers/Admin/acceptKyc.js');
 const { verifyKyc } = require('../controllers/Admin/verifyKyc.js');
+const { acceptFund } = require('../controllers/Ticket/acceptFund.js');
+const { closeFund } = require('../controllers/Ticket/closeFund.js');
 
 
 
@@ -157,4 +159,9 @@ router.patch('/editsubcategory', editSubCategory)
 router.patch('/acceptkyc',acceptKyc)
 //Verify Kyc
 router.patch('/verifykyc',verifyKyc);
+//Accept Fund Ticket
+router.patch('/acceptfund', acceptFund);
+//close fund ticket
+router.patch('/closefund',closeFund);
+
 module.exports = router;

@@ -1,21 +1,21 @@
-const Ticket = require('../../models/Ticket');
+const Fund = require('../../models/Fund');
 const User = require('../../models/User');
 const TicketHistory =  require('../../models/TicketHistory');
 const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
 const logger = require('../User/logger');
 
-module.exports.createTicket = async function(req , res){
+module.exports.fundTicket = async function(req , res){
 try {
     logger.info(successMessages.CREATE_TICKET_ACTIVATED);
     logger.info(successMessages.START);
-    var {userId , projectName , projectDiscription, projectAmount , refBy} = req.body;
+    var {userId , projectName , projectDiscription, projectAmount , cPan , GSTIN , companyType , refBy} = req.body;
     
-    if(!userId || !projectName || !projectAmount || !refBy){
+    if(!userId || !projectName || !projectAmount || !cPan || !GSTIN || !companyType || !refBy){
         logger.error(errorMessages.ALL_FIELDS_REQUIRED);
         return res.status(400).json(errorMessages.ALL_FIELDS_REQUIRED);
     }
-    const isExist = await Ticket.findOne({projectName});
+    const isExist = await Fund.findOne({projectName});
     
     if(isExist){
         logger.error(errorMessages.PROJECT_NAME_EXIST);
@@ -28,7 +28,7 @@ try {
             return res.status(404).json(errorMessages.NOT_FOUND)
         }
         
-        const data =  await Ticket.countDocuments();
+        const data =  await Fund.countDocuments();
         let formattedNumber;
         counter = data + 1;
         if (counter < 10) {
@@ -51,8 +51,8 @@ try {
         if(!projectDiscription){
             projectDiscription = '';
         }
-        const enquiryData = await Ticket.create({
-            userId , ticketId ,userName, contact , email ,  projectName, projectDiscription , projectAmount, projectStatus , refBy
+        const enquiryData = await Fund.create({
+            userId , ticketId ,userName, contact , email ,  projectName, projectDiscription , projectAmount , cPan , GSTIN , companyType, projectStatus , refBy
         })
         const ticketData = await TicketHistory.create({
             contact , ticketId ,status:projectStatus

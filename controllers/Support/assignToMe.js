@@ -10,6 +10,7 @@ module.exports.assignToMe = async function(req , res){
         return res.status(400).json(errorMessages.ALL_FIELDS_REQUIRED);
     }
     const ticketData = await SupportTicket.findOne({ticketId});
+    console.log(ticketData);
     const userData = await AdminUser.findById({_id});
     console.log(userData);
     const status = 'In Progress';
