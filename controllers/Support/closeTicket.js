@@ -16,7 +16,7 @@ module.exports.closeTicket = async function(req , res){
     }
     const ticketData = await SupportTicket.findOne({ticketId});
     const userData = await AdminUser.findById({_id});
-    const status = 'closed';
+    const status = 'Closed';
     const closedBy = userData.name;
     const newComment = {
         commentBy: userData.name, 
