@@ -50,7 +50,6 @@ const projectData =  new mongoose.Schema({
     address:{
         district:{
             type:String,
-            required:true,
         }, 
         city:{
             type:String,
@@ -60,6 +59,10 @@ const projectData =  new mongoose.Schema({
             type:String,
             required:true,
         }, 
+        country:{
+            type:String,
+            required:true,
+        },
         pinCode:{
             type:String,
             required:true,

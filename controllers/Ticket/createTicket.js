@@ -43,7 +43,7 @@ try {
             
         }
 
-        const ticketId = 'RITM'+ formattedNumber;
+        const ticketId = 'L-RITM'+ formattedNumber;
         const userName = userData.firstName + ' ' + userData.lastName;
         const contact = userData.contact;
         const email = userData.email;

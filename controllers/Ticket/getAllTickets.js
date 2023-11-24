@@ -1,17 +1,29 @@
 const Loan = require('../../models/Loan');
+const AMC = require('../../models/AMC');
+const Fund = require('../../models/Fund');
 const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
 const logger = require('../User/logger');
 
 module.exports.getAllTickets =  async function(req, res){
+    var data = [];
     logger.info(successMessages.GET_ALL_TICKETS_ACTIVATED)
     logger.info(successMessages.START);
-    const data = await Loan.find();
+    const loan = await Loan.find();
+    data.push({Key:'Laon',value:loan});
+    const amc = await AMC.find();
+    data.push(amc);
+    const fund = await Fund.find();
+    data.push(fund)
+    
     if(!data){
         logger.info(errorMessages.NOT_FOUND);
         return res.status(404).json(errorMessages.NOT_FOUND);
     }
     logger.info(`Output - ${data}`);
     logger.info(successMessages.END);
-    return res.status(200).json(data);
+    res.status(200).json(data);
+     data = [];
+     return;
+
 }
