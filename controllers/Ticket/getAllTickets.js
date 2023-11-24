@@ -9,12 +9,17 @@ module.exports.getAllTickets =  async function(req, res){
     var data = [];
     logger.info(successMessages.GET_ALL_TICKETS_ACTIVATED)
     logger.info(successMessages.START);
-    const loan = await Loan.find();
-    data.push({Key:'Laon',value:loan});
-    const amc = await AMC.find();
-    data.push(amc);
-    const fund = await Fund.find();
-    data.push(fund)
+    try {
+        const loan = await Loan.find();
+        data.push(loan);
+        const amc = await AMC.find();
+        data.push(amc);
+        const fund = await Fund.find();
+        data.push(fund)
+    } catch (error) {
+        logger.error(error)
+        return res.status(502).json(errorMessages.BAD_GATEWAY)
+    }
     
     if(!data){
         logger.info(errorMessages.NOT_FOUND);
@@ -24,6 +29,6 @@ module.exports.getAllTickets =  async function(req, res){
     logger.info(successMessages.END);
     res.status(200).json(data);
      data = [];
-     return;
+    return;
 
 }

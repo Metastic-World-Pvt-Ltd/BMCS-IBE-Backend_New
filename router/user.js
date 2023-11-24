@@ -38,6 +38,9 @@ const { getKycByempId } = require('../controllers/User/getKycByempId');
 const { fundTicket } = require('../controllers/Ticket/fundTicket');
 const { amcTicket } = require('../controllers/Ticket/amcTicket');
 const { createTicket } = require('../controllers/Ticket/createTicket');
+const { getAMC } = require('../controllers/Ticket/getAMC');
+const { getLoan } = require('../controllers/Ticket/getLoan');
+const { getFund } = require('../controllers/Ticket/getFund');
 
 var upload = multer({
     dest: storageValue,
@@ -140,5 +143,11 @@ router.post('/loanticket', createTicket);
 router.post('/fundticket', fundTicket);
 //AMC Ticket
 router.post('/amcticket', amcTicket);
+//Get ALL AMC Ticket
+router.get('/getamc',getAMC);
+//Get ALL Loan Ticket
+router.get('/getloan',getLoan);
+//Get ALL Fund Ticket
+router.get('/getfund',getFund);
 
 module.exports = router;

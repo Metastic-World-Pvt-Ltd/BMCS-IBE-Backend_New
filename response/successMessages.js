@@ -192,6 +192,12 @@ module.exports = {
     FUND_TICKET_ACTIVATED:'Fund Ticket Endpoint Activated',
 
     AMC_TICKET_ACTIVATED:'AMC Ticket Endpoint Activated',
+
+    GET_AMC_ACTIVATED:'Get ALL AMC Endpoint Activated',
+
+    GET_FUND_ACTIVATED:'Get ALL Fund Endpoint Activated',
+
+    GET_LOAN_ACTIVATED:'Get ALL Loan Endpoint Activated',
     // Add more error messages as needed...
   };
   

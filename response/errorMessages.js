@@ -194,6 +194,12 @@ module.exports = {
 
     AMC_TICKET_FAILED:'AMC Ticket Endpoint Failed',
 
+    GET_AMC_FAILED:'Get ALL AMC Endpoint Failed',
+
+    GET_FUND_FAILED:'Get ALL Fund Endpoint Failed',
+
+    GET_LOAN_FAILED:'Get ALL Loan Endpoint Failed',
+
     // Add more error messages as needed...
   };
   
