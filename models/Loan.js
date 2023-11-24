@@ -32,7 +32,7 @@ const enquiryData =  new mongoose.Schema({
         type:Number,
         required:true,
     },
-    laonType:{
+    loanType:{
         type:String,
         required:true,
     },

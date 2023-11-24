@@ -9,9 +9,9 @@ module.exports.createTicket = async function(req , res){
 try {
     logger.info(successMessages.CREATE_TICKET_ACTIVATED);
     logger.info(successMessages.START);
-    var {userId , projectName , projectDiscription, projectAmount ,laonType , refBy} = req.body;
+    var {userId , projectName , projectDiscription, projectAmount ,loanType , refBy} = req.body;
     
-    if(!userId || !projectName || !projectAmount || !laonType|| !refBy){
+    if(!userId || !projectName || !projectAmount || !loanType|| !refBy){
         logger.error(errorMessages.ALL_FIELDS_REQUIRED);
         return res.status(400).json(errorMessages.ALL_FIELDS_REQUIRED);
     }
@@ -52,7 +52,7 @@ try {
             projectDiscription = '';
         }
         const enquiryData = await Loan.create({
-            userId , ticketId ,userName, contact , email ,  projectName, projectDiscription , projectAmount, laonType, projectStatus , refBy
+            userId , ticketId ,userName, contact , email ,  projectName, projectDiscription , projectAmount, loanType, projectStatus , refBy
         })
         const ticketData = await TicketHistory.create({
             contact , ticketId ,status:projectStatus
