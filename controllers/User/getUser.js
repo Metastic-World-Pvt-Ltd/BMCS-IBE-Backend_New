@@ -1,4 +1,5 @@
 const User = require('../../models/User');
+var CryptoJS = require("crypto-js");
 const jwt = require('jsonwebtoken');
 const logger = require('./logger');
 const errorMessages = require('../../response/errorMessages');
@@ -12,7 +13,7 @@ module.exports.getUser = async function(req, res){
     logger.info(successMessages.GET_USER_ACTIVATED);
     //user input
     const empId = req.params.empId || req.body.empId || req.query.empId || req.headers["empId"];
-    const token = req.body.token || req.query.token || req.headers["x-access-token"];
+    var token = req.body.token || req.query.token || req.headers["x-access-token"];
     logger.info(`Token - ${token}`)
     //check for token provided or not
     if(!token){
@@ -20,6 +21,9 @@ module.exports.getUser = async function(req, res){
     }
     //secret ket to decode token
     const secret = process.env.SECRET_KEY;
+    // Decrypt
+    var bytes  = CryptoJS.AES.decrypt(token, secret);
+    token = bytes.toString(CryptoJS.enc.Utf8);
     const decode = jwt.verify(token , secret);
     //user role decoded from token signature
     const userRole = decode.role;
