@@ -41,6 +41,7 @@ const { createTicket } = require('../controllers/Ticket/createTicket');
 const { getAMC } = require('../controllers/Ticket/getAMC');
 const { getLoan } = require('../controllers/Ticket/getLoan');
 const { getFund } = require('../controllers/Ticket/getFund');
+const { getTicketById } = require('../controllers/Support/getTicketById');
 
 var upload = multer({
     dest: storageValue,
@@ -149,5 +150,7 @@ router.get('/getamc',getAMC);
 router.get('/getloan',getLoan);
 //Get ALL Fund Ticket
 router.get('/getfund',getFund);
+//Get Support Ticket By ID
+router.get('/supportticketbyid',getTicketById)
 
 module.exports = router;
