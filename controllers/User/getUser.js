@@ -13,22 +13,7 @@ module.exports.getUser = async function(req, res){
     logger.info(successMessages.GET_USER_ACTIVATED);
     //user input
     const empId = req.params.empId || req.body.empId || req.query.empId || req.headers["empId"];
-    var token = req.body.token || req.query.token || req.headers["x-access-token"];
-    logger.info(`Token - ${token}`)
-    //check for token provided or not
-    if(!token){
-        return res.status(401).json(errorMessages.TOKEN_NOT_FOUND);
-    }
-    //secret ket to decode token
-    const secret = process.env.SECRET_KEY;
-    // Decrypt
-    var bytes  = CryptoJS.AES.decrypt(token, secret);
-    token = bytes.toString(CryptoJS.enc.Utf8);
-    const decode = jwt.verify(token , secret);
-    //user role decoded from token signature
-    const userRole = decode.role;
-    logger.info(`User Role - ${userRole}`)
-    if(userRole == 'Standard' ||  userRole == 'Admin' || userRole == 'Super_Admin'){
+
         logger.info(`Input - ${empId}`);
         //check for empID is provided or not
         if(!empId){
@@ -46,10 +31,7 @@ module.exports.getUser = async function(req, res){
         logger.info(`End`);
         //return response
         return res.status(200).json(userData)
-    }else{
-        logger.error(errorMessages.ACCESS_DENIED);
-        return res.status(403).json(errorMessages.ACCESS_DENIED);
-    }
+
 
 
 } catch (error) {
