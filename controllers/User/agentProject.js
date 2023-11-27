@@ -121,7 +121,8 @@ try {
 }
 }
 async function uploadImage(mim){
-    //split file extention name
+    try {
+       //split file extention name
     const parts = mim.mimetype.split('/')
     const ext = parts[1];
     //define allowed file types
@@ -173,7 +174,11 @@ async function uploadImage(mim){
         } else {
         logger.error(errorMessages.INVALID_FILE)
         return res.status(400).json(errorMessages.INVALID_FILE);
-        }
+        } 
+    } catch (error) {
+        return ('Error in Uploading File')
+    }
+    
   }
 
 

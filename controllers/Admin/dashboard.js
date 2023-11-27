@@ -109,11 +109,19 @@ module.exports.dashboard = async function(req , res){
     //push Data into object
     Data.push({key:'PendingReferral',value:pendingReferralEarning});
     console.log("Referral",completedReferralEarning , pendingReferralEarning);
-    //const totalReferral = completedReferralEarning[0].totalAmount + pendingReferralEarning[0].totalAmount;
-   
-    //push Data into object
-    //Data.push({key:'TotalReferral',value:totalReferral});
 
+    if(completedReferralEarning.length == 0 || pendingReferralEarning.length == 0){
+        const totalReferral = 0;
+        // push Data into object
+        Data.push({key:'TotalReferral',value:totalReferral});
+    }else{
+
+    
+    const totalReferral = completedReferralEarning[0].totalAmount + pendingReferralEarning[0].totalAmount;
+   
+    // push Data into object
+    Data.push({key:'TotalReferral',value:totalReferral});
+}
     //end of total referral amount
 
     console.log(Data);
