@@ -7,9 +7,15 @@ module.exports.getFund = async function(req , res){
 try {
     logger.info(successMessages.START);
     logger.info(successMessages.GET_FUND_ACTIVATED);
+    const contact = req.headers['contact'];
+    var data ;
+    if(contact){
+        data = await Fund.find({contact});
+    }else{
+        data = await Fund.find();
+    }
 
-    try {
-        const data = await Fund.find();
+    try {        
 
         if(data){
             logger.info(successMessages.DATA_SEND_SUCCESSFULLY)

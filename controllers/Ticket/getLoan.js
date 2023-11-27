@@ -7,9 +7,15 @@ module.exports.getLoan = async function(req , res){
 try {
     logger.info(successMessages.START);
     logger.info(successMessages.GET_LOAN_ACTIVATED);
-
+    const contact = req.headers['contact'];
+    
+    var data ;
+    if(contact){
+        data = await Loan.find({contact});
+    }else{
+        data = await Loan.find();
+    }
     try {
-        const data = await Loan.find();
 
         if(data){
             logger.info(successMessages.DATA_SEND_SUCCESSFULLY)

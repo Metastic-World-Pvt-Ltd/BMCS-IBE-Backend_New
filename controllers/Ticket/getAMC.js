@@ -7,7 +7,14 @@ module.exports.getAMC = async function(req , res){
 try {
     logger.info(successMessages.START);
     logger.info(successMessages.GET_AMC_ACTIVATED);
-
+    const contact = req.headers['contact'];
+    
+    var data ;
+    if(contact){
+        data = await AMC.find({contact});
+    }else{
+        data = await AMC.find();
+    }
     try {
         const data = await AMC.find();
 
