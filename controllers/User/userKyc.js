@@ -72,7 +72,8 @@ try {
 }
 
 async function uploadImage(mim){
-  //split file extention name
+  try {
+    //split file extention name
   const parts = mim.mimetype.split('/')
   const ext = parts[1];
   //define allowed file types
@@ -113,7 +114,7 @@ async function uploadImage(mim){
                   } catch (err) {
                     kycDocuments = [];
                     console.error('Error uploading to S3 or saving to MongoDB:', err);
-                    return res.json(errorMessages.SOMETHING_WENT_WRONG);
+                    return (errorMessages.SOMETHING_WENT_WRONG);
                   }
                 }
                 // Call the function to upload the file and save the S3 URL to the database
@@ -121,10 +122,14 @@ async function uploadImage(mim){
               //end of Aws
           }else{
               logger.error(errorMessages.MAX_ALLOWED_SIZE)
-              return res.status(400).json(errorMessages.MAX_ALLOWED_SIZE);
+              return (errorMessages.MAX_ALLOWED_SIZE);
           }
       } else {
       logger.error(errorMessages.INVALID_FILE)
-      return res.status(400).json(errorMessages.INVALID_FILE);
+      return (errorMessages.INVALID_FILE);
       }
+  } catch (error) {
+    return ('Error in Uploading file')
+  }
+  
 }

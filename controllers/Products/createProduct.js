@@ -150,7 +150,7 @@ try {
                 }
             } catch (error) {
                 logger.error(error)
-                return res.json(errorMessages.SOMETHING_WENT_WRONG)
+                return res.json('Error in Uploading file')
             }
 
             //create product and Store into DB
