@@ -157,6 +157,7 @@ async function uploadImage(mim){
                     try {
                       // Upload the file to S3
                       const uploadResponse = await s3.send(new PutObjectCommand(params));
+                      console.log("uploadResponse",uploadResponse);
                       fileContent = Buffer.alloc(0);
                     } catch (err) {
                       projectDocuments = [];
