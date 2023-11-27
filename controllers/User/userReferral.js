@@ -62,8 +62,8 @@ module.exports.userReferral = async function(req, res){
                         const transactionAmount = (amount * percent[i] / 100)
                        // console.log(transactionAmount);
                         const type = 'credit';
-                        const origin = 'referralEarning';
-                        const status = 'completed'
+                        const origin = 'Referral';
+                        const status = 'Completed'
                         const transactionId = 'REF' + Date.now(); 
                         const userHistory = await History.create({
                             contact,
@@ -93,8 +93,8 @@ module.exports.userReferral = async function(req, res){
                         const transactionAmount = (amount * percent[i] / 100)
                        // console.log(transactionAmount);
                         const type = 'credit';
-                        const origin = 'referralEarning';
-                        const status = 'completed'
+                        const origin = 'Referral';
+                        const status = 'Completed'
                         const transactionId = 'REF' + Date.now(); 
                         const userHistory = await History.create({
                             contact,

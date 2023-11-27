@@ -12,7 +12,7 @@ try {
 
     
     //input for sactioned amount
-    const {projectId , sanctionedAmount , comissionAmount , projectStatus} = req.body;
+    const {projectId ,projectStatus, sanctionedAmount , comissionAmount } = req.body;
     logger.info(`Input -${projectId} ,${sanctionedAmount} , ${projectStatus}`)
     if(!projectId || !sanctionedAmount || !comissionAmount || !projectStatus){
         return res.status(400).json(errorMessages.ALL_FIELDS_REQUIRED);

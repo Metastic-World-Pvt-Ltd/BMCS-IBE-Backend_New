@@ -52,6 +52,7 @@ const { acceptAMC } = require('../controllers/Ticket/acceptAMC.js');
 const { closeAMC } = require('../controllers/Ticket/closeAMC.js');
 const { acceptTicket } = require('../controllers/Ticket/acceptTicket.js');
 const { closeTicket } = require('../controllers/Support/closeTicket.js');
+const { dashboard } = require('../controllers/Admin/dashboard.js');
 
 
 
@@ -176,5 +177,7 @@ router.patch('/closeamc', closeAMC);
 router.patch('/acceptloan', acceptTicket);
 //close Ticket ticket
 router.patch('/closeloan', closeTicket);
+//Dashboard
+router.get('/dashboard',dashboard);
 
 module.exports = router;
