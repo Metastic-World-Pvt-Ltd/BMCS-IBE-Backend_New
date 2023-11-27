@@ -45,7 +45,7 @@ try {
         const cAdhar = JSON.parse(req.body.cAdhar);
         uploadImage(cAdhar)
         const cPan = JSON.parse(req.body.cPan);
-        uploadImage(pan)
+        uploadImage(cPan)
          //upload files
         //end of file upload section
         //check char limit in description
