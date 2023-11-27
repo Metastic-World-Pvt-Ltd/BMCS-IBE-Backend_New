@@ -9,17 +9,35 @@ module.exports.getAllTickets =  async function(req, res){
     var data = [];
     logger.info(successMessages.GET_ALL_TICKETS_ACTIVATED)
     logger.info(successMessages.START);
-    try {
-        const loan = await Loan.find();
-        data.push(loan);
-        const amc = await AMC.find();
-        data.push(amc);
-        const fund = await Fund.find();
-        data.push(fund)
-    } catch (error) {
-        logger.error(error)
-        return res.status(502).json(errorMessages.BAD_GATEWAY)
+
+    const contact = req.headers['contact'];
+    
+    if(contact){
+        try {
+            const loan = await Loan.find({contact});
+            data.push(loan);
+            const amc = await AMC.find({contact});
+            data.push(amc);
+            const fund = await Fund.find({contact});
+            data.push(fund)
+        } catch (error) {
+            logger.error(error)
+            return res.status(502).json(errorMessages.BAD_GATEWAY)
+        }
+    }else{
+        try {
+            const loan = await Loan.find();
+            data.push(loan);
+            const amc = await AMC.find();
+            data.push(amc);
+            const fund = await Fund.find();
+            data.push(fund)
+        } catch (error) {
+            logger.error(error)
+            return res.status(502).json(errorMessages.BAD_GATEWAY)
+        }
     }
+
     
     if(!data){
         logger.info(errorMessages.NOT_FOUND);

@@ -12,11 +12,12 @@ try {
     var data ;
     if(contact){
         data = await AMC.find({contact});
+      
     }else{
         data = await AMC.find();
+    
     }
     try {
-        const data = await AMC.find();
 
         if(data){
             logger.info(successMessages.DATA_SEND_SUCCESSFULLY)
