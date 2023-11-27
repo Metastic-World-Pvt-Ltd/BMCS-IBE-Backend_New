@@ -9,40 +9,47 @@ try {
     logger.info(successMessages.UPDATE_USER_PIN_ACTIVATED);
     logger.info(successMessages.START);
     //User Input
-    const {contact , pin} = req.body;
-    logger.info(`Input - ${contact} , ${pin}`)
+    const {contact , oldPin ,newPin } = req.body;
+    logger.info(`Input - ${contact} , ${oldPin}, ${newPin}`)
     //check for required Fields
-    if(!contact || !pin){
+    if(!contact || !oldPin || !newPin){
         logger.error(`Error - ${errorMessages.ALL_FIELDS_REQUIRED}`)
         return res.status(400).json(errorMessages.ALL_FIELDS_REQUIRED);
     }
     //check userexist or not
     const isExist = await PIN.findOne({contact});
     
-    if(isExist){
-        //get ID to update PIN
-        const _id = isExist._id;
+    if(isExist){       
         //decrypt PIN and match entered PIN by user
-        const decode = bcrypt.compareSync(pin , isExist.PIN);
+        const decode = bcrypt.compareSync(oldPin , isExist.PIN);
         //check if PIN is same ot not
         if(decode){ 
-            //error
-            logger.error(errorMessages.RECORD_ALREADY_EXIST)
-            return res.status(422).json(errorMessages.RECORD_ALREADY_EXIST)
+          
+            const matchPin = bcrypt.compareSync(newPin , isExist.PIN);
+            if(matchPin){
+                //error
+                logger.error(errorMessages.SAME_PIN_EXIST)
+                return res.status(422).json(errorMessages.SAME_PIN_EXIST)
+            }else{
+                try {
+                    //update Record into DB
+                    const updatePin = await PIN.findOneAndUpdate({contact},{PIN:newPin},{new:true});
+                    updatePin.save();
+                    
+                    logger.info(successMessages.END)
+                    //response
+                    return res.status(200).json(successMessages.RECORD_UPDATED_SUCCESSFULLY);
+                } catch (error) {
+                    //error
+                    logger.error(`Error - ${error}`);
+                    return res.json(errorMessages.SOMETHING_WENT_WRONG)
+                }
+            }
+
+        }else{
+            return res.status(400).json(errorMessages.INCORRECT_OLD_PIN)
         }
-        try {
-            //update Record into DB
-            const updatePin = await PIN.findByIdAndUpdate({_id},{PIN:pin},{new:true});
-            updatePin.save();
-            
-            logger.info(successMessages.END)
-            //response
-            return res.status(200).json(successMessages.RECORD_UPDATED_SUCCESSFULLY);
-        } catch (error) {
-            //error
-            logger.error(`Error - ${error}`);
-            return res.json(errorMessages.SOMETHING_WENT_WRONG)
-        }
+
     }else{
         //error
         logger.error(errorMessages.NOT_FOUND)

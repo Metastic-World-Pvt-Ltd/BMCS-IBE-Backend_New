@@ -200,6 +200,10 @@ module.exports = {
 
     GET_LOAN_FAILED:'Get ALL Loan Endpoint Failed',
 
+    SAME_PIN_EXIST:'Previous MPIN can not be use',
+
+    INCORRECT_OLD_PIN:'Incorrect Old MPIN',
+
     // Add more error messages as needed...
   };
   
