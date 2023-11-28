@@ -35,7 +35,7 @@ module.exports.verifyKyc = async function(req, res){
             }
                 //check Admin user is active or not
             try {
-                var activeUser = await AdminUser.findById(id) 
+                var activeUser = await AdminUser.findById({_id:id}) 
                  if(activeUser == null){
                     logger.error(`In active Admin`)
                     return res.status(401).json(errorMessages.ACCESS_DENIED)

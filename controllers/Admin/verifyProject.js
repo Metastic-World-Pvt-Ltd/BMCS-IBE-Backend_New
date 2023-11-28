@@ -7,7 +7,7 @@ const TicketHistory = require('../../models/TicketHistory');
 var CryptoJS = require("crypto-js");
 const jwt = require('jsonwebtoken');
 module.exports.verifyProject = async function(req, res){
-try {
+// try {
     logger.info(successMessages.VERIFY_PROJECT_ACTIVATED)
     
     //project status and comment
@@ -37,16 +37,16 @@ try {
                     return res.status(401).json(errorMessages.TOKEN_EXPIRED)
                 }
                     //check Admin user is active or not
-                try {
-                    var activeUser = await AdminUser.findById(id) 
+                // try {
+                    var activeUser = await AdminUser.findById({_id:id}) 
                      if(activeUser == null){
                         logger.error(`In active Admin`)
                         return res.status(401).json(errorMessages.ACCESS_DENIED)
                     }
-                } catch (error) {
-                    logger.error(errorMessages.SOMETHING_WENT_WRONG)
-                    return res.status(502).json(errorMessages.SOMETHING_WENT_WRONG)
-                }
+                // } catch (error) {
+                //     logger.error(errorMessages.SOMETHING_WENT_WRONG)
+                //     return res.status(502).json(errorMessages.SOMETHING_WENT_WRONG)
+                // }
 
     //check for project id and status
     if(!projectId || !projectStatus ){
@@ -116,9 +116,9 @@ try {
         logger.error(errorMessages.INVALID_INPUT);
         return res.status(400).json(errorMessages.INVALID_INPUT);
     }
-} catch (error) {
-    logger.error(errorMessages.VERIFY_PROJECT_FAILED);
-    return res.status(500).json(errorMessages.INTERNAL_ERROR);
-}
+// } catch (error) {
+//     logger.error(errorMessages.VERIFY_PROJECT_FAILED);
+//     return res.status(500).json(errorMessages.INTERNAL_ERROR);
+// }
 
 }
