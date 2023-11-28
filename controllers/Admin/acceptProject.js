@@ -38,7 +38,7 @@ try {
         }
 
         try {
-            var activeUser = await AdminUser.findById(id) 
+            var activeUser = await AdminUser.findById({_id:id}) 
              if(activeUser == null){
                 logger.error(`In active Admin`)
                 logger.error(errorMessages.ACCESS_DENIED)

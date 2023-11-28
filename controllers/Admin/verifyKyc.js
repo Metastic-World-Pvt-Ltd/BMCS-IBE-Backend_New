@@ -29,7 +29,7 @@ module.exports.verifyKyc = async function(req, res){
             //check for user role as per token
                  userRole = decode.role;
                  var id =decode.id
-                 var closedBy = decode.email;
+                 var rejectedBy = decode.email;
             } catch (error) {
                 return res.status(401).json(errorMessages.TOKEN_EXPIRED)
             }
@@ -60,7 +60,7 @@ module.exports.verifyKyc = async function(req, res){
                 if(!comment){
                     comment = '';
                 }
-                const updateStatus = await Kyc.findOneAndUpdate({empId},{status ,comment, closedBy},{new:true});
+                const updateStatus = await Kyc.findOneAndUpdate({empId},{status ,comment, rejectedBy},{new:true});
                 console.log(updateStatus);
                 if(!updateStatus){
                     return res.status(404).json(errorMessages.NOT_FOUND)
