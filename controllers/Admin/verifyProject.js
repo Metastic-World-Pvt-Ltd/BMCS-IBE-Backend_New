@@ -6,6 +6,7 @@ const Ticket = require('../../models/Loan');
 const TicketHistory = require('../../models/TicketHistory');
 var CryptoJS = require("crypto-js");
 const jwt = require('jsonwebtoken');
+const AdminUser = require('../../models/AdminUser');
 module.exports.verifyProject = async function(req, res){
 // try {
     logger.info(successMessages.VERIFY_PROJECT_ACTIVATED)
