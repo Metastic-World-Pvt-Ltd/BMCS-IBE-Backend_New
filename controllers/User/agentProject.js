@@ -78,7 +78,6 @@ try {
             var projectDocuments = [];
             return res.status(498).json(errorMessages.MAX_ALLOWED_SIZE)
          }
-         //upload files
         //end of file upload section
         //check char limit in description
         const char = lc.count(projectDescription);

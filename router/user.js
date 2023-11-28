@@ -95,21 +95,23 @@ router.post('/referral',userReferral);
 router.get('/transactionHist',verifyUser,userHistory);
 //create project 
 router.post('/createProject',upload.fields([
-    { name: 'Adhar' },
-    { name: 'Pan' },
-    { name: 'cAdhar' },
-    { name: 'cPan' },
-  ]), agentProject)
+  { name: 'frontAdhar' },
+  { name: 'backAdhar' },
+  { name: 'Pan' },
+  { name: 'GST' },
+  { name: 'cPan' },
+]), agentProject)
 
 
 //get project details
 router.get('/getProject',verifyUser,getProject); 
 //edit/update project details
-router.post('/editProject', verifyUser,upload.fields([
-    { name: 'Adhar' },
-    { name: 'Pan' },
-    { name: 'cAdhar' },
-    { name: 'cPan' },
+router.post('/createProject',upload.fields([
+  { name: 'frontAdhar' },
+  { name: 'backAdhar' },
+  { name: 'Pan' },
+  { name: 'GST' },
+  { name: 'cPan' },
   ]),editProduct);
   
 //client Product
