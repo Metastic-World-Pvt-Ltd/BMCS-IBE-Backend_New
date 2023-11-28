@@ -38,14 +38,18 @@ try {
     console.log('outside Loop');
     //upload files
     //for (const field of Object.keys(req.files)){
-        const adhar = JSON.parse(req.body.Adhar);
-        uploadImage(adhar)
-        const pan = JSON.parse(req.body.Pan);
-        uploadImage(pan)
-        const cAdhar = JSON.parse(req.body.cAdhar);
-        uploadImage(cAdhar)
-        const cPan = JSON.parse(req.body.cPan);
-        uploadImage(cPan)
+        try {
+            const adhar = JSON.parse(req.body.Adhar);
+            uploadImage(adhar)
+            const pan = JSON.parse(req.body.Pan);
+            uploadImage(pan)
+            const cAdhar = JSON.parse(req.body.cAdhar);
+            uploadImage(cAdhar)
+            const cPan = JSON.parse(req.body.cPan);
+            uploadImage(cPan)
+        } catch (error) {
+            return res.status(498).json('Failed to upload file')
+        }
          //upload files
         //end of file upload section
         //check char limit in description
