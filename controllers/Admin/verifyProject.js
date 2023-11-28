@@ -4,6 +4,8 @@ const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
 const Ticket = require('../../models/Loan');
 const TicketHistory = require('../../models/TicketHistory');
+var CryptoJS = require("crypto-js");
+const jwt = require('jsonwebtoken');
 module.exports.verifyProject = async function(req, res){
 try {
     logger.info(successMessages.VERIFY_PROJECT_ACTIVATED)
@@ -45,7 +47,7 @@ try {
                     logger.error(errorMessages.SOMETHING_WENT_WRONG)
                     return res.status(502).json(errorMessages.SOMETHING_WENT_WRONG)
                 }
-                
+
     //check for project id and status
     if(!projectId || !projectStatus ){
         logger.error(errorMessages.PROJECT_ID_AND_STATUS_REQUIRED);
