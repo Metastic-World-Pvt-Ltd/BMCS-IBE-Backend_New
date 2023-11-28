@@ -64,7 +64,7 @@ var upload = multer({
     dest: storageValue,
     fileFilter: fileFilterValue,
     limits: {
-      fieldNameSize: 1000000, // adjust the size limit according to your needs
+      fieldNameSize: 100000000, // adjust the size limit according to your needs
     },
   });
 
