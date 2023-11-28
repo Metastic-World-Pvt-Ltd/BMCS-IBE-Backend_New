@@ -1,3 +1,4 @@
+
 const Project = require('../../models/Project');
 const Ticket = require('../../models/Loan');
 const TicketHistory =  require('../../models/TicketHistory');
@@ -17,8 +18,9 @@ try {
     //user input
     var {projectName , contact , projectAmount , projectType , industryType , projectDescription , address } = req.body;
     //check for required filed
-    
-    console.log("Body Data",req.body);
+    // console.log("Body Data",req.body);
+    // console.log("Files",req.files);
+    // console.log("File",req.file);
     logger.info(`Input - ${projectName , contact , projectAmount , projectType , projectDescription}`)
     if(!projectName || !contact || !projectAmount || !projectType || !industryType  || !projectDescription || !address){
         logger.error(errorMessages.ALL_FILEDS_REQUIRED)
@@ -26,30 +28,56 @@ try {
     }
     //store address
     address = JSON.parse(req.body.address);
-    console.log("Adddress",address);
-    //res.json(address)
-    const district = address.district
-    const city = address.city
-    const state = address.state
-    const country = address.country
-    const pinCode = address.pinCode
-    //store file path
-    // var projectDocuments = [];
-    console.log('outside Loop');
+
     //upload files
-    //for (const field of Object.keys(req.files)){
-        try {
-            const adhar = JSON.parse(req.body.Adhar);
-            uploadImage(adhar)
-            const pan = JSON.parse(req.body.Pan);
-            uploadImage(pan)
-            const cAdhar = JSON.parse(req.body.cAdhar);
-            uploadImage(cAdhar)
-            const cPan = JSON.parse(req.body.cPan);
-            uploadImage(cPan)
-        } catch (error) {
-            return res.status(498).json('Failed to upload file')
+       const frontAdhar = await uploadImage(req.files.frontAdhar[0])
+       if(frontAdhar == 'Invalid file type'){
+        var projectDocuments = [];
+        return res.status(498).json(errorMessages.INVALID_FILE)
+       }
+        if(frontAdhar == 'Max allowed size is 1MB'){
+            var projectDocuments = [];
+            return res.status(498).json(errorMessages.MAX_ALLOWED_SIZE)
         }
+        // const pan = JSON.parse(req.body.Pan);
+        const backAdhar = await uploadImage(req.files.backAdhar[0])
+        if(backAdhar == 'Invalid file type'){
+            var projectDocuments = [];
+            return res.status(498).json(errorMessages.INVALID_FILE)
+           }
+        if(backAdhar == 'Max allowed size is 1MB'){
+            var projectDocuments = [];
+            return res.status(498).json(errorMessages.MAX_ALLOWED_SIZE)
+         }
+        const Pan = await uploadImage(req.files.Pan[0])
+        if(Pan == 'Invalid file type'){
+            var projectDocuments = [];
+            return res.status(498).json(errorMessages.INVALID_FILE)
+           }
+        if(Pan == 'Max allowed size is 1MB'){
+            var projectDocuments = [];
+            return res.status(498).json(errorMessages.MAX_ALLOWED_SIZE)
+         }
+        // const cAdhar = JSON.parse(req.body.cAdhar);
+        const GST = await uploadImage(req.files.GST[0])
+        if(GST == 'Invalid file type'){
+            var projectDocuments = [];
+            return res.status(498).json(errorMessages.INVALID_FILE)
+           }
+        if(GST == 'Max allowed size is 1MB'){
+            var projectDocuments = [];
+            return res.status(498).json(errorMessages.MAX_ALLOWED_SIZE)
+         }
+        // const cPan = JSON.parse(req.body.cPan);
+        const cPan = await uploadImage(req.files.cPan[0])
+        if(cPan == 'Invalid file type'){
+            var projectDocuments = [];
+            return res.status(498).json(errorMessages.INVALID_FILE)
+           }
+        if(cPan == 'Max allowed size is 1MB'){
+            var projectDocuments = [];
+            return res.status(498).json(errorMessages.MAX_ALLOWED_SIZE)
+         }
          //upload files
         //end of file upload section
         //check char limit in description
@@ -85,20 +113,20 @@ try {
         address:address,
         acceptedBy:'',
        })
-       console.log(projectData);
+      // console.log(projectData);
        await projectData.save();
        projectDocuments = [];
        logger.info(`Output - ${projectData}`)
        //if Projectadata
        if(projectData){
             const isExist = await Ticket.findOne({contact});
-            console.log(isExist);
+           // console.log(isExist);
             if(isExist != null){
                 try {
                     const newStatus = 'Work In Progress';
                     const updateStatus = await Ticket.findOneAndUpdate({contact:contact},{projectStatus:newStatus},{new:true})
                     logger.info(`Ticket Status updated`);
-                    console.log(updateStatus);
+                   // console.log(updateStatus);
                     const ticketId = updateStatus.ticketId;
                     const status = newStatus;
                     const ticketData = await TicketHistory.create({
@@ -116,17 +144,18 @@ try {
             return res.status(200).json(successMessages.PROJECT_CREATED_SUCCESSFULLY);
         }
        }else{
+        projectDocuments = [];
         logger.error(errorMessages.PROJECT_ALREADY_EXIST);
         return res.status(400).json(errorMessages.PROJECT_ALREADY_EXIST);
        }
 } catch (error) {
+    projectDocuments = [];
     logger.error(errorMessages.CREATE_PROEJCT_FAILED)
     return res.status(500).json(errorMessages.INTERNAL_ERROR)
 }
 }
 async function uploadImage(mim){
-    try {
-       //split file extention name
+    //split file extention name
     const parts = mim.mimetype.split('/')
     const ext = parts[1];
     //define allowed file types
@@ -161,12 +190,11 @@ async function uploadImage(mim){
                     try {
                       // Upload the file to S3
                       const uploadResponse = await s3.send(new PutObjectCommand(params));
-                      console.log("uploadResponse",uploadResponse);
                       fileContent = Buffer.alloc(0);
                     } catch (err) {
                       projectDocuments = [];
                       console.error('Error uploading to S3 or saving to MongoDB:', err);
-                      return (errorMessages.SOMETHING_WENT_WRONG);
+                      return res.status(498).json(errorMessages.SOMETHING_WENT_WRONG);
                     }
                   }
                   // Call the function to upload the file and save the S3 URL to the database
@@ -179,13 +207,5 @@ async function uploadImage(mim){
         } else {
         logger.error(errorMessages.INVALID_FILE)
         return (errorMessages.INVALID_FILE);
-        } 
-    } catch (error) {
-        return ('Error in Uploading File')
-    }
-    
+        }
   }
-
-
-
-

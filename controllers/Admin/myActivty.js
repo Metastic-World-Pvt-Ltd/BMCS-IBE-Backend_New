@@ -52,6 +52,11 @@ module.exports.myActivity = async function(req , res){
                 //get admin project closed by       
                 const closedByData = await Project.find({closedBy: userEmail})
                 Activity.push({key:'ClosedProject',value:closedByData})
+
+                //get admin project Rejected by       
+                const rejectedByKyc = await Project.find({rejectedBy: userEmail})
+                Activity.push({key:'RejectedProject',value:rejectedByKyc})
+
             } catch (error) {
                 return res.status(502).json(errorMessages.BAD_GATEWAY);
             }
@@ -66,7 +71,7 @@ module.exports.myActivity = async function(req , res){
                 const closedByKyc = await Kyc.find({closedBy: userEmail})
                 Activity.push({key:'ClosedKyc',value:closedByKyc})
 
-                //get admin project closed by       
+                //get admin project Rejected by       
                 const rejectedByKyc = await Kyc.find({rejectedBy: userEmail})
                 Activity.push({key:'RejectedKyc',value:rejectedByKyc})
             } catch (error) {

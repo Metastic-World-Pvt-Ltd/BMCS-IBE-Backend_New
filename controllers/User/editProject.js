@@ -37,16 +37,66 @@ module.exports.editProject = async function(req, res){
                 logger.error(errorMessages.ALL_FIELDS_REQUIRED)
                 return res.status(400).json(errorMessages.ALL_FIELDS_REQUIRED)
             }
-            //upload files
-            const adhar = JSON.parse(req.body.Adhar);
-            uploadImage(adhar)        
-            const pan = JSON.parse(req.body.Pan);
-            uploadImage(pan)
-            const cAdhar = JSON.parse(req.body.cAdhar);
-            uploadImage(cAdhar)
-            const cPan = JSON.parse(req.body.cPan);
-            uploadImage(pan)
-                //end of file upload section
+            // //upload files
+            // const adhar = JSON.parse(req.body.Adhar);
+            // uploadImage(adhar)        
+            // const pan = JSON.parse(req.body.Pan);
+            // uploadImage(pan)
+            // const cAdhar = JSON.parse(req.body.cAdhar);
+            // uploadImage(cAdhar)
+            // const cPan = JSON.parse(req.body.cPan);
+            // uploadImage(pan)
+            // //end of file upload section
+                //upload files
+       const frontAdhar = await uploadImage(req.files.frontAdhar[0])
+       if(frontAdhar == 'Invalid file type'){
+        var projectDocuments = [];
+        return res.status(498).json(errorMessages.INVALID_FILE)
+       }
+        if(frontAdhar == 'Max allowed size is 1MB'){
+            var projectDocuments = [];
+            return res.status(498).json(errorMessages.MAX_ALLOWED_SIZE)
+        }
+        // const pan = JSON.parse(req.body.Pan);
+        const backAdhar = await uploadImage(req.files.backAdhar[0])
+        if(backAdhar == 'Invalid file type'){
+            var projectDocuments = [];
+            return res.status(498).json(errorMessages.INVALID_FILE)
+           }
+        if(backAdhar == 'Max allowed size is 1MB'){
+            var projectDocuments = [];
+            return res.status(498).json(errorMessages.MAX_ALLOWED_SIZE)
+         }
+        const Pan = await uploadImage(req.files.Pan[0])
+        if(Pan == 'Invalid file type'){
+            var projectDocuments = [];
+            return res.status(498).json(errorMessages.INVALID_FILE)
+           }
+        if(Pan == 'Max allowed size is 1MB'){
+            var projectDocuments = [];
+            return res.status(498).json(errorMessages.MAX_ALLOWED_SIZE)
+         }
+        // const cAdhar = JSON.parse(req.body.cAdhar);
+        const GST = await uploadImage(req.files.GST[0])
+        if(GST == 'Invalid file type'){
+            var projectDocuments = [];
+            return res.status(498).json(errorMessages.INVALID_FILE)
+           }
+        if(GST == 'Max allowed size is 1MB'){
+            var projectDocuments = [];
+            return res.status(498).json(errorMessages.MAX_ALLOWED_SIZE)
+         }
+        // const cPan = JSON.parse(req.body.cPan);
+        const cPan = await uploadImage(req.files.cPan[0])
+        if(cPan == 'Invalid file type'){
+            var projectDocuments = [];
+            return res.status(498).json(errorMessages.INVALID_FILE)
+           }
+        if(cPan == 'Max allowed size is 1MB'){
+            var projectDocuments = [];
+            return res.status(498).json(errorMessages.MAX_ALLOWED_SIZE)
+         }
+        //end of file upload section
 
                 //check char limit in description
                 const char = lc.count(projectDescription);

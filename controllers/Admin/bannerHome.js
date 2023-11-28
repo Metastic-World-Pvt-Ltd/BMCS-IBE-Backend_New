@@ -21,8 +21,8 @@ try {
             if(req.files){
                 //store file path
                 console.log();
-                   const mim = JSON.parse(req.body.imageURL);
-                   
+                //    const mim = JSON.parse(req.body.imageURL);
+                   const mim = req.files.imageURL[0]
                   //split file extention name   
                   const parts = mim.mimetype.split('/')
                   const ext = parts[1];
