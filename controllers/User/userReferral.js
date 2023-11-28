@@ -105,19 +105,28 @@ module.exports.userReferral = async function(req, res){
                             transactionId,
                         })
                         logger.info(`History genrated ${userHistory}`)
+                        const isWallet = await Wallet.findOne({contact})
+                        console.log("isWallet",isWallet);
+                        if(isWallet){
+                          const walletData = await Wallet.findOneAndUpdate({contact},{referralEarning,totalEarning},{new:true})
+                          console.log("walletData inside if",walletData);
+                        }else{
                       //create new DB document 
                       const walletData = await Wallet.create({
-                          contact,
-                          projectEarning:[
-                            {
-                            pendingAmount:0,
-                            withdrawableAmount:0,
-                            }
-                        ],
-                          referralEarning ,
-                          totalEarning
-                     })
-                     logger.info(`User wallet amount updated ${data}`)
+                        contact,
+                        projectEarning:
+                          {
+                          pendingAmount:0,
+                          withdrawableAmount:0,
+                          }
+                      ,
+                        referralEarning ,
+                        totalEarning
+                   })
+                   console.log("walletData inside else",walletData);
+                   logger.info(`User wallet amount updated ${data}`)
+                        }
+
                      //console.log(walletData);
                      }
                      //storing referal id to get next parent details

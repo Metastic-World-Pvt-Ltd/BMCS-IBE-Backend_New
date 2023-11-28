@@ -34,7 +34,7 @@ async function getChildren(contact) {
   //console.log(documents);
   const childDocs = [];
   
-  var levelCount = 'level ' + i;
+  var levelCount = 'Level ' + i;
   level.push({ key: levelCount, value: documents.length });
 i++;
 //console.log(documents);
