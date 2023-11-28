@@ -63,7 +63,6 @@ router.use(express.urlencoded({extended:false}))
 var upload = multer({
     dest: storageValue,
     fileFilter: fileFilterValue,
-    fieldSize: 1024 * 1024 * 10,
   });
 
 router.get('/',function(req, res){
