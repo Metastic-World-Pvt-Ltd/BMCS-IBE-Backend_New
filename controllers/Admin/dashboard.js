@@ -44,11 +44,19 @@ module.exports.dashboard = async function(req , res){
     //push Data into object
     Data.push({key:'PendingFund',value:totalPendingFund})
 
+    if(totalSantionedFund.length == 0 && totalPendingFund.length == 0){
+
+        const totalFund = 0;
+
+        //push Data into object
+        Data.push({key:'TotalFund',value:totalFund});
+    }else{
+
     const totalFund = totalSantionedFund[0].totalAmount + totalPendingFund[0].totalAmount;
    
     //push Data into object
     Data.push({key:'TotalFund',value:totalFund});
-
+}
 
     //Total commision Amount
     const comissionAmount = {
@@ -75,10 +83,19 @@ module.exports.dashboard = async function(req , res){
     //push Data into object
     Data.push({key:'PendingCommision',value:totalPendingComission});
 
+    if(totalCompletedComission.length == 0 && totalPendingComission.length ==0){
+        const totalCommision = 0;
+
+        //push Data into object
+        Data.push({key:'TotalCommision',value:totalCommision});
+    }else{
+
     const totalCommision = totalCompletedComission[0].totalAmount + totalPendingComission[0].totalAmount;
    
     //push Data into object
     Data.push({key:'TotalCommision',value:totalCommision});
+
+}   
     //End of commision Amount
 
     //Total  Referral Amount
@@ -123,6 +140,32 @@ module.exports.dashboard = async function(req , res){
     Data.push({key:'TotalReferral',value:totalReferral});
 }
     //end of total referral amount
+
+    //Total projects 
+        //check total projects
+        const totalProjects = await Project.countDocuments();
+
+        //push Data into object
+        Data.push({key:'totalProject',value:totalProjects})
+    
+        //check total completded Projects
+        const completedProject = await Project.countDocuments({projectStatus:'Completed'})
+        
+        //push Data into object
+        Data.push({key:'CompletedProject',value:completedProject})
+    
+        //check total pending projects
+        const newProject = await Project.countDocuments({projectStatus:'New'})
+        const pendingProject = await Project.countDocuments({projectStatus:'Pending'})
+        const verifiedProject = await Project.countDocuments({projectStatus:'Verified'})
+        const approvedProject = await Project.countDocuments({projectStatus:'Approved'})
+
+        const totalPendingProjects = newProject + pendingProject + verifiedProject + approvedProject;
+    
+        //push Data into object
+        Data.push({key:'PendingProject',value:totalPendingProjects})
+
+    //end total projects
 
     console.log(Data);
     res.json(Data)

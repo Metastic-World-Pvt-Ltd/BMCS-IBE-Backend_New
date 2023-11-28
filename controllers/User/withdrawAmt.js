@@ -100,11 +100,11 @@ try {
             //update wallet amount
             const data = {
                 totalEarning:0,
-                projectEarning:[
+                projectEarning:
                     {      
                     withdrawableAmount:0,
                     }
-                ],
+                ,
                 referralEarning:0
                 
             }
@@ -116,7 +116,7 @@ try {
             const hist = await History.create({
                 contact,
                 transactionAmount:amount,
-                type:'Debit',
+                type:'debit',
                 status:'Pending',
                 origin:'Withdraw',
                 transactionId,

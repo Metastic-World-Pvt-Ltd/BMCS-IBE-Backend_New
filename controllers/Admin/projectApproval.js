@@ -64,28 +64,29 @@ try {
                       //update user wallet amount 
                       //find user data in Wallet
                      const amountData = await Wallet.findOne({contact});
-                     console.log(amountData);
+                     console.log("amountData",amountData);
                      if(amountData == null){
                         const data = await Wallet.create({
                             contact,
-                            projectEarning:[
+                            projectEarning:
                               {
                                 pendingAmount:comissionAmount,
                                 withdrawableAmount:0,
                             }
-                            ],
+                            ,
                             referralEarning:0,
                             totalEarning:0
                             
                        })
                      }else{
+                        console.log("amountData",amountData);
                     //get prev pendig amount and current amount add it
-                      const amount =  parseInt(amountData.projectEarning[0].pendingAmount) + comissionAmount; 
+                      const amount =  parseInt(amountData.projectEarning.pendingAmount) + comissionAmount; 
                       //update the data into DB
                       const data = await Wallet.findOneAndUpdate({contact},{
-                          projectEarning:[
+                          projectEarning:
                             {pendingAmount:amount}
-                          ]
+                          
                      })
                      logger.info(`Output - ${successMessages.data}`)
                      //console.log(data.projectEarning);
