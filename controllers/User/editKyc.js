@@ -31,40 +31,40 @@ try {
           //upload files
           const frontAdhar = await uploadImage(req.files.frontAdhar[0])
           if(frontAdhar == 'Invalid file type'){
-           var kycDocuments = [];
+           kycDocuments = [];
            return res.status(498).json(errorMessages.INVALID_FILE)
           }
            if(frontAdhar == 'Max allowed size is 1MB'){
-               var kycDocuments = [];
+               kycDocuments = [];
                return res.status(498).json(errorMessages.MAX_ALLOWED_SIZE)
            }
            // const pan = JSON.parse(req.body.Pan);
            const backAdhar = await uploadImage(req.files.backAdhar[0])
            if(backAdhar == 'Invalid file type'){
-               var kycDocuments = [];
+               kycDocuments = [];
                return res.status(498).json(errorMessages.INVALID_FILE)
               }
            if(backAdhar == 'Max allowed size is 1MB'){
-               var kycDocuments = [];
+               kycDocuments = [];
                return res.status(498).json(errorMessages.MAX_ALLOWED_SIZE)
             }
            const Pan = await uploadImage(req.files.Pan[0])
            if(Pan == 'Invalid file type'){
-               var kycDocuments = [];
+               kycDocuments = [];
                return res.status(498).json(errorMessages.INVALID_FILE)
               }
            if(Pan == 'Max allowed size is 1MB'){
-               var kycDocuments = [];
+               kycDocuments = [];
                return res.status(498).json(errorMessages.MAX_ALLOWED_SIZE)
             }
            // const cPan = JSON.parse(req.body.cPan);
            const Statement_Check = await uploadImage(req.files.Statement_Check[0])
            if(Statement_Check == 'Invalid file type'){
-               var kycDocuments = [];
+               kycDocuments = [];
                return res.status(498).json(errorMessages.INVALID_FILE)
               }
            if(Statement_Check == 'Max allowed size is 1MB'){
-               var kycDocuments = [];
+               kycDocuments = [];
                return res.status(498).json(errorMessages.MAX_ALLOWED_SIZE)
             }
            //end of file upload section
