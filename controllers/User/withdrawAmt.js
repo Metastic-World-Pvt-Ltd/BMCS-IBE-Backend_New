@@ -97,12 +97,16 @@ try {
                 logger.error(`Error - ${error}`)
                 return res.status(550).json(errorMessages.EMAIL_SENT_ERROR);
             }
-            //update wallet amount
+            const walletData = await Wallet.findOne({contact});
+            if(walletData){
+                const pendingAmount = walletData.projectEarning.pendingAmount;
+                            //update wallet amount
             const data = {
                 totalEarning:0,
                 projectEarning:
-                    {      
-                    withdrawableAmount:0,
+                    {     
+                        pendingAmount  ,   
+                        withdrawableAmount:0,
                     }
                 ,
                 referralEarning:0
@@ -111,6 +115,9 @@ try {
             //update details in DB
             const udpateAmt = await Wallet.findOneAndUpdate({contact},data,{new:true})
             logger.info(`Output - ${udpateAmt}`)
+            }
+
+            
             //generate history for the transaction
             const transactionId = 'WIT' + Date.now(); 
             const hist = await History.create({
