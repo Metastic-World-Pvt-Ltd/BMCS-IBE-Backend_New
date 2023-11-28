@@ -1,4 +1,3 @@
-
 const Project = require('../../models/Project');
 const Ticket = require('../../models/Loan');
 const TicketHistory =  require('../../models/TicketHistory');
@@ -18,8 +17,8 @@ try {
     //user input
     var {projectName , contact , projectAmount , projectType , industryType , projectDescription , address } = req.body;
     //check for required filed
-    // console.log("Body Data",req.body);
-    // console.log("Files",req.files);
+     console.log("Body Data",req.body);
+     console.log("Files",req.files);
     // console.log("File",req.file);
     logger.info(`Input - ${projectName , contact , projectAmount , projectType , projectDescription}`)
     if(!projectName || !contact || !projectAmount || !projectType || !industryType  || !projectDescription || !address){
@@ -28,8 +27,13 @@ try {
     }
     //store address
     address = JSON.parse(req.body.address);
-
+//console.log("frontAdhar Data",req.files.frontAdhar[0].fieldname);
+    //store file path
+    // var projectDocuments = [];
+  //  console.log('outside Loop');
     //upload files
+    //for (const field of Object.keys(req.files)){
+        //const adhar = JSON.parse(req.body.Adhar);
        const frontAdhar = await uploadImage(req.files.frontAdhar[0])
        if(frontAdhar == 'Invalid file type'){
         var projectDocuments = [];
@@ -78,6 +82,7 @@ try {
             var projectDocuments = [];
             return res.status(498).json(errorMessages.MAX_ALLOWED_SIZE)
          }
+         //upload files
         //end of file upload section
         //check char limit in description
         const char = lc.count(projectDescription);
@@ -154,7 +159,8 @@ try {
 }
 }
 async function uploadImage(mim){
-    //split file extention name
+    try {
+        //split file extention name
     const parts = mim.mimetype.split('/')
     const ext = parts[1];
     //define allowed file types
@@ -207,4 +213,9 @@ async function uploadImage(mim){
         logger.error(errorMessages.INVALID_FILE)
         return (errorMessages.INVALID_FILE);
         }
+    } catch (error) {
+        logger.error(error)
+        return (errorMessages.SOMETHING_WENT_WRONG)
+    }
+    
   }
