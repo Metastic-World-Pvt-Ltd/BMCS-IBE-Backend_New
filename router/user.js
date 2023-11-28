@@ -57,7 +57,8 @@ router.get('/',function(req, res){
 
 //user Kyc
 router.post('/kyc',verifyUser,upload.fields([
-  { name: 'Adhar' },
+  { name: 'frontAdhar' },
+  { name: 'backAdhar' },
   { name: 'Pan' },
   { name: 'Statement_Check' },
 ]),userKyc);
