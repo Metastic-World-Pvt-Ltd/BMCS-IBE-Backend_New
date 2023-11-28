@@ -63,6 +63,9 @@ router.use(express.urlencoded({extended:false}))
 var upload = multer({
     dest: storageValue,
     fileFilter: fileFilterValue,
+    limits: {
+      fieldNameSize: 1000000, // adjust the size limit according to your needs
+    },
   });
 
 router.get('/',function(req, res){
