@@ -54,6 +54,7 @@ const { acceptTicket } = require('../controllers/Ticket/acceptTicket.js');
 const { closeTicket } = require('../controllers/Support/closeTicket.js');
 const { dashboard } = require('../controllers/Admin/dashboard.js');
 const { myActivity } = require('../controllers/Admin/myActivty.js');
+const { getKycById } = require('../controllers/User/getKycById.js');
 
 
 
@@ -182,4 +183,6 @@ router.patch('/closeloan', closeTicket);
 router.get('/dashboard',dashboard);
 //My Activity
 router.get('/myactivity',myActivity);
+//Get kYc by EMP ID
+router.get('/kycbyid',getKycById);
 module.exports = router;

@@ -204,6 +204,15 @@ module.exports = {
 
     INCORRECT_OLD_PIN:'Incorrect Old MPIN',
 
+    GET_KYC_BY_ID_FAILED:'Get Kyc By ID Endpoint Failed',
+
+    GET_FUND_BY_ID_FAILED:'Get Fund By Id Endpoint Failed',
+
+    GET_LOAN_BY_ID_FAILED:'Get Loan By Id Endpoint Failed',
+
+    GET_AMC_BY_ID_FAILED:'Get AMC By Id Endpoint Failed',
+
+
     // Add more error messages as needed...
   };
   

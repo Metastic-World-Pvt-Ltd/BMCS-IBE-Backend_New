@@ -34,7 +34,7 @@ const { getUserEnquiery } = require('../controllers/User/getUserEnquiery');
 const { getAllProjectByContact } = require('../controllers/User/getAllProjectByContact');
 const { getRefAllChild } = require('../controllers/User/getRefAllChild');
 const { getWallet } = require('../controllers/User/getWallet');
-const { getKycByempId } = require('../controllers/User/getKycByempId');
+// const { getKycByempId } = require('../controllers/User/getKycByempId');
 const { fundTicket } = require('../controllers/Ticket/fundTicket');
 const { amcTicket } = require('../controllers/Ticket/amcTicket');
 const { createTicket } = require('../controllers/Ticket/createTicket');
@@ -42,6 +42,9 @@ const { getAMC } = require('../controllers/Ticket/getAMC');
 const { getLoan } = require('../controllers/Ticket/getLoan');
 const { getFund } = require('../controllers/Ticket/getFund');
 const { getTicketById } = require('../controllers/Support/getTicketById');
+const { getLoanById } = require('../controllers/Ticket/getLoanById');
+const { getFundById } = require('../controllers/Ticket/getFundById');
+const { getAmcById } = require('../controllers/Ticket/getAmcById');
 
 var upload = multer({
     dest: storageValue,
@@ -140,7 +143,7 @@ router.get('/getallrefchid', getRefAllChild)
 //get wallet data
 router.get('/getwallet',getWallet);
 //Get User By Emp Id
-router.get('/getkycbyemp', getKycByempId);
+// router.get('/getkycbyemp', getKycByempId);
 //Loan Ticket
 router.post('/loanticket', createTicket);
 //Fund Ticket
@@ -155,5 +158,11 @@ router.get('/getloan',getLoan);
 router.get('/getfund',getFund);
 //Get Support Ticket By ID
 router.get('/supportticketbyid',getTicketById)
+//Get Loan by Id
+router.get('/loanbyid',getLoanById);
+//Get Fund by Id
+router.get('/fundbyid',getFundById);
+//Get AMC by Id
+router.get('/amcbyid',getAmcById);
 
 module.exports = router;

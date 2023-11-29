@@ -198,6 +198,16 @@ module.exports = {
     GET_FUND_ACTIVATED:'Get ALL Fund Endpoint Activated',
 
     GET_LOAN_ACTIVATED:'Get ALL Loan Endpoint Activated',
+
+    GET_KYC_BY_ID_ACTIVATED:'Get Kyc By ID Endpoint Activated',
+
+    GET_FUND_BY_ID_ACTIVATED:'Get Fund By ID Endpoint Activated',
+
+    GET_LOAN_BY_ID_ACTIVATED:'Get Loan By ID Endpoint Activated',
+
+    GET_AMC_BY_ID_ACTIVATED:'Get AMC By ID Endpoint Activated',
+
+
     // Add more error messages as needed...
   };
   
