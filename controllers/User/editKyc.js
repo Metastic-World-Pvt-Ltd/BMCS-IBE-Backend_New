@@ -41,31 +41,31 @@ try {
            // const pan = JSON.parse(req.body.Pan);
            const backAdhar = await uploadImage(req.files.backAdhar[0])
            if(backAdhar == 'Invalid file type'){
-               kycDocuments = [];
-               return res.status(498).json(errorMessages.INVALID_FILE)
+               projectDocuments = [];
+               return res.status(498).json(errorMessages.BACK_ADHAR_INVALID_IMAGE)
               }
            if(backAdhar == 'Max allowed size is 1MB'){
-               kycDocuments = [];
-               return res.status(498).json(errorMessages.MAX_ALLOWED_SIZE)
+               projectDocuments = [];
+               return res.status(498).json(errorMessages.BACK_ADHAR_MAX_SIZE)
             }
            const Pan = await uploadImage(req.files.Pan[0])
            if(Pan == 'Invalid file type'){
-               kycDocuments = [];
-               return res.status(498).json(errorMessages.INVALID_FILE)
+               projectDocuments = [];
+               return res.status(498).json(errorMessages.PAN_INVALID_IMAGE)
               }
            if(Pan == 'Max allowed size is 1MB'){
-               kycDocuments = [];
-               return res.status(498).json(errorMessages.MAX_ALLOWED_SIZE)
+               projectDocuments = [];
+               return res.status(498).json(errorMessages.PAN_MAX_SIZE)
             }
            // const cPan = JSON.parse(req.body.cPan);
            const Statement_Check = await uploadImage(req.files.Statement_Check[0])
            if(Statement_Check == 'Invalid file type'){
                kycDocuments = [];
-               return res.status(498).json(errorMessages.INVALID_FILE)
+               return res.status(498).json(errorMessages.STATEMENT_CHECK_INVALID_IMAGE)
               }
            if(Statement_Check == 'Max allowed size is 1MB'){
                kycDocuments = [];
-               return res.status(498).json(errorMessages.MAX_ALLOWED_SIZE)
+               return res.status(498).json(errorMessages.STATEMENT_CHECK_MAX_SIZE)
             }
            //end of file upload section
     

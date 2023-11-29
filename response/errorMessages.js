@@ -212,7 +212,29 @@ module.exports = {
 
     GET_AMC_BY_ID_FAILED:'Get AMC By Id Endpoint Failed',
 
+    FRONT_ADHAR_MAX_SIZE:'Front Adhar Image should be less than 1 MB',
 
+    BACK_ADHAR_MAX_SIZE:'Back Adhar Image should be less than 1 MB',
+
+    PAN_MAX_SIZE:'PAN Image should be less than 1 MB',
+
+    GST_MAX_SIZE:'GST Image should be less than 1 MB',
+
+    COMPANY_PAN_MAX_SIZE:'Company PAN Image should be less than 1 MB',
+
+    STATEMENT_CHECK_MAX_SIZE:'Statement or cancel Check Image should be less than 1 MB',
+
+    FRONT_ADHAR_INVALID_IMAGE:'Front Adhar Invalid Image Type',
+
+    BACK_ADHAR_INVALID_IMAGE:'Back Adhar Invalid Image Type',
+
+    PAN_INVALID_IMAGE:'PAN Invalid Image Type',
+
+    GST_INVALID_IMAGE:'GST Invalid Image Type',
+
+    COMPANY_PAN_INVALID_IMAGE:'Company PAN Invalid Image Type',
+
+    STATEMENT_CHECK_INVALID_IMAGE:'Statement or cancel Check Invalid Image Type',
     // Add more error messages as needed...
   };
   
