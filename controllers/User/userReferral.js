@@ -40,7 +40,7 @@ module.exports.userReferral = async function(req, res){
              //check if parent available or not in DB
              if(newdata == null){
                  logger.info(errorMessages.PARENT_DATA_NOT_FOUND)
-                 return res.status(404).json(errorMessages.PARENT_DATA_NOT_FOUND)
+                 return res.status(200).json(errorMessages.PARENT_DATA_NOT_FOUND)
              }else{
                  //define referral earning percentage
                  var percent = [20,10,3,2,1.5,1,0.5,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25];
