@@ -13,7 +13,7 @@ module.exports.ticketComment = async function(req, res){
     }
     const supportTicket = await SupportTicket.findOne({ticketId});
     console.log("SupportTicket",supportTicket);
-    console.log("SupportTicket.comments",supportTicket.comments);
+    // console.log("SupportTicket.comments",supportTicket.comments);
      var updateComment = [];
     // const commentData = supportTicket.comments
     // const commnetLength =  commentData.length;
@@ -35,8 +35,10 @@ module.exports.ticketComment = async function(req, res){
         return res.status(403).json(errorMessages.ACCESS_DENIED);
     }
     const adminData = await AdminUser.findById({_id});
+    
    
     const userData = await User.findById({_id});
+    
 
     if(adminData){
         const newComment = {
@@ -47,7 +49,7 @@ module.exports.ticketComment = async function(req, res){
         const ticketData = await SupportTicket.findOneAndUpdate({ticketId},{
              $push: { comments: newComment } 
         },{new:true})
-    }else{
+    }else if(userData){
         const newComment = {
             commentBy: userData.firstName + userData.lastName, 
             commentValue: comment
@@ -56,6 +58,8 @@ module.exports.ticketComment = async function(req, res){
         const ticketData = await SupportTicket.findOneAndUpdate({ticketId},{
             $push: { comments: newComment } 
         },{new:true});
+    }else{
+        return res.status(404).json(errorMessages.USER_DOES_NOT_EXIST)
     }
 
     return res.status(200).json(successMessages.RECORD_UPDATED_SUCCESSFULLY)
