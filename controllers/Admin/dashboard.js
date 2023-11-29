@@ -43,20 +43,27 @@ module.exports.dashboard = async function(req , res){
       ])  
     //push Data into object
     Data.push({key:'PendingFund',value:totalPendingFund})
-
-    if(totalSantionedFund.length == 0 && totalPendingFund.length == 0){
-
-        const totalFund = 0;
-
-        //push Data into object
-        Data.push({key:'TotalFund',value:totalFund});
+    
+    var totalFund;
+    if(totalSantionedFund.length == 0){
+      totalFund = 0;
+      console.log("totalSantionedFund",totalFund);
     }else{
-
-    const totalFund = totalSantionedFund[0].totalAmount + totalPendingFund[0].totalAmount;
+      totalFund = totalSantionedFund[0].totalAmount 
+      console.log("totalSantionedFund else",totalFund);
+    } 
+    
+    if(totalPendingFund.length == 0){
+      totalFund = totalFund;
+      console.log("totalPendingFund",totalFund);
+    }else{
+     totalFund = totalFund + totalPendingFund[0].totalAmount;
+     console.log("totalPendingFund else",totalFund);
    
+    }
     //push Data into object
     Data.push({key:'TotalFund',value:totalFund});
-}
+//end of Total fund
 
     //Total commision Amount
     const comissionAmount = {
@@ -83,19 +90,20 @@ module.exports.dashboard = async function(req , res){
     //push Data into object
     Data.push({key:'PendingCommision',value:totalPendingComission});
 
-    if(totalCompletedComission.length == 0 && totalPendingComission.length ==0){
-        const totalCommision = 0;
-
-        //push Data into object
-        Data.push({key:'TotalCommision',value:totalCommision});
+    var totalCommision;
+    if(totalCompletedComission.length == 0){
+      totalCommision = 0;
     }else{
-
-    const totalCommision = totalCompletedComission[0].totalAmount + totalPendingComission[0].totalAmount;
-   
-    //push Data into object
-    Data.push({key:'TotalCommision',value:totalCommision});
-
-}   
+      totalCommision = totalCompletedComission[0].totalAmount;
+    }
+    
+    if(totalPendingComission.length == 0){
+      totalCommision = totalCommision;
+    }else{
+      totalCommision = totalCommision +  totalPendingComission[0].totalAmount;
+    }   
+   //push Data into object
+   Data.push({key:'TotalCommision',value:totalCommision});
     //End of commision Amount
 
     //Total  Referral Amount
@@ -113,32 +121,32 @@ module.exports.dashboard = async function(req , res){
         //push Data into object
         Data.push({key:'CompletedReferral',value:completedReferralEarning});
 
-      const pendingReferral = {
-        'origin':'Referral',
-        'status': 'Pending' // Replace with the actual field for user contact number
-      };
+//       const pendingReferral = {
+//         'origin':'Referral',
+//         'status': 'Pending' // Replace with the actual field for user contact number
+//       };
 
-    const pendingReferralEarning = await History.aggregate([
-        {$match: pendingReferral},
-        {$group:{ _id: null, totalAmount: { $sum: '$transactionAmount' } }}
-      ])
+//     const pendingReferralEarning = await History.aggregate([
+//         {$match: pendingReferral},
+//         {$group:{ _id: null, totalAmount: { $sum: '$transactionAmount' } }}
+//       ])
 
-    //push Data into object
-    Data.push({key:'PendingReferral',value:pendingReferralEarning});
-    console.log("Referral",completedReferralEarning , pendingReferralEarning);
+//     //push Data into object
+//     Data.push({key:'PendingReferral',value:pendingReferralEarning});
+//     console.log("Referral",completedReferralEarning , pendingReferralEarning);
 
-    if(completedReferralEarning.length == 0 || pendingReferralEarning.length == 0){
-        const totalReferral = 0;
-        // push Data into object
-        Data.push({key:'TotalReferral',value:totalReferral});
-    }else{
+//     if(completedReferralEarning.length == 0 || pendingReferralEarning.length == 0){
+//         const totalReferral = 0;
+//         // push Data into object
+//         Data.push({key:'TotalReferral',value:totalReferral});
+//     }else{
 
     
-    const totalReferral = completedReferralEarning[0].totalAmount + pendingReferralEarning[0].totalAmount;
+//     const totalReferral = completedReferralEarning[0].totalAmount + pendingReferralEarning[0].totalAmount;
    
-    // push Data into object
-    Data.push({key:'TotalReferral',value:totalReferral});
-}
+//     // push Data into object
+//     Data.push({key:'TotalReferral',value:totalReferral});
+// }
     //end of total referral amount
 
     //Total projects 
