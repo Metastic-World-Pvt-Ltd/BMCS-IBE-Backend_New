@@ -55,6 +55,7 @@ const { closeTicket } = require('../controllers/Support/closeTicket.js');
 const { dashboard } = require('../controllers/Admin/dashboard.js');
 const { myActivity } = require('../controllers/Admin/myActivty.js');
 const { getKycById } = require('../controllers/User/getKycById.js');
+const { getAllWithdraw } = require('../controllers/Admin/getAllWithdraw.js');
 
 
 
@@ -185,4 +186,7 @@ router.get('/dashboard',dashboard);
 router.get('/myactivity',myActivity);
 //Get kYc by EMP ID
 router.get('/kycbyid',getKycById);
+//Get All withdraw request for admin Panel
+router.get('/allwithdraw', getAllWithdraw);
+
 module.exports = router;

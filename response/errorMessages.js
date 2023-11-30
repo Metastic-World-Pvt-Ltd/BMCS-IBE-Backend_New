@@ -235,6 +235,8 @@ module.exports = {
     COMPANY_PAN_INVALID_IMAGE:'Company PAN Invalid Image Type',
 
     STATEMENT_CHECK_INVALID_IMAGE:'Statement or cancel Check Invalid Image Type',
+
+    GET_ALL_WITHDRAW_REQUEST_FAILED:'Get All Withdraw Request Endpoint Failed',
     // Add more error messages as needed...
   };
   

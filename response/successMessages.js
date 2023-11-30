@@ -207,6 +207,8 @@ module.exports = {
 
     GET_AMC_BY_ID_ACTIVATED:'Get AMC By ID Endpoint Activated',
 
+    GET_ALL_WITHDRAW_REQUEST_ACTIVATED:'Get All Withdraw Request Endpoint Activated',
+
 
     // Add more error messages as needed...
   };
