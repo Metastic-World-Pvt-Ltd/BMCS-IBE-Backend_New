@@ -4,6 +4,8 @@ const History = require('../../models/History');
 const logger = require('./logger');
 const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
+const DistributionList = require('../../models/DistributionList');
+
 module.exports.userReferral = async function(req, res){
     try {
       logger.info(`Start`);
@@ -43,7 +45,9 @@ module.exports.userReferral = async function(req, res){
                  return res.status(200).json(errorMessages.PARENT_DATA_NOT_FOUND)
              }else{
                  //define referral earning percentage
-                 var percent = [20,10,3,2,1.5,1,0.5,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25];
+                //  var percent = [20,10,3,2,1.5,1,0.5,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25];
+                var percent = await comission();
+                // console.log("percent",percent);
                  //store parent contact
                  const contact = newdata.contact;
                  //check user exist or not
@@ -60,7 +64,9 @@ module.exports.userReferral = async function(req, res){
                       //console.log('inside update fn',id);
                         //create history data for user
                         const transactionAmount = (amount * percent[i] / 100)
-                       // console.log(transactionAmount);
+                        
+                        // console.log(transactionAmount);
+                        // console.log(typeof(transactionAmount));
                         const type = 'credit';
                         const origin = 'Referral';
                         const status = 'Completed'
@@ -106,10 +112,10 @@ module.exports.userReferral = async function(req, res){
                         })
                         logger.info(`History genrated ${userHistory}`)
                         const isWallet = await Wallet.findOne({contact})
-                        console.log("isWallet",isWallet);
+                        //console.log("isWallet",isWallet);
                         if(isWallet){
                           const walletData = await Wallet.findOneAndUpdate({contact},{referralEarning,totalEarning},{new:true})
-                          console.log("walletData inside if",walletData);
+                          //console.log("walletData inside if",walletData);
                         }else{
                       //create new DB document 
                       const walletData = await Wallet.create({
@@ -123,7 +129,7 @@ module.exports.userReferral = async function(req, res){
                         referralEarning ,
                         totalEarning
                    })
-                   console.log("walletData inside else",walletData);
+                  // console.log("walletData inside else",walletData);
                    logger.info(`User wallet amount updated ${data}`)
                         }
 
@@ -142,7 +148,7 @@ module.exports.userReferral = async function(req, res){
  
          }
      
-         res.json("data");
+         return res.json("data");
        }
  
         } 
@@ -150,4 +156,35 @@ module.exports.userReferral = async function(req, res){
     logger.error(errorMessages.USER_REFERRAL_FAILED)
      res.status(500).json(errorMessages.INTERNAL_ERROR)
  }
+}
+
+async function comission(){
+  const dl_Id = 'b382fc1e7290490c819b27cd07c45a9d' //req.headers['id'];
+
+  if(!dl_Id){
+      return res.status(400).json(errorMessages.ALL_FIELDS_REQUIRED)
+  }
+
+  const data = await DistributionList.findOne({dl_Id});
+
+
+  const extractNumbers = (obj) => {
+      const result = [];
+  
+      const extract = (value) => {
+          if (typeof value === 'number') {
+              result.push(value);
+          } else if (typeof value === 'object' && value !== null) {
+              Object.values(value).forEach(extract);
+          }
+      };
+  
+      Object.values(obj).forEach(extract);
+  
+      return result;
+  };
+  
+  const numbersOnly = extractNumbers(data);
+  numbersOnly.pop();
+  return numbersOnly;
 }

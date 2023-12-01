@@ -7,6 +7,7 @@ const logger = require('./logger');
 const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
 var CryptoJS = require("crypto-js");
+const Wallet = require('../../models/Wallet');
 module.exports.userSignup = async function(req, res){
     
     try {
@@ -77,6 +78,7 @@ module.exports.userSignup = async function(req, res){
             })
             logger.info(`Output - ${userDoc}`)
             sendEmail(userDoc.email , userDoc.firstName)
+            joiningBonus(contact)
             //generate token for user
             jwt.sign({contact,firstName} , secret , { algorithm: 'HS512', expiresIn: '90d' } , (err,token)=>{
                 if(err) throw new err;
@@ -125,6 +127,7 @@ module.exports.userSignup = async function(req, res){
                 logger.info(`Output - ${userDoc}`)
                 //generate token for user
                 sendEmail(userDoc.email , userDoc.firstName)
+                joiningBonus(contact)
                     jwt.sign({contact,firstName} , secret , { algorithm: 'HS512', expiresIn: '90d' } , (err,token)=>{
                         if(err) throw new err;
                         //function to encypt Token
@@ -156,6 +159,7 @@ module.exports.userSignup = async function(req, res){
 }
 
 async function sendEmail(useremail,name){
+ try {    
     let testAccount = await nodemailer.createTestAccount();
 
     //sender email
@@ -173,7 +177,7 @@ async function sendEmail(useremail,name){
         },
     })
 
-// try {
+
     console.log("useremail",useremail);
     let info = await transporter.sendMail({
         from: `no-reply@bmcsindia.in <${senderEmail}>`, // sender address
@@ -249,8 +253,24 @@ async function sendEmail(useremail,name){
     logger.info(successMessages.EMAIL_OTP_SENT_SUCCESSFULLY)
     logger.info(`End`);
     return (successMessages.EMAIL_OTP_SENT_SUCCESSFULLY)
-// } catch (error) {
-//     logger.error(`Error - ${error}`)
-//     return (error);
-// }
+} catch (error) {
+    logger.error(`Error - ${error}`)
+    return (error);
+}
+}
+
+async function joiningBonus(contact){
+    //create new DB document 
+    const walletData = await Wallet.create({
+        contact,
+        projectEarning:
+          {
+          pendingAmount:1000,
+          withdrawableAmount:0,
+          }
+      ,
+        referralEarning:0 ,
+        totalEarning:1000,
+   })
+
 }

@@ -209,6 +209,8 @@ module.exports = {
 
     GET_ALL_WITHDRAW_REQUEST_ACTIVATED:'Get All Withdraw Request Endpoint Activated',
 
+    CREATE_DISTRIBUTION_LIST_ACTIVATED:'Create Distribution List Endpoint Activated',
+
 
     // Add more error messages as needed...
   };

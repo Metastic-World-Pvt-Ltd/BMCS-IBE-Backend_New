@@ -56,6 +56,8 @@ const { dashboard } = require('../controllers/Admin/dashboard.js');
 const { myActivity } = require('../controllers/Admin/myActivty.js');
 const { getKycById } = require('../controllers/User/getKycById.js');
 const { getAllWithdraw } = require('../controllers/Admin/getAllWithdraw.js');
+const { createDistributionList } = require('../controllers/Admin/createDistributionList.js');
+const { getDistributionList } = require('../controllers/Admin/getDistributionList.js');
 
 
 
@@ -113,7 +115,7 @@ router.post('/approval',verifyUser,projectApproval);
 //mark project as complete
 router.post('/complete',verifyUser,completeProject);
 //update withdraw status as complete
-router.post('/completewithdraw/:id',verifyUser,updateWithdrawStatus)
+router.post('/completewithdraw/:id',updateWithdrawStatus)
 //get all projects
 router.get('/allProjects',verifyUser, getAllProjects); 
 //get all verified project for admin approval
@@ -188,5 +190,9 @@ router.get('/myactivity',myActivity);
 router.get('/kycbyid',getKycById);
 //Get All withdraw request for admin Panel
 router.get('/allwithdraw', getAllWithdraw);
+//Create DistributionList for IBE commission
+router.post('/createdl',createDistributionList);
+//DistributionList for IBE commission
+router.get('/getdl',getDistributionList);
 
 module.exports = router;

@@ -1,0 +1,72 @@
+const mongoose =  require('mongoose');
+
+const DistributionListData =  new mongoose.Schema({
+    dl_Id:{
+        type:String,
+        required:true,
+    },
+    level_1:{
+        type:Number,
+        required:true,
+    },
+    level_2:{
+        type:Number,
+        required:true,
+    },
+    level_3:{
+        type:Number,
+        required:true,
+    },
+    level_4:{
+        type:Number,
+        required:true,
+    },
+    level_5:{
+        type:Number,
+        required:true,
+    },
+    level_6:{
+        type:Number,
+        required:true,
+    },
+    level_7:{
+        type:Number,
+        required:true,
+    },
+    level_8:{
+        type:Number,
+        required:true,
+    },
+    level_9:{
+        type:Number,
+        required:true,
+    },
+    level_10:{
+        type:Number,
+        required:true,
+    },
+    level_11:{
+        type:Number,
+        required:true,
+    },
+    level_12:{
+        type:Number,
+        required:true,
+    },
+    level_13:{
+        type:Number,
+        required:true,
+    },
+    level_14:{
+        type:Number,
+        required:true,
+    },
+    level_15:{
+        type:Number,
+        required:true,
+    }
+},{
+    timestamps:true
+})
+
+module.exports = mongoose.model('DistributionList', DistributionListData);
