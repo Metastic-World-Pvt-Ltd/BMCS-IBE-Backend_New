@@ -40,7 +40,15 @@ module.exports.editDistributionList = async function(req , res){
                     logger.error(`In active Admin`)
                     return res.status(401).json(errorMessages.ACCESS_DENIED)
                 }
-                return res.json('ok')
+                
+                const data = await DistributionList.findOneAndUpdate({dl_Id},req.body,{new:true});
+
+                if(data){
+                    return res.status(200).json(data)
+                }else{
+                    return res.status(404).json(errorMessages.NOT_FOUND);
+                }
+
             } catch (error) {
                 logger.error(errorMessages.SOMETHING_WENT_WRONG)
                 return res.status(502).json(errorMessages.SOMETHING_WENT_WRONG)

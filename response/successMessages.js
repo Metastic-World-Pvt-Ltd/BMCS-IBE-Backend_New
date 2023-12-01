@@ -211,6 +211,9 @@ module.exports = {
 
     CREATE_DISTRIBUTION_LIST_ACTIVATED:'Create Distribution List Endpoint Activated',
 
+    ACTIVATED_TOTAL_REF_ACTIVATED:'Get Total Referral Earning Enpoint Activated',
+    
+
 
     // Add more error messages as needed...
   };

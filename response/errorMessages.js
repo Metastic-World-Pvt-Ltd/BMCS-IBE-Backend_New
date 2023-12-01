@@ -239,6 +239,8 @@ module.exports = {
     GET_ALL_WITHDRAW_REQUEST_FAILED:'Get All Withdraw Request Endpoint Failed',
 
     CREATE_DISTRIBUTION_LIST_FAILED:'Create Distribution List Endpoint Failed',
+
+    TOTAL_REF_FAILED:'Get Total Referral Earning Enpoint Failed',
     // Add more error messages as needed...
   };
   
