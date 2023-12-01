@@ -58,6 +58,7 @@ const { getKycById } = require('../controllers/User/getKycById.js');
 const { getAllWithdraw } = require('../controllers/Admin/getAllWithdraw.js');
 const { createDistributionList } = require('../controllers/Admin/createDistributionList.js');
 const { getDistributionList } = require('../controllers/Admin/getDistributionList.js');
+const { editDistributionList } = require('../controllers/Admin/editDistributionList.js');
 
 
 
@@ -192,7 +193,10 @@ router.get('/kycbyid',getKycById);
 router.get('/allwithdraw', getAllWithdraw);
 //Create DistributionList for IBE commission
 router.post('/createdl',createDistributionList);
-//DistributionList for IBE commission
+//Get DistributionList for IBE commission
 router.get('/getdl',getDistributionList);
+//Edit DistributionList for IBE commission
+router.patch('/editdl',editDistributionList);
+
 
 module.exports = router;
