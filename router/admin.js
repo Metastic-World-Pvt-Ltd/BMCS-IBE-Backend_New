@@ -59,6 +59,7 @@ const { getAllWithdraw } = require('../controllers/Admin/getAllWithdraw.js');
 const { createDistributionList } = require('../controllers/Admin/createDistributionList.js');
 const { getDistributionList } = require('../controllers/Admin/getDistributionList.js');
 const { editDistributionList } = require('../controllers/Admin/editDistributionList.js');
+const { getAll_IBE } = require('../controllers/Admin/getAll_IBE.js');
 
 
 
@@ -197,6 +198,7 @@ router.post('/createdl',createDistributionList);
 router.get('/getdl',getDistributionList);
 //Edit DistributionList for IBE commission
 router.patch('/editdl',editDistributionList);
-
+//Get All IBE
+router.get('/allibe',getAll_IBE);
 
 module.exports = router;
