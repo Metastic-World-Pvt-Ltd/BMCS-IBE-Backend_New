@@ -19,12 +19,17 @@ try {
         logger.error(`Error - ${errorMessages.ALL_FIELDS_REQUIRED}`)
         return res.status(400).json(errorMessages.ALL_FIELDS_REQUIRED);
     }
-    //check in DB data exist or not
-    const isExist = await PIN.findOne({contact})
-    if(isExist){
-        if(isExist.userStatus == 'Inactive'){
+    const checkUser =  await User.findOne({contact});
+    if(checkUser){
+        if(checkUser.userStatus == 'Inactive'){
             return res.status(401).json(errorMessages.INACTIVE_USER_ERROR)
         }
+    }
+    //check in DB data exist or not
+    const isExist = await PIN.findOne({contact})
+    console.log(isExist);
+    if(isExist){
+
         //compare DB PIN and user entered PIN
         const isMatch = await bcrypt.compare(pin , isExist.PIN)
         //check PIN  matched or not
