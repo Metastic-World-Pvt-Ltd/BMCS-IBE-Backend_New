@@ -19,7 +19,9 @@ module.exports.generateEmailOtp = async function(req, res){
             if(!userExist){
                 return res.status(422).json(errorMessages.USER_DOES_NOT_EXIST);
             } 
-
+            if(userExist.userStatus == 'Inactive'){
+                return res.status(401).json(errorMessages.INACTIVE_USER_ERROR)
+            }
             const data = Math.floor(Math.random() * 9000) + 1000;
             var otp = data.toString();
             //set otp expiry time

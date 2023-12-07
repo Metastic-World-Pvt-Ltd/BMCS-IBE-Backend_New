@@ -92,7 +92,7 @@ router.post('/checkemailsignup' , signUpEmailCheck);
 //user details from signup page
 router.post('/signup' , checkAPIKey ,userSignup);
 //update user details
-router.patch('/userUpdate/:id',verifyUser, userUpdate);
+router.patch('/userUpdate',verifyUser, userUpdate);
 //create referral and distribute earning
 router.post('/referral',userReferral);
 //fetch user transaction history

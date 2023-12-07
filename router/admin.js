@@ -60,6 +60,7 @@ const { createDistributionList } = require('../controllers/Admin/createDistribut
 const { getDistributionList } = require('../controllers/Admin/getDistributionList.js');
 const { editDistributionList } = require('../controllers/Admin/editDistributionList.js');
 const { getAll_IBE } = require('../controllers/Admin/getAll_IBE.js');
+const { changeUserStatus } = require('../controllers/Admin/changeUserStatus.js');
 
 
 
@@ -200,5 +201,6 @@ router.get('/getdl',getDistributionList);
 router.patch('/editdl',editDistributionList);
 //Get All IBE
 router.get('/allibe',getAll_IBE);
-
+//Update IBE user Status 
+router.post('/updateuserstaus',changeUserStatus);
 module.exports = router;

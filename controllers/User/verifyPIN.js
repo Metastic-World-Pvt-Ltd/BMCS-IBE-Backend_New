@@ -22,6 +22,9 @@ try {
     //check in DB data exist or not
     const isExist = await PIN.findOne({contact})
     if(isExist){
+        if(isExist.userStatus == 'Inactive'){
+            return res.status(401).json(errorMessages.INACTIVE_USER_ERROR)
+        }
         //compare DB PIN and user entered PIN
         const isMatch = await bcrypt.compare(pin , isExist.PIN)
         //check PIN  matched or not

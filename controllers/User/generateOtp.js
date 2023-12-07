@@ -31,7 +31,9 @@ try {
     if(!userExist){
         return res.status(401).json(errorMessages.USER_DOES_NOT_EXIST);
     } 
-
+    if(userExist.userStatus == 'Inactive'){
+        return res.status(401).json(errorMessages.INACTIVE_USER_ERROR)
+    }
         const otpInt = Math.floor(1000 + Math.random() *9000);
         const otp = otpInt.toString();
         console.log(otp);
