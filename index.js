@@ -5,6 +5,7 @@
 const express = require('express')
 const helmet = require('helmet');
 const cors = require('cors');
+
 const app = express()
 const db = require('./mongoose/mongoose');
 
@@ -20,13 +21,14 @@ app.use('/',require('./router/index'))
 //     fileFilter: fileFilterValue,
 //   });
 require('dotenv').config();
-const port = process.env.PORT
+const port = process.env.PORT || 4000;
 //json input in body
 app.use(express.json());
 app.use(express.urlencoded({extended:false}))
 app.use('/uploads', express.static('uploads'));
 //Home Directory
-app.get('/', (req, res) => res.send('Welcome to IBE Home'))
+// 
+
 
 // if (cluster.isMaster) {
 //   console.log(`Master ${process.pid} is running`);
