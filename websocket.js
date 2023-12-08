@@ -42,7 +42,7 @@ const {status} = req.body;
 });
 
 // Start the server
-const PORT =  5000;
+const PORT =  6000;
 server.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });
