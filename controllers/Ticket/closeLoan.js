@@ -7,9 +7,10 @@ const logger = require('../User/logger');
 const AdminUser = require('../../models/AdminUser');
 require('dotenv').config({path:'../../.env'});
 
-module.exports.closeFund = async function(req, res){
+module.exports.closeLoan = async function(req, res){
 try {
     const {ticketId ,comment} = req.body;
+
         //user input
         var token = req.body.token || req.query.token || req.headers["x-access-token"];
         //check for valid response

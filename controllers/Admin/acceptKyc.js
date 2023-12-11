@@ -27,14 +27,14 @@ try {
             
         //check for user role as per token
              userRole = decode.role;
-             var id =decode.id
+             var _id =decode.id
              var acceptedBy = decode.email;
         } catch (error) {
             return res.status(401).json(errorMessages.TOKEN_EXPIRED)
         }
             //check Admin user is active or not
         try {
-            var activeUser = await AdminUser.findById(id) 
+            var activeUser = await AdminUser.findById(_id) 
              if(activeUser == null){
                 logger.error(`In active Admin`)
                 return res.status(401).json(errorMessages.ACCESS_DENIED)

@@ -61,6 +61,7 @@ const { getDistributionList } = require('../controllers/Admin/getDistributionLis
 const { editDistributionList } = require('../controllers/Admin/editDistributionList.js');
 const { getAll_IBE } = require('../controllers/Admin/getAll_IBE.js');
 const { changeUserStatus } = require('../controllers/Admin/changeUserStatus.js');
+const { closeLoan } = require('../controllers/Ticket/closeLoan.js');
 
 
 
@@ -184,7 +185,7 @@ router.patch('/closeamc', closeAMC);
 //Accept Ticket Ticket
 router.patch('/acceptloan', acceptTicket);
 //close Ticket ticket
-router.patch('/closeloan', closeTicket);
+router.patch('/closeloan', closeLoan);
 //Dashboard
 router.get('/dashboard',dashboard);
 //My Activity

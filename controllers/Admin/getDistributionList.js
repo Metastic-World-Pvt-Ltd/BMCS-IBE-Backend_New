@@ -10,7 +10,6 @@ module.exports.getDistributionList = async function(req , res){
 
     const data = await DistributionList.findOne({dl_Id});
 
-
     const extractNumbers = (obj) => {
         const result = [];
     
