@@ -45,6 +45,7 @@ try {
       logger.info(`End`);
       return res.status(200).json({ imageUrl });
     });
+    
 } catch (error) {
     logger.error(errorMessages.REGISTER_2FA_FAILED)
     return res.status(500).json(errorMessages.INTERNAL_ERROR)

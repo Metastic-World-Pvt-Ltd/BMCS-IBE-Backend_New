@@ -31,7 +31,7 @@ module.exports.ticketComment = async function(req, res){
         return res.status(404).json(errorMessages.NOT_FOUND);
     }
 
-    if(supportTicket.status == "closed"){
+    if(supportTicket.status == "Closed" || supportTicket.status == "New"  ){
         return res.status(403).json(errorMessages.ACCESS_DENIED);
     }
     const adminData = await AdminUser.findById({_id});
@@ -43,7 +43,8 @@ module.exports.ticketComment = async function(req, res){
     if(adminData){
         const newComment = {
             commentBy: adminData.name, 
-            commentValue: comment
+            commentValue: comment,
+            userRole:'Admin'
           };
         //updateComment.push({ commentBy: adminData.name, commentValue: comment})
         const ticketData = await SupportTicket.findOneAndUpdate({ticketId},{
@@ -52,7 +53,8 @@ module.exports.ticketComment = async function(req, res){
     }else if(userData){
         const newComment = {
             commentBy: userData.firstName + userData.lastName, 
-            commentValue: comment
+            commentValue: comment,
+            userRole:'User',
           };
         //updateComment.push({ commentBy: userData.firstName + userData.lastName, commentValue: comment} )
         const ticketData = await SupportTicket.findOneAndUpdate({ticketId},{

@@ -8,14 +8,15 @@ const logger = require('../User/logger');
 const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
 module.exports.adminRegister = async function(req, res){
-try {
+// try {
     logger.info(`Start`);
     logger.info(successMessages.ADMIN_REGISTER_ACTIVATED)
-    //input data
+
+    const {name , email , password, role}  = req.body;
+        //input data
     if(!req.body){
         return res.status(400).json(errorMessages.INVALID_INPUT)
     }
-    const {name , email , password, role}  = req.body;
     logger.info(`Input - ${name} , ${email} , ${password}, ${role}}`)
     var token = req.body.token || req.query.token || req.headers["x-access-token"];
     //check for token provided or not
@@ -70,10 +71,33 @@ try {
             return res.status(422).json({error:errorMessages.EMAIL_EXIST})
         }
         try {
-         
+        //generate employee ID
+        const data = await AdminUser.countDocuments();
+    
+        const year = new Date().getFullYear();
+        const lastTwoDigits = year % 100;
+        
+        const str = 'EBMCS';
+        let formattedNumber;
+        counter = data + 1;
+        if (counter < 10) {
+            formattedNumber = counter.toString().padStart(4, '0');
+        } else if (counter < 100) {
+            formattedNumber = counter.toString().padStart(4, '0');
+        }else if (counter < 1000) {
+            formattedNumber = counter.toString().padStart(4, '0');
+        }
+         else {
+            formattedNumber = counter.toString();
+            
+        }
+        const adminId = str+lastTwoDigits+formattedNumber;
+
+        const set2FA ='false';
+            
             //create user in DB
             const userData = new  AdminUser({
-                name , email , password , role , createdBy , set2FA:false
+                adminId ,name , email , password , role , createdBy , set2FA,
             })
             await userData.save();
             //console.log(userData);
@@ -86,10 +110,10 @@ try {
             return res.json(error);   
         }
     }
-} catch (error) {
-    logger.error(errorMessages.ADMIN_REGISTER_FAILED)
-    return res.status(500).json(errorMessages.INTERNAL_ERROR)
-}
+// } catch (error) {
+//     logger.error(errorMessages.ADMIN_REGISTER_FAILED)
+//     return res.status(500).json(errorMessages.INTERNAL_ERROR)
+// }
 }
 
 

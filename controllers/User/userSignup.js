@@ -21,7 +21,7 @@ module.exports.userSignup = async function(req, res){
         const year = new Date().getFullYear();
         const lastTwoDigits = year % 100;
         
-        const str = 'BMCS';
+        const str = 'IBMCS';
         let formattedNumber;
         counter = data + 1;
         if (counter < 10) {

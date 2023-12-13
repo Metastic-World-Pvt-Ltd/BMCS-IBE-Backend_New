@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
+    adminId:{
+        type:String,
+        required:true,
+    },
     name:{
         type: String,
         required:true
@@ -18,6 +22,26 @@ const userSchema = new mongoose.Schema({
         type: String,
         required:true
     },
+    admin_DOB:{
+        type:String,
+    },
+    adress:{
+        district:{
+            type:String,
+        }, 
+        city:{
+            type:String,
+        }, 
+        state:{
+            type:String,
+        }, 
+        country:{
+            type:String,
+        },
+        pinCode:{
+            type:String,
+        },
+    },
     createdBy:{
         type:String,
     },
@@ -25,7 +49,7 @@ const userSchema = new mongoose.Schema({
         type:String,
     },
     set2FA:{
-        type:Boolean,
+        type:String,
     },
 },{
     timestamps:true
