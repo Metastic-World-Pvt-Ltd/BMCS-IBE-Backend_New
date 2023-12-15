@@ -66,6 +66,8 @@ const { getAdminBYId } = require('../controllers/Admin/getAdminById.js');
 const { verifyAdminUser } = require('../middleware/verifyAdminUser.js');
 const { updateProfile } = require('../controllers/Admin/updateProfile.js');
 const { completedProject } = require('../controllers/Admin/My Activity/completedProject.js');
+const { rejectedProject } = require('../controllers/Admin/My Activity/rejectedProject.js');
+const { acceptedProject } = require('../controllers/Admin/My Activity/acceptedProject.js');
 
 
 
@@ -214,4 +216,8 @@ router.get('/getadmin', getAdminBYId);
 router.patch('/updateAdmin',updateProfile);
 //Get closed Project with pagination
 router.get('/completedProject',completedProject);
+//Get closed Project with pagination
+router.get('/rejectedProject',rejectedProject);
+//Get closed Project with pagination
+router.get('/acceptedProject',acceptedProject);
 module.exports = router;
