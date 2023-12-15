@@ -22,6 +22,9 @@ const userSchema = new mongoose.Schema({
         type: String,
         required:true
     },
+    contact:{
+        type:String,
+    },
     admin_DOB:{
         type:String,
     },

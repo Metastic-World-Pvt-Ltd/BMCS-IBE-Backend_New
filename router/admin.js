@@ -188,7 +188,7 @@ router.patch('/acceptloan', acceptTicket);
 //close Ticket ticket
 router.patch('/closeloan', closeLoan);
 //Dashboard
-router.get('/dashboard',dashboard);
+router.get('/dashboard', verifyUser ,dashboard);
 //My Activity
 router.get('/myactivity',myActivity);
 //Get kYc by EMP ID

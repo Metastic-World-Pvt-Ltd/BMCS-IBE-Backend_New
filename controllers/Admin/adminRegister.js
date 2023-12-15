@@ -94,11 +94,20 @@ module.exports.adminRegister = async function(req, res){
         const adminId = str+lastTwoDigits+formattedNumber;
 
         const set2FA ='false';
-            
+        
+        const contact = '';
+        const admin_DOB = ''
+         
             //create user in DB
             const userData = new  AdminUser({
-                adminId ,name , email , password , role , createdBy , set2FA,
-            })
+                adminId, name, email, password, role, contact, admin_DOB, createdBy , set2FA,
+                adress:{
+                    district:'', 
+                    city:'', 
+                    state:'', 
+                    country:'',
+                    pinCode:'',
+            }})
             await userData.save();
             //console.log(userData);
             logger.info(`Output - ${userData}`)
