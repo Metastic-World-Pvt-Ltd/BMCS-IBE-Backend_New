@@ -101,7 +101,7 @@ module.exports.adminRegister = async function(req, res){
             //create user in DB
             const userData = new  AdminUser({
                 adminId, name, email, password, role, contact, admin_DOB, createdBy , set2FA,
-                adress:{
+                address:{
                     district:'', 
                     city:'', 
                     state:'', 

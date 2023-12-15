@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema({
     admin_DOB:{
         type:String,
     },
-    adress:{
+    address:{
         district:{
             type:String,
         }, 

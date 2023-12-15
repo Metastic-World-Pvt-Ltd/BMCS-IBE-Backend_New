@@ -64,6 +64,7 @@ const { changeUserStatus } = require('../controllers/Admin/changeUserStatus.js')
 const { closeLoan } = require('../controllers/Ticket/closeLoan.js');
 const { getAdminBYId } = require('../controllers/Admin/getAdminById.js');
 const { verifyAdminUser } = require('../middleware/verifyAdminUser.js');
+const { updateProfile } = require('../controllers/Admin/updateProfile.js');
 
 
 
@@ -208,4 +209,7 @@ router.get('/allibe',getAll_IBE);
 router.post('/updateuserstaus',changeUserStatus);
 //Get admin by admin ID
 router.get('/getadmin', getAdminBYId);
+//Updated Admin Profile Data
+router.patch('/updateAdmin',updateProfile);
+
 module.exports = router;

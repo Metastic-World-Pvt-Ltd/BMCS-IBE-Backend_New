@@ -243,6 +243,8 @@ module.exports = {
     TOTAL_REF_FAILED:'Get Total Referral Earning Enpoint Failed',
 
     GET_ADMIN_BYID_FAILED:'Get Admin By Admin ID Endpoint Failed',
+
+    UPDATE_PROFILE_FAILED:'Update Admin Profile Endpoint Failed',
     // Add more error messages as needed...
   };
   
