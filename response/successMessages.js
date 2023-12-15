@@ -213,6 +213,7 @@ module.exports = {
 
     ACTIVATED_TOTAL_REF_ACTIVATED:'Get Total Referral Earning Enpoint Activated',
     
+    GET_ADMIN_BYID_ACTIVATED:'Get Admin By Admin ID Endpoint Activated'
 
 
     // Add more error messages as needed...

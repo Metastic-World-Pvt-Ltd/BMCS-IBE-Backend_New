@@ -241,6 +241,8 @@ module.exports = {
     CREATE_DISTRIBUTION_LIST_FAILED:'Create Distribution List Endpoint Failed',
 
     TOTAL_REF_FAILED:'Get Total Referral Earning Enpoint Failed',
+
+    GET_ADMIN_BYID_FAILED:'Get Admin By Admin ID Endpoint Failed',
     // Add more error messages as needed...
   };
   

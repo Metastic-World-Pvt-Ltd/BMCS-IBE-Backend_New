@@ -62,6 +62,7 @@ const { editDistributionList } = require('../controllers/Admin/editDistributionL
 const { getAll_IBE } = require('../controllers/Admin/getAll_IBE.js');
 const { changeUserStatus } = require('../controllers/Admin/changeUserStatus.js');
 const { closeLoan } = require('../controllers/Ticket/closeLoan.js');
+const { getAdminBYId } = require('../controllers/Admin/getAdminById.js');
 
 
 
@@ -204,4 +205,6 @@ router.patch('/editdl',editDistributionList);
 router.get('/allibe',getAll_IBE);
 //Update IBE user Status 
 router.post('/updateuserstaus',changeUserStatus);
+//Get admin by admin ID
+router.get('/getadmin', getAdminBYId);
 module.exports = router;
