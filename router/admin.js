@@ -65,6 +65,7 @@ const { closeLoan } = require('../controllers/Ticket/closeLoan.js');
 const { getAdminBYId } = require('../controllers/Admin/getAdminById.js');
 const { verifyAdminUser } = require('../middleware/verifyAdminUser.js');
 const { updateProfile } = require('../controllers/Admin/updateProfile.js');
+const { completedProject } = require('../controllers/Admin/My Activity/completedProject.js');
 
 
 
@@ -211,5 +212,6 @@ router.post('/updateuserstaus',changeUserStatus);
 router.get('/getadmin', getAdminBYId);
 //Updated Admin Profile Data
 router.patch('/updateAdmin',updateProfile);
-
+//Get closed Project with pagination
+router.get('/completedProject',completedProject);
 module.exports = router;
