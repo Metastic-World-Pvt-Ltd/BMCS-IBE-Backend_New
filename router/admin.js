@@ -63,6 +63,7 @@ const { getAll_IBE } = require('../controllers/Admin/getAll_IBE.js');
 const { changeUserStatus } = require('../controllers/Admin/changeUserStatus.js');
 const { closeLoan } = require('../controllers/Ticket/closeLoan.js');
 const { getAdminBYId } = require('../controllers/Admin/getAdminById.js');
+const { verifyAdminUser } = require('../middleware/verifyAdminUser.js');
 
 
 
@@ -188,7 +189,7 @@ router.patch('/acceptloan', acceptTicket);
 //close Ticket ticket
 router.patch('/closeloan', closeLoan);
 //Dashboard
-router.get('/dashboard', verifyUser ,dashboard);
+router.get('/dashboard', verifyAdminUser ,dashboard);
 //My Activity
 router.get('/myactivity',myActivity);
 //Get kYc by EMP ID
