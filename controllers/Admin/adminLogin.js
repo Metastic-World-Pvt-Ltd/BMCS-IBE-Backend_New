@@ -43,6 +43,7 @@ try {
                                         
                 return res.status(200).cookie('token',newToken).json({
                     id:userLogin._id,
+                    adminId:userLogin.adminId,
                     name:userLogin.name,
                     role:userLogin.role,
                     "2FA":userLogin.set2FA,
