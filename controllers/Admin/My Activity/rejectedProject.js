@@ -50,7 +50,8 @@ module.exports.rejectedProject = async function (req, res) {
             const page = parseInt(req.query.page) || 1;
             const limit = 8;
 
-
+            const filteredItems = await Project.find({ rejectedBy: userEmail });
+            const totalFilteredItems = filteredItems.length;
             // Use Mongoose to find paginated items
             const paginatedItems = await Project.find({ rejectedBy: userEmail })
                 .skip((page - 1) * limit)
@@ -59,7 +60,7 @@ module.exports.rejectedProject = async function (req, res) {
             // Send the paginated items as the API response
             return res.status(200).json({
                 page,
-                totalPages: Math.ceil(await Project.countDocuments({}) / limit) - 1,
+                totalPages: Math.ceil(totalFilteredItems / limit),
                 Project: paginatedItems,
             });
         } catch (error) {

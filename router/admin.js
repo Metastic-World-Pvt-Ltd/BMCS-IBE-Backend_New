@@ -68,6 +68,9 @@ const { updateProfile } = require('../controllers/Admin/updateProfile.js');
 const { completedProject } = require('../controllers/Admin/My Activity/completedProject.js');
 const { rejectedProject } = require('../controllers/Admin/My Activity/rejectedProject.js');
 const { acceptedProject } = require('../controllers/Admin/My Activity/acceptedProject.js');
+const { completedKyc } = require('../controllers/Admin/My Activity/completedKyc.js');
+const { rejectedKyc } = require('../controllers/Admin/My Activity/rejectedKyc.js');
+const { acceptedKyc } = require('../controllers/Admin/My Activity/acceptedKyc.js');
 
 
 
@@ -220,4 +223,12 @@ router.get('/completedProject',completedProject);
 router.get('/rejectedProject',rejectedProject);
 //Get closed Project with pagination
 router.get('/acceptedProject',acceptedProject);
+
+//Get closed Project with pagination
+router.get('/completedKyc',completedKyc);
+//Get closed Project with pagination
+router.get('/rejectedKyc',rejectedKyc);
+//Get closed Project with pagination
+router.get('/acceptedKyc',acceptedKyc);
+
 module.exports = router;

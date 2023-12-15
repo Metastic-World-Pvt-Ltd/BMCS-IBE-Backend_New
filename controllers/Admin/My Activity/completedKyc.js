@@ -1,4 +1,3 @@
-const Project = require('../../../models/Project');
 const errorMessages = require('../../../response/errorMessages');
 const successMessages = require('../../../response/successMessages');
 require('dotenv').config({ path: '../../../.env' });
@@ -6,8 +5,9 @@ var CryptoJS = require("crypto-js");
 const jwt = require('jsonwebtoken');
 const logger = require('../../User/logger');
 const AdminUser = require('../../../models/AdminUser');
+const Kyc = require('../../../models/Kyc');
 
-module.exports.completedProject = async function (req, res) {
+module.exports.completedKyc = async function (req, res) {
     try {
         //user input
         var token = req.body.token || req.query.token || req.headers["x-access-token"];
@@ -49,10 +49,10 @@ module.exports.completedProject = async function (req, res) {
             const page = parseInt(req.query.page) || 1;
             const limit = 8;
 
-            const filteredItems = await Project.find({ closedBy: userEmail });
+            const filteredItems = await Kyc.find({ closedBy: userEmail });
             const totalFilteredItems = filteredItems.length;
             // Use Mongoose to find paginated items
-            const paginatedItems = await Project.find({ closedBy: userEmail })
+            const paginatedItems = await Kyc.find({ closedBy: userEmail })
                 .skip((page - 1) * limit)
                 .limit(limit);
 
