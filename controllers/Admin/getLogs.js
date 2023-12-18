@@ -47,7 +47,7 @@ module.exports.getLogs = async function(req, res){
             toDate.setMinutes(59);
             toDate.setSeconds(59);
     
-    
+            
         try {
                      // Define the date range filter
                       const dateFilter = {
@@ -60,7 +60,8 @@ module.exports.getLogs = async function(req, res){
 
                 const page = parseInt(req.query.page) || 1;
                 const limit = 8;
-
+                const filteredItems = await Log.find(dateFilter)
+                 const totalFilteredItems = filteredItems.length;
               //  try {
                     // Use Mongoose to find paginated items
                     const paginatedItems = await Log.find(dateFilter)
@@ -70,7 +71,7 @@ module.exports.getLogs = async function(req, res){
                     // Send the paginated items as the API response
                     return res.status(200).json({
                     page,
-                    totalPages: Math.ceil(await Log.countDocuments({}) / limit),
+                    totalPages: Math.ceil(totalFilteredItems / limit),
                     Logs: paginatedItems,
                     });
         } catch (error) {
