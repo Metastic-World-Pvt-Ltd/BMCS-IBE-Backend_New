@@ -63,7 +63,7 @@ try {
     function encToken(token){
         const secret = process.env.SECRET_KEY;
         var token =  CryptoJS.AES.encrypt(token, secret).toString();
-        console.log(token);
+      
         return token;
     }
 } catch (error) {
