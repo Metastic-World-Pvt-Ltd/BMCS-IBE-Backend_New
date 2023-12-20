@@ -40,7 +40,7 @@ try {
                 //function to encypt Token                        
                 const newToken =  encToken(token);                        
                 logger.info(`End`);
-                                        
+                                       
                 return res.status(200).cookie('token',newToken).json({
                     id:userLogin._id,
                     adminId:userLogin.adminId,
