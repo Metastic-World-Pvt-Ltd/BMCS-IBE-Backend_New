@@ -33,7 +33,7 @@ module.exports.getAllProjects = async function(req, res){
                return res.status(200).json({
                 page,
                 totalPages: Math.ceil(count / limit),
-                projectData
+                'Projects':projectData
             });
            }
        } catch (error) {
