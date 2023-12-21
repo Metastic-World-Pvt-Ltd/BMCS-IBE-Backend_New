@@ -11,7 +11,16 @@ try {
     logger.info(`Input - ${projectStatus}`)
     //find the projects as per user input status
     try {
-        const projectData = await Project.find({projectStatus});
+        const page = parseInt(req.query.page) || 1;
+        const limit = 8;
+
+        const countData = await Project.find({projectStatus});
+        const count = countData.length;
+
+        const projectData = await Project.find({projectStatus})
+        .skip((page -1)* limit)
+        .limit(limit)
+
         //check for record found or not
         if(projectData.length == 0){
             logger.error(errorMessages.NOT_FOUND)
@@ -20,7 +29,11 @@ try {
         logger.info(`Output - ${successMessages.DATA_SEND_SUCCESSFULLY}`)
         logger.info(successMessages.END);
         //response
-        return res.status(200).json(projectData);
+        return res.status(200).json({
+            page,
+            totalPages: Math.ceil(count / limit),
+            'Projects':projectData
+        });
     } catch (error) {
         logger.error(errorMessages.BAD_GATEWAY)
         return res.status(502).json(errorMessages.BAD_GATEWAY)

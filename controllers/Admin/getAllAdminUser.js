@@ -54,10 +54,21 @@ try {
             return res.status(404).json(errorMessages.NOT_FOUND)
         }
         try {
-            const userData = await AdminUser.find({},{password:0});
-            if(userData){
+            const page = parseInt(req.query.page) || 1;
+            const limit = 8;
+            const count = await AdminUser.countDocuments();
+
+            const userData = await AdminUser.find({},{password:0})
+            .skip((page - 1) * limit)
+            .limit(limit);
+            console.log(userData);
+            if(userData.length != 0){
                 logger.info(successMessages.END)
-                return res.status(200).json(userData)
+                return res.status(200).json({
+                    page,
+                    totalPages: Math.ceil(count / limit),
+                    'Admin_Users':userData
+                })
             }
             else{
                 logger.error(errorMessages.NOT_FOUND)
