@@ -11,14 +11,34 @@ module.exports.getAllTickets =  async function(req, res){
     logger.info(successMessages.START);
 
     const contact = req.headers['contact'];
-    
+    const page = parseInt(req.query.page) || 1;
+    const limit = 8;
+
     if(contact){
         try {
-            const loan = await Loan.find({contact});
+            // const loanCount = await Loan.find({contact});
+            // const countLoan = loanCount.length;
+
+            const loan = await Loan.find({contact})
+            // .skip((page -1))
+            // .limit(limit);
+
             data.push(loan);
-            const amc = await AMC.find({contact});
+            // const amcCount = await AMC.find({contact})
+            // const countAmc = amcCount.length;
+
+            const amc = await AMC.find({contact})
+            // .skip((page -1))
+            // .limit(limit);
+
             data.push(amc);
-            const fund = await Fund.find({contact});
+            // const fundCount = await Fund.find({contact})
+            // const countFund = fundCount.length;
+            
+            const fund = await Fund.find({contact})
+            // .skip((page -1))
+            // .limit(limit);
+
             data.push(fund)
         } catch (error) {
             logger.error(error)
