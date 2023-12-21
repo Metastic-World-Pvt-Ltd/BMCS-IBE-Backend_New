@@ -8,11 +8,20 @@ module.exports.getAllProjects = async function(req, res){
         logger.info(successMessages.GET_ALL_PROJECT_ACTIVATED)
         const contact =  req.headers['contact'];
     var projectData;
-  
+    const page = parseInt(req.query.page) || 1;
+    const limit = 8;
+
     if(contact){
         //check for projects in DB
         try {
-            projectData = await Project.find({contact});
+            const countData = await Project.find({contact});
+            const count = countData.length;
+
+            projectData = await Project.find({contact})
+            .skip((page - 1) * limit)
+            .limit(limit);
+
+           
            //check for record found or not
            if(projectData.length == 0){
                logger.error(errorMessages.NOT_FOUND)
@@ -21,7 +30,11 @@ module.exports.getAllProjects = async function(req, res){
                logger.info(`Output - ${successMessages.DATA_SEND_SUCCESSFULLY}`)
                logger.info(successMessages.END);
                //reponse
-               return res.status(200).json(projectData);
+               return res.status(200).json({
+                page,
+                totalPages: Math.ceil(count / limit),
+                projectData
+            });
            }
        } catch (error) {
            logger.error(error);
@@ -30,7 +43,12 @@ module.exports.getAllProjects = async function(req, res){
       }else{
                 //check for projects in DB
                 try {
-                    projectData = await Project.find();
+                    projectData = await Project.find()
+                    .skip((page - 1) * limit)
+                    .limit(limit);
+
+                    const count = await Project.countDocuments();
+                    console.log("count",count);
                    //check for record found or not
                    if(projectData.length == 0){
                        logger.error(errorMessages.NOT_FOUND)
@@ -39,7 +57,11 @@ module.exports.getAllProjects = async function(req, res){
                        logger.info(`Output - ${successMessages.DATA_SEND_SUCCESSFULLY}`)
                        logger.info(successMessages.END);
                        //reponse
-                       return res.status(200).json(projectData);
+                       return res.status(200).json({
+                        page,
+                        totalPages: Math.ceil(count / limit),
+                        projectData
+                       });
                    }
                } catch (error) {
                    logger.error(error);

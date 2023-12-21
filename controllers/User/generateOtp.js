@@ -61,7 +61,7 @@ try {
         try {
             const checkStatus = await client.messages
             .create({
-                body: `Important message from BMCS India Your one-time code is ${otp}. Use it for secure login. Please do not share. Securing smiles, one password at a time!
+                body: `Important message from BMCS India. Your one-time code is ${otp}. Use it for secure login. Please do not share. Securing smiles, One password at a time!
                 `,
                 // from: '+12292672362',
                 from: '+12512902874',
