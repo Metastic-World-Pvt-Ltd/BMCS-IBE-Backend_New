@@ -14,13 +14,9 @@ module.exports.getAllProjects = async function(req, res){
     if(contact){
         //check for projects in DB
         try {
-            const countData = await Project.find({contact});
-            const count = countData.length;
-
+          
             projectData = await Project.find({contact})
-            .skip((page - 1) * limit)
-            .limit(limit);
-
+            
            
            //check for record found or not
            if(projectData.length == 0){
@@ -30,11 +26,7 @@ module.exports.getAllProjects = async function(req, res){
                logger.info(`Output - ${successMessages.DATA_SEND_SUCCESSFULLY}`)
                logger.info(successMessages.END);
                //reponse
-               return res.status(200).json({
-                page,
-                totalPages: Math.ceil(count / limit),
-                'Projects':projectData
-            });
+               return res.status(200).json(projectData);
            }
        } catch (error) {
            logger.error(error);
