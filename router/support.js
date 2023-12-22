@@ -6,6 +6,8 @@ const { closeTicket } = require('../controllers/Support/closeTicket');
 const { getAllSupportTicket } = require('../controllers/Support/getAllSupportTicket');
 const { filterSupportTicket } = require('../controllers/Support/filterSupportTicket');
 const { ticketComment } = require('../controllers/Support/ticketComment');
+const { verifyAdminUser } = require('../middleware/verifyAdminUser');
+const { filterTicketsAdmin } = require('../controllers/Support/filterTicketsAdmin');
 
 
 const router=express.Router();
@@ -23,9 +25,11 @@ router.post('/assigntome', verifyUser , assignToMe);
 //close ticket
 router.post('/closeticket',verifyUser , closeTicket);
 //get all support ticket
-router.get('/alltickets',verifyUser , getAllSupportTicket);
+router.get('/alltickets',verifyAdminUser , getAllSupportTicket);
 //get support filter ticket
 router.get('/filtersupportticket',verifyUser, filterSupportTicket); 
+//get admin support filter ticket
+router.get('/adminfiltertickets',verifyUser, filterTicketsAdmin); 
 //update comment in support ticket
 router.post('/updatecomment', verifyUser , ticketComment)
 
