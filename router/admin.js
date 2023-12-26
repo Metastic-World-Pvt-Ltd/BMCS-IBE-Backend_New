@@ -114,9 +114,9 @@ router.get('/logs',verifyUser,getLogs);
 //get user details by employee ID
 router.get('/getuser/:empId',verifyUser,getUser);
 //Register 2FA
-router.post('/generate-2fa',loginRateLimiter,verifyUser,register2FA);
+router.post('/generate-2fa',verifyUser,register2FA);
 //Verify 2FA
-router.post('/verify-2fa', loginRateLimiter,verifyUser,verify2FA);
+router.post('/verify-2fa',verifyUser,verify2FA);
 //Reset 2FA 
 router.post('/reset-2fa',reset2FA); ///completed till here
 //create Product
