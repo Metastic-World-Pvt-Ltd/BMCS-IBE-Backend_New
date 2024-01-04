@@ -64,7 +64,7 @@ module.exports.userSignup = async function(req, res){
                 // console.log(number);
               //return number
             }
-            const admin_DOB = '';
+            const dob = '';
             const isIBE = 'false';
         //check userRole
         if(userRole == 'Admin'){
@@ -76,7 +76,7 @@ module.exports.userSignup = async function(req, res){
             var setPin = "false";
             var userStatus = 'Active';
             const userDoc = await User.create({
-                contact ,empId, fullName ,gender , email , userRole , role  , level , refId , refCount, refBy,userStatus,setPin , isKyc,isIBE, admin_DOB,
+                contact ,empId, fullName ,gender , email , userRole , role  , level , refId , refCount, refBy,userStatus,setPin , isKyc,isIBE, dob,
                 address:{
                     district:'', 
                     city:'', 
@@ -131,7 +131,7 @@ module.exports.userSignup = async function(req, res){
                     var setPin = "false";
                     var userStatus =  'Active';
                     const userDoc = await User.create({
-                    contact ,empId, fullName , gender, email , userRole , role  , level , refId , refCount, refBy, userStatus ,setPin,isKyc,isIBE, admin_DOB ,
+                    contact ,empId, fullName , gender, email , userRole , role  , level , refId , refCount, refBy, userStatus ,setPin,isKyc,isIBE, dob ,
                     address:{
                         district:'', 
                         city:'', 

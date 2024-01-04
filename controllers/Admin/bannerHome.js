@@ -38,7 +38,7 @@ try {
 
                           //Store filepath
                           var filePath = 'https://bmcsfileserver.s3.amazonaws.com/Banner/'+filename;
-                          projectDocuments.push(filePath);
+                          projectDocuments = filePath;
                           //aws opertaion
       
                               const credentials = {
