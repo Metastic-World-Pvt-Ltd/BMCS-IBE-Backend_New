@@ -10,11 +10,7 @@ const userData =  new mongoose.Schema({
         type:String,
         required:true,
     },
-    firstName:{
-        type:String,
-        required:true,
-    },
-    lastName:{
+    fullName:{
         type:String,
         required:true,
     },
@@ -59,7 +55,31 @@ const userData =  new mongoose.Schema({
     },
     isKyc:{
         type:String,
-    }
+    },
+    isIBE:{
+        type:String,
+    },
+    dob:{
+        type:String,
+    },
+    address:{
+        district:{
+            type:String,
+        }, 
+        city:{
+            type:String,
+        }, 
+        state:{
+            type:String,
+        }, 
+        country:{
+            type:String,
+        },
+        pinCode:{
+            type:String,
+        },
+    },
+    
 
 },{
     timestamps:true

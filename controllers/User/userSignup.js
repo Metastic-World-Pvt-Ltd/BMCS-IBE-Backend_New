@@ -10,7 +10,7 @@ var CryptoJS = require("crypto-js");
 const Wallet = require('../../models/Wallet');
 module.exports.userSignup = async function(req, res){
     
-    try {
+    // try {
         logger.info(`Start`);
         logger.info(successMessages.USER_SIGN_UP_ACTIVATED)
         //secret key
@@ -37,10 +37,10 @@ module.exports.userSignup = async function(req, res){
         }
         const empId = str+lastTwoDigits+formattedNumber
         //user input
-        var {contact , firstName , lastName , gender , email , userRole , role , refId } = req.body;
-        logger.info(`Input - ${contact} , ${firstName} , ${lastName} , ${gender} , ${email} , ${userRole} , ${role} , ${refId}`)
+        var {contact , fullName  , gender , email , userRole , role , refId } = req.body;
+        logger.info(`Input - ${contact} , ${fullName}  , ${gender} , ${email} , ${userRole} , ${role} , ${refId}`)
        // console.log(req.body);
-        if(!contact ,!firstName ,!lastName ,!gender ,!email ,!userRole ,!role ,!refId){
+        if(!contact ,!fullName  ,!gender ,!email ,!userRole ,!role ,!refId){
             logger.error(errorMessages.ALL_FIELDS_REQUIRED)
             return res.status(400).json(errorMessages.ALL_FIELDS_REQUIRED)
         }
@@ -64,7 +64,9 @@ module.exports.userSignup = async function(req, res){
                 // console.log(number);
               //return number
             }
-                    //check userRole
+            const admin_DOB = '';
+            const isIBE = 'false';
+        //check userRole
         if(userRole == 'Admin'){
             const refId = contact;
             const refCount = 0;
@@ -74,13 +76,20 @@ module.exports.userSignup = async function(req, res){
             var setPin = "false";
             var userStatus = 'Active';
             const userDoc = await User.create({
-                contact ,empId, firstName , lastName,gender , email , userRole , role  , level , refId , refCount, refBy,userStatus,setPin , isKyc
+                contact ,empId, fullName ,gender , email , userRole , role  , level , refId , refCount, refBy,userStatus,setPin , isKyc,isIBE, admin_DOB,
+                address:{
+                    district:'', 
+                    city:'', 
+                    state:'', 
+                    country:'',
+                    pinCode:'',
+            }
             })
             logger.info(`Output - ${userDoc}`)
-            sendEmail(userDoc.email , userDoc.firstName)
+            sendEmail(userDoc.email , userDoc.fullName)
             joiningBonus(contact)
             //generate token for user
-            jwt.sign({contact,firstName} , secret , { algorithm: 'HS512', expiresIn: '90d' } , (err,token)=>{
+            jwt.sign({contact,fullName} , secret , { algorithm: 'HS512', expiresIn: '90d' } , (err,token)=>{
                 if(err) throw new err;
                 //logger.info(`Token - ${token}`)
                 
@@ -122,13 +131,20 @@ module.exports.userSignup = async function(req, res){
                     var setPin = "false";
                     var userStatus =  'Active';
                     const userDoc = await User.create({
-                    contact ,empId, firstName , lastName , gender, email , userRole , role  , level , refId , refCount, refBy, userStatus ,setPin,isKyc,
+                    contact ,empId, fullName , gender, email , userRole , role  , level , refId , refCount, refBy, userStatus ,setPin,isKyc,isIBE, admin_DOB ,
+                    address:{
+                        district:'', 
+                        city:'', 
+                        state:'', 
+                        country:'',
+                        pinCode:'',
+                }
                 })
                 logger.info(`Output - ${userDoc}`)
                 //generate token for user
-                sendEmail(userDoc.email , userDoc.firstName)
+                sendEmail(userDoc.email , userDoc.fullName)
                 joiningBonus(contact)
-                    jwt.sign({contact,firstName} , secret , { algorithm: 'HS512', expiresIn: '90d' } , (err,token)=>{
+                    jwt.sign({contact,fullName} , secret , { algorithm: 'HS512', expiresIn: '90d' } , (err,token)=>{
                         if(err) throw new err;
                         //function to encypt Token
                         
@@ -145,10 +161,10 @@ module.exports.userSignup = async function(req, res){
         }
         }
 
-    } catch (error) {
-        logger.error(errorMessages.USER_SIGNUP_FAILED)
-        return res.status(500).json(errorMessages.INTERNAL_ERROR)
-    }
+    // } catch (error) {
+    //     logger.error(errorMessages.USER_SIGNUP_FAILED)
+    //     return res.status(500).json(errorMessages.INTERNAL_ERROR)
+    // }
 
 }
 
@@ -178,7 +194,7 @@ async function sendEmail(useremail,name){
     })
 
 
-    console.log("useremail",useremail);
+    
     let info = await transporter.sendMail({
         from: `no-reply@bmcsindia.in <${senderEmail}>`, // sender address
         to: useremail, // list of receivers
