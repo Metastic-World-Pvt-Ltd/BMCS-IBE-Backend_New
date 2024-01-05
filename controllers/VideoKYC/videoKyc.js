@@ -39,8 +39,10 @@ module.exports.videoKyc = async function(req, res){
               //upload files
              
                // const cPan = JSON.parse(req.body.cPan);
-               console.log(req.files);
-               
+               console.log("1",req.files);
+               console.log("2",req.files.videoURL);
+               console.log("3",req.files[0]);
+               console.log("4",req.files.videoURL[0]);
                const videoURL = await uploadImage(req.files.videoURL[0])
                
                //end of file upload section
