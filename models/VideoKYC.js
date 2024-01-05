@@ -1,19 +1,11 @@
 const mongoose =  require('mongoose');
 
 const kycData =  new mongoose.Schema({
-    accHolderName:{
-        type:String,
-        required:true,
-    },
-    contact:{
-        type:String,
-        required:true
-    },
-    email:{
-        type:String,
-        required:true,
-    },
     empId:{
+        type:String,
+        required:true,
+    },
+    name:{
         type:String,
         required:true,
     },
@@ -21,23 +13,14 @@ const kycData =  new mongoose.Schema({
         type:String,
         required:true,
     },
-    bankName:{
+    isIBE:{
         type:String,
-        required:true,
-    },
-    accountNumber:{
-        type:String,
-        required:true,
-    },
-    ifscCode:{
-        type:String,
-        required:true,
-    },
-    kycDocuments:{
-        type:[String],
         required:true,
     },
     comment:{
+        type:String,
+    },
+    videoURL:{
         type:String,
     },
     acceptedBy:{

@@ -45,6 +45,7 @@ const { getTicketById } = require('../controllers/Support/getTicketById');
 const { getLoanById } = require('../controllers/Ticket/getLoanById');
 const { getFundById } = require('../controllers/Ticket/getFundById');
 const { getAmcById } = require('../controllers/Ticket/getAmcById');
+const { videoKyc } = require('../controllers/VideoKYC/videoKyc');
 
 var upload = multer({
     dest: storageValue,
@@ -164,5 +165,11 @@ router.get('/loanbyid',getLoanById);
 router.get('/fundbyid',getFundById);
 //Get AMC by Id
 router.get('/amcbyid',getAmcById);
+//Video Kyc
+//user Kyc
+router.post('/videoKyc',verifyUser,upload.fields([
+  { name: 'videoURL' },
+
+]),videoKyc);
 
 module.exports = router;
