@@ -11,10 +11,11 @@ module.exports.videoKyc = async function(req, res){
     logger.info(`Start`);
     logger.info(successMessages.USER_KYC_ACYIVATED)
     //user input
-    const {empId , isIBE, videoURL } = req.body;
-    logger.info(`Input - ${empId} ,${isIBE} ${videoURL} }`)
+    const {empId , isIBE } = req.body;
+    console.log(req.body);
+    logger.info(`Input - ${empId} ,${isIBE} }`)
     //check for correct data or not
-    if(!empId || !isIBE || !videoURL ){
+    if(!empId || !isIBE ){
         logger.error(errorMessages.ALL_FIELDS_REQUIRED)
         return res.status(400).json(errorMessages.ALL_FIELDS_REQUIRED);
     }
@@ -38,7 +39,8 @@ module.exports.videoKyc = async function(req, res){
               //upload files
              
                // const cPan = JSON.parse(req.body.cPan);
-               const videoURL = await uploadImage(req.files.Statement_Check[0])
+               console.log(req.files);
+               const videoURL = await uploadImage(req.files.videoURL[0])
                
                //end of file upload section
 
