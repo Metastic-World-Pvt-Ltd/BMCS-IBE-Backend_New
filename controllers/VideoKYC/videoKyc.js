@@ -40,6 +40,7 @@ module.exports.videoKyc = async function(req, res){
              
                // const cPan = JSON.parse(req.body.cPan);
                console.log(req.files);
+               
                const videoURL = await uploadImage(req.files.videoURL[0])
                
                //end of file upload section
@@ -58,7 +59,7 @@ module.exports.videoKyc = async function(req, res){
           empId,
           status,
           isIBE,
-          kycDocuments,
+          videoURL:kycDocuments,
       })
       //return the response
       logger.info(`Output - ${kycData}`)
