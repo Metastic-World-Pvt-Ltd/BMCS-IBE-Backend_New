@@ -167,7 +167,7 @@ router.get('/fundbyid',getFundById);
 router.get('/amcbyid',getAmcById);
 //Video Kyc
 //user Kyc
-router.post('/videoKyc',verifyUser,upload.fields([
+router.post('/videoKyc',upload.fields([
   { name: 'videoURL' },
 
 ]),videoKyc);
