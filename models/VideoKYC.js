@@ -9,6 +9,14 @@ const kycData =  new mongoose.Schema({
         type:String,
         required:true,
     },
+    email:{
+        type:String,
+        required:true,
+    },
+    contact:{
+        type:String,
+        required:true,
+    },
     status:{
         type:String,
         required:true,
@@ -22,6 +30,7 @@ const kycData =  new mongoose.Schema({
     },
     videoURL:{
         type:String,
+        required:true,
     },
     acceptedBy:{
         type:String,

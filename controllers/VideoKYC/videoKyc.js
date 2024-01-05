@@ -57,6 +57,7 @@ module.exports.videoKyc = async function(req, res){
           email,
           empId,
           status,
+          isIBE,
           kycDocuments,
       })
       //return the response
