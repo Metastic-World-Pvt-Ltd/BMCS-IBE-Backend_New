@@ -2,12 +2,12 @@ const VideoKYC = require('../../models/VideoKYC');
 const User = require('../../models/User');
 const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
-const logger = require('./logger');
+const logger = require('../User/logger');
 const fs = require('fs');
 const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 var kycDocuments ;
 module.exports.videoKyc = async function(req, res){
-try {
+// try {
     logger.info(`Start`);
     logger.info(successMessages.USER_KYC_ACYIVATED)
     //user input
@@ -48,7 +48,7 @@ try {
         const email = isExist.email;
         const status = "Pending";
         
-      try {
+      // try {
         const kycData = await VideoKYC.create({
           name,
           contact,
@@ -64,15 +64,15 @@ try {
       // const updateStatus = await User.findOneAndUpdate({contact},{isKyc},{new:true});
     
       return res.status(200).json(kycData)
-      } catch (error) {
-        logger.error(error)
-        return res.status(502).json(errorMessages.BAD_GATEWAY);
-      }
+      // } catch (error) {
+      //   logger.error(error)
+      //   return res.status(502).json(errorMessages.BAD_GATEWAY);
+      // }
     }
-} catch (error) {
-    logger.error(errorMessages.USER_KYC_FAILED);
-    return res.status(500).json(errorMessages.INTERNAL_ERROR)
-}
+// } catch (error) {
+//     logger.error(errorMessages.USER_KYC_FAILED);
+//     return res.status(500).json(errorMessages.INTERNAL_ERROR)
+// }
 
 }
 
