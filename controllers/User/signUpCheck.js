@@ -59,6 +59,7 @@ try {
         const authToken = process.env.authToken;
         const client = require('twilio')(accountSid, authToken);
         const tiwillioNumber = process.env.tiwillioNumber ;
+        console.log(tiwillioNumber);
         // try {
             const checkStatus = await client.messages
             .create({
