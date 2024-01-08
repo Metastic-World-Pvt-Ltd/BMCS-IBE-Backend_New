@@ -78,6 +78,7 @@ module.exports.userSignup = async function(req, res){
             const userDoc = await User.create({
                 contact ,empId, fullName ,gender , email , userRole , role  , level , refId , refCount, refBy,userStatus,setPin , isKyc,isIBE, dob,
                 address:{
+                    street:'',
                     district:'', 
                     city:'', 
                     state:'', 
@@ -133,6 +134,7 @@ module.exports.userSignup = async function(req, res){
                     const userDoc = await User.create({
                     contact ,empId, fullName , gender, email , userRole , role  , level , refId , refCount, refBy, userStatus ,setPin,isKyc,isIBE, dob ,
                     address:{
+                        street:'',
                         district:'', 
                         city:'', 
                         state:'', 

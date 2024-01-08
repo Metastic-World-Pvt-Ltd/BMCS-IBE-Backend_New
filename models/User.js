@@ -63,6 +63,9 @@ const userData =  new mongoose.Schema({
         type:String,
     },
     address:{
+        street:{
+            type:String,
+        }, 
         district:{
             type:String,
         }, 
