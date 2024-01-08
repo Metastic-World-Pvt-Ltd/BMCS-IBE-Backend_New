@@ -6,6 +6,10 @@ const projectData =  new mongoose.Schema({
         type:String,
         required:true,
     },
+    projectFor:{
+        type:String,
+        required:true,
+    },
     projectName:{
         type:String,
         required:true,

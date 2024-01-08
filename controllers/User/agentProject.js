@@ -15,12 +15,12 @@ try {
     logger.info(`Start`);
     logger.info(successMessages.AGENT_PROJECT_ACTIVATED)
     //user input
-    var {projectName , contact , projectAmount , projectType , industryType , projectDescription , address } = req.body;
+    var {projectFor ,projectName , contact , projectAmount , projectType , industryType , projectDescription , address } = req.body;
     //check for required filed
      console.log("Body Data",req.body);
      console.log("Files",req.files);
     // console.log("File",req.file);
-    logger.info(`Input - ${projectName , contact , projectAmount , projectType , projectDescription}`)
+    logger.info(`Input - ${projectFor,projectName , contact , projectAmount , projectType , projectDescription}`)
     if(!projectName || !contact || !projectAmount || !projectType || !industryType  || !projectDescription || !address){
         logger.error(errorMessages.ALL_FILEDS_REQUIRED)
         return res.status(400).json(errorMessages.ALL_FILEDS_REQUIRED)
@@ -106,6 +106,7 @@ try {
        const status = "New";
        const projectData = new Project({
         projectId,
+        projectFor,
         projectName,
         contact,
         projectAmount,
@@ -127,7 +128,7 @@ try {
            // console.log(isExist);
             if(isExist != null){
                 try {
-                    const newStatus = 'Work In Progress';
+                    const newStatus = 'In Progress';
                     const updateStatus = await Ticket.findOneAndUpdate({contact:contact},{projectStatus:newStatus},{new:true})
                     logger.info(`Ticket Status updated`);
                    // console.log(updateStatus);
