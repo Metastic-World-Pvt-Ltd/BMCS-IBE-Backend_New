@@ -28,6 +28,10 @@ const projectData =  new mongoose.Schema({
     comissionAmount:{
         type:Number,
     },
+    clientType:{
+        type:String,
+        required:true,
+    },
     projectType:{
         type:String,
         required:true,
