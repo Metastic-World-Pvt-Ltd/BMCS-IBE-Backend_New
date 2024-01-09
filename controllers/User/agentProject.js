@@ -15,13 +15,13 @@ try {
     logger.info(`Start`);
     logger.info(successMessages.AGENT_PROJECT_ACTIVATED)
     //user input
-    var {projectFor ,projectName , contact , projectAmount , projectType, clientType , industryType , projectDescription , address } = req.body;
+    var {projectFor ,projectName , contact , projectAmount , projectType, companyType, clientType , industryType , projectDescription , address } = req.body;
     //check for required filed
      console.log("Body Data",req.body);
      console.log("Files",req.files);
     // console.log("File",req.file);
-    logger.info(`Input - ${projectFor,projectName , contact , projectAmount,clientType , projectType , projectDescription}`)
-    if(!projectName || !projectFor || !contact || !projectAmount || !projectType || !clientType || !industryType  || !projectDescription || !address){
+    logger.info(`Input - ${projectFor,projectName , contact , projectAmount, companyType,clientType , projectType , projectDescription}`)
+    if(!projectName || !projectFor || !contact || !projectAmount || !projectType || !companyType || !clientType || !industryType  || !projectDescription || !address){
         logger.error(errorMessages.ALL_FILEDS_REQUIRED)
         return res.status(400).json(errorMessages.ALL_FILEDS_REQUIRED)
     }
@@ -111,6 +111,7 @@ try {
         contact,
         projectAmount,
         projectType,
+        companyType,
         clientType,
         industryType,
         projectDescription,

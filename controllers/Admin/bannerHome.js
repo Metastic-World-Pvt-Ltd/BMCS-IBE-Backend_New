@@ -81,8 +81,8 @@ try {
                               //end of Aws
   
                           }else{
-                              logger.error(errorMessages.MAX_ALLOWED_SIZE)
-                              return res.status(400).json(errorMessages.MAX_ALLOWED_SIZE);
+                              logger.error('Max Allowed size is 10MB')
+                              return res.status(400).json('Max Allowed size is 10MB');
                           
                           }
   

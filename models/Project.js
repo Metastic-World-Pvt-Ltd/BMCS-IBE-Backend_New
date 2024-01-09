@@ -32,6 +32,10 @@ const projectData =  new mongoose.Schema({
         type:String,
         required:true,
     },
+    companyType:{
+        type:String,
+        required:true,
+    },
     projectType:{
         type:String,
         required:true,
