@@ -30,7 +30,7 @@ try {
                   const allowedTypes = ['image/jpeg', 'image/jpg','image/png'];
                       if (allowedTypes.includes(mim.mimetype)) {
                           //check file size
-                          if(mim.size < 1000000){
+                          if(mim.size < 10000000){
                           //file name
                               const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
                               const filename = `${mim.fieldname}-${uniqueSuffix}.${mim.originalname.split('.').pop()}`;
