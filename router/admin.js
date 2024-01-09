@@ -76,6 +76,7 @@ const { updateDocumentList } = require('../controllers/Admin/updateDocumentList.
 const { route } = require('./user.js');
 const { proprietorshipList } = require('../controllers/Admin/proprietorshipList.js');
 const { getVideoKyc } = require('../controllers/VideoKYC/getVideoKyc.js');
+const { getProprietorshipList } = require('../controllers/Admin/getProprietorshipList.js');
 
 
 
@@ -241,6 +242,9 @@ router.post('/addDocuments', addDocumentList);
 router.patch('/updateDocuments',updateDocumentList);
 //Add Proprietorship List
 router.post('/proprietorshipList', proprietorshipList);
+//Get Proprietorship list
+router.get('/getProprietorshipList',getProprietorshipList);
+
 //Get Video KYC 
 router.get('/getVideoKyc',getVideoKyc);
 
