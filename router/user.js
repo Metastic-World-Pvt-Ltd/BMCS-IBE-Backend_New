@@ -47,6 +47,7 @@ const { getFundById } = require('../controllers/Ticket/getFundById');
 const { getAmcById } = require('../controllers/Ticket/getAmcById');
 const { videoKyc } = require('../controllers/VideoKYC/videoKyc');
 const { checkKycStatus } = require('../controllers/User/checkKycStatus');
+const { addDocumentList } = require('../controllers/Admin/addDocumentList');
 
 var upload = multer({
     dest: storageValue,
@@ -174,6 +175,8 @@ router.post('/videoKyc',upload.fields([
 ]),videoKyc);
 //Check User Kyc Status
 router.get('/kycStatus',checkKycStatus);
+//Add Project Document List
+router.post('/addDocuments', addDocumentList);
 
 
 module.exports = router;

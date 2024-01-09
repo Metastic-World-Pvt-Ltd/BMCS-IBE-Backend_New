@@ -71,6 +71,11 @@ const { acceptedProject } = require('../controllers/Admin/My Activity/acceptedPr
 const { completedKyc } = require('../controllers/Admin/My Activity/completedKyc.js');
 const { rejectedKyc } = require('../controllers/Admin/My Activity/rejectedKyc.js');
 const { acceptedKyc } = require('../controllers/Admin/My Activity/acceptedKyc.js');
+const { addDocumentList } = require('../controllers/Admin/addDocumentList.js');
+const { updateDocumentList } = require('../controllers/Admin/updateDocumentList.js');
+const { route } = require('./user.js');
+const { proprietorshipList } = require('../controllers/Admin/proprietorshipList.js');
+const { getVideoKyc } = require('../controllers/VideoKYC/getVideoKyc.js');
 
 
 
@@ -230,5 +235,13 @@ router.get('/completedKyc',completedKyc);
 router.get('/rejectedKyc',rejectedKyc);
 //Get closed Project with pagination
 router.get('/acceptedKyc',acceptedKyc);
+//Add Project Document List
+router.post('/addDocuments', addDocumentList);
+//Update Dccumnet List
+router.patch('/updateDocuments',updateDocumentList);
+//Add Proprietorship List
+router.post('/proprietorshipList', proprietorshipList);
+//Get Video KYC 
+router.get('/getVideoKyc',getVideoKyc);
 
 module.exports = router;
