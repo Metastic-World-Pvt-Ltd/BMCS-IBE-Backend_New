@@ -11,6 +11,7 @@ const jwt = require('jsonwebtoken');
 const AdminUser = require('../../models/AdminUser');
 const User = require('../../models/User');
 const nodemailer = require("nodemailer");
+const webSocket = require('../../index');
 require('dotenv').config({path:'../../.env'});
 
 module.exports.completeProject = async function(req , res){
@@ -75,7 +76,7 @@ try {
         const projectName = projectData.projectName;
         const userData = await User.findOne({contact:ibeContact});
         const userEmail = userData.email;
-        const userName = userData.firstName+''+userData.lastName;
+        const userName = userData.fullName
         //if no record found
         if(projectData ==  null){
             logger.error(errorMessages.NOT_FOUND)
@@ -132,6 +133,9 @@ try {
             //const projectData2 = await Project.findOneAndUpdate({projectId},{projectStatus},{new:true})
             logger.info(`Output - ${successMessages.STATUS_HAS_UPDATED_SUCCESSFULLY}`)
             //update Ticket status
+            const socketData = webSocket.notifyStatusChange(projectId , projectStatus);
+            console.log(socketData);
+
             const isExistTicket = await Ticket.findOne({contact});
             if(isExistTicket){
                 const newStatus = 'Closed';

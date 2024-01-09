@@ -4,6 +4,7 @@ const Wallet = require('../../models/Wallet');
 const logger = require('../User/logger');
 const errorMessages = require('../../response/errorMessages');
 const successMessages = require('../../response/successMessages');
+const webSocket = require('../../index');
 module.exports.projectApproval = async function(req, res){
 try {
     logger.info(`Start`);
@@ -92,12 +93,16 @@ try {
                      //console.log(data.projectEarning);
                      }
                      logger.info(`End`);
+                     const socketData = webSocket.notifyStatusChange(projectId , projectStatus);
+                     console.log(socketData);
                      //response
             return res.status(200).json(approvedData);
         }else if(projectStatus == "Rejected"){
             const rejectedData = await Project.findOneAndUpdate({projectId},{projectStatus},{new:true})
             logger.info(`Output - ${rejectedData}`)
             logger.info(`End`);
+            const socketData = webSocket.notifyStatuschange(projectId , projectStatus);
+            console.log(socketData);
             return res.status(200).json(rejectedData);
         }else{
             logger.error(`Unable to perform action as status is ${projectData.projectStatus}`)

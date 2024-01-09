@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const successMessages = require('../../response/successMessages');
 const AdminUser = require('../../models/AdminUser');
 const logger = require('../User/logger');
+const webSocket = require('../../index');
 require('dotenv').config({path:'../../.env'});
 
 module.exports.acceptProject = async function(req , res){
@@ -65,6 +66,9 @@ try {
             },{new:true});
             logger.info(successMessages.RECORD_UPDATED_SUCCESSFULLY)
             logger.info(successMessages.END)
+
+           const socketData = webSocket.notifyStatusChange(projectId , projectStatus);
+            console.log(socketData);
             return res.status(200).json(successMessages.RECORD_UPDATED_SUCCESSFULLY)
         } catch (error) {
             logger.error(errorMessages.BAD_GATEWAY)

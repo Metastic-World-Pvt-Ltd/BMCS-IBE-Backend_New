@@ -7,6 +7,7 @@ const TicketHistory = require('../../models/TicketHistory');
 var CryptoJS = require("crypto-js");
 const jwt = require('jsonwebtoken');
 const AdminUser = require('../../models/AdminUser');
+const webSocket = require('../../index');
 module.exports.verifyProject = async function(req, res){
 // try {
     logger.info(successMessages.VERIFY_PROJECT_ACTIVATED)
@@ -67,6 +68,10 @@ module.exports.verifyProject = async function(req, res){
     //check for status and update data as per status
     if(projectStatus == "Verified" || projectStatus == "verified"){
         //update data
+       
+        const socketData = webSocket.notifyStatusChange(projectId , projectStatus);
+        console.log(socketData);
+        
         const projectData = await Project.findOneAndUpdate({projectId},{projectStatus},{new:true})
         logger.info(`Output - ${projectData}`)
         const contact = projectData.contact;

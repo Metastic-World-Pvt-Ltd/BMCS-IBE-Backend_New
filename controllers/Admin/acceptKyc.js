@@ -5,6 +5,7 @@ var CryptoJS = require("crypto-js");
 const jwt = require('jsonwebtoken');
 const logger = require('../User/logger');
 const AdminUser = require('../../models/AdminUser');
+const webSocket = require('../../index');
 require('dotenv').config({path:'../../.env'});
 
 module.exports.acceptKyc = async function(req, res){
@@ -54,7 +55,9 @@ try {
         if(!updateStatus){
             return res.status(404).json(errorMessages.NOT_FOUND)
         }else{
-            res.status(200).json(successMessages.STATUS_HAS_UPDATED_SUCCESSFULLY)
+            const socketData = webSocket.notifyStatusChange(empId , status);
+            console.log(socketData);
+            return res.status(200).json(successMessages.STATUS_HAS_UPDATED_SUCCESSFULLY)
         }
     } catch (error) {
         return res.status(502).json(errorMessages.BAD_GATEWAY);
