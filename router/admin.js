@@ -77,6 +77,8 @@ const { route } = require('./user.js');
 const { proprietorshipList } = require('../controllers/Admin/proprietorshipList.js');
 const { getVideoKyc } = require('../controllers/VideoKYC/getVideoKyc.js');
 const { getProprietorshipList } = require('../controllers/Admin/getProprietorshipList.js');
+const { opcList } = require('../controllers/Admin/opcList.js');
+const { getOpcList } = require('../controllers/Admin/getOpcList.js');
 
 
 
@@ -243,8 +245,11 @@ router.patch('/updateDocuments',updateDocumentList);
 //Add Proprietorship List
 router.post('/proprietorshipList', proprietorshipList);
 //Get Proprietorship list
-router.get('/getProprietorshipList',getProprietorshipList);
-
+router.get('/getDocumentList',getProprietorshipList);
+//create OPC List
+router.post('/opcList', opcList);
+//Get OPC List
+router.get('/getOpcList',getOpcList);
 //Get Video KYC 
 router.get('/getVideoKyc',getVideoKyc);
 

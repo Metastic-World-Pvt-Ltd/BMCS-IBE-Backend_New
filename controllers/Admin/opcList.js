@@ -1,17 +1,17 @@
-const PROPRIETORSHIP =  require('../../models/PROPRIETORSHIP');
+const OPC =  require('../../models/OPC');
 const errorMessages = require('../../response/errorMessages');
 
-module.exports.proprietorshipList = async function(req , res){
+module.exports.opcList = async function(req , res){
 try {
     const {projectName , documentList} = req.body;
 
     try {
         const projectId = Date.now();
-        const isExist = await PROPRIETORSHIP.findOne({projectName});
+        const isExist = await OPC.findOne({projectName});
         if(isExist){
             return res.status(422).json(errorMessages.RECORD_ALREADY_EXIST);
         }
-        const data = await PROPRIETORSHIP.create({
+        const data = await OPC.create({
             projectId ,projectName ,documentList
         })
     
