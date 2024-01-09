@@ -283,11 +283,11 @@ async function joiningBonus(contact){
         contact,
         projectEarning:
           {
-          pendingAmount:10000,
+          pendingAmount:0,
           withdrawableAmount:0,
           }
       ,
-        referralEarning:0 ,
+        referralEarning:10000,
         totalEarning:0,
    })
 

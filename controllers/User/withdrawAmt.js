@@ -13,7 +13,7 @@ try {
     logger.info(`Start`);
     logger.info(successMessages.WITHDRAW_AMOUNT_ACTIVATED)
     //user input
-    const {contact} = req.body;
+    const {contact , origin} = req.body;
     logger.info(`Input - ${contact}`)
     //valid inout or not
     if(!contact){
@@ -23,6 +23,11 @@ try {
     //check for user wallet exist or not 
     const checkWallet = await Wallet.findOne({contact:contact});
     logger.info(`Output - ${checkWallet}`)
+    // if(origin == 'referralEarning'){
+    //     const withdrawableAmount = checkWallet.referralEarning
+    // }else{
+
+    // }
     //minimum amount as per client
     const minAmt = 2000;
     //check wallet amount is less than or not

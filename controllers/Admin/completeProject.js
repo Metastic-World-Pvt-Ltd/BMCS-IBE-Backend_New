@@ -76,7 +76,7 @@ try {
         const projectName = projectData.projectName;
         const userData = await User.findOne({contact:ibeContact});
         const userEmail = userData.email;
-        const userName = userData.fullName
+        const userName = userData.fullName;
         //if no record found
         if(projectData ==  null){
             logger.error(errorMessages.NOT_FOUND)
